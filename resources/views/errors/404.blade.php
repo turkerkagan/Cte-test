@@ -1,0 +1,5 @@
+@extends('errors.base')
+@section('title', 'Sayfa Bulunamadı — CTE Portal')
+@section('code', '404')
+@section('heading', 'Sayfa bulunamadı')
+@section('message', 'Aradığınız sayfa taşınmış, kaldırılmış veya hiç oluşturulmamış olabilir.')

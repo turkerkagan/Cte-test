@@ -1,0 +1,5 @@
+@extends('errors.base')
+@section('title', 'Erişim Engellendi — CTE Portal')
+@section('code', '403')
+@section('heading', 'Bu işlem için yetkiniz yok')
+@section('message', 'Güvenlik nedeniyle bu sayfaya erişim izni verilmedi. Yetki gerektiğini düşünüyorsanız sistem yöneticinizle görüşün.')
