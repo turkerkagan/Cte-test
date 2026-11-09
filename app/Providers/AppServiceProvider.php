@@ -22,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (config('app.trust_proxy')) {
+            \Illuminate\Http\Middleware\TrustProxies::at('*');
+        }
+
         Gate::before(function (User $user): ?bool {
             return $user->is_active && $user->is_protected_superadmin ? true : null;
         });

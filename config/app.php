@@ -2,6 +2,8 @@
 
 return [
 
+    'trust_proxy' => (bool) env('CTE_TRUST_PROXY', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
