@@ -1,0 +1,19 @@
+{
+    "verified_at": "2026-10-19T14:30:25+03:00",
+    "database": "cte",
+    "table_prefix": "cte_next_",
+    "portal_tables": 53,
+    "legacy_tables": 50,
+    "legacy_schema_and_data_unchanged": true,
+    "engine": "InnoDB",
+    "collation": "utf8mb4_unicode_ci",
+    "migration_count": 30,
+    "pending_migrations": 0,
+    "master_identity_column": true,
+    "foreign_keys_to_legacy_tables": 0,
+    "users": 0,
+    "people": 0,
+    "backup": "/Applications/XAMPP/xamppfiles/htdocs/portal-next/storage/app/private/administration/setup-backups/cte-20261019-142846-61f61fd9/cte-before-portal-next.sql",
+    "backup_bytes": 1566322,
+    "backup_sha256": "eb1356df19b4ee9b332d3ae65ca39ff3c528067bcc2fc9f90e8a3bccd744afad"
+}

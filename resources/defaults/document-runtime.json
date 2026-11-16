@@ -1,0 +1,1 @@
+{"python":{"minimum":"3.9","dependencies":{"openpyxl":"3.1.5","xlrd":"2.0.2"},"configuration":"CTE_PYTHON_BINARY"},"staffTree":{"library":"@xyflow/react","version":"12.10.2","license":"MIT","website":"https://reactflow.dev"}}

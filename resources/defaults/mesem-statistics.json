@@ -1,0 +1,578 @@
+{
+  "toplam": {
+    "label": "Toplam Hükümlü Sayısı",
+    "predicate": [
+      "true"
+    ]
+  },
+  "karar_isyurtlari": {
+    "label": "İş Yurtları Kararı Olan",
+    "predicate": [
+      "=",
+      "huk_karar",
+      "İŞYURTLARI",
+      false
+    ]
+  },
+  "karar_genel_butce": {
+    "label": "Genel Bütçe Kararı Olan",
+    "predicate": [
+      "=",
+      "huk_karar",
+      "GENEL BÜTÇE",
+      false
+    ]
+  },
+  "karar_kararsiz": {
+    "label": "Çalışma Kararı Kararsız",
+    "predicate": [
+      "=",
+      "huk_karar",
+      "KARARSIZ",
+      false
+    ]
+  },
+  "karar_muhtelif": {
+    "label": "Muhtelif İşler Kararı Olan",
+    "predicate": [
+      "=",
+      "huk_karar",
+      "MUHTELİF",
+      false
+    ]
+  },
+  "karar_bos": {
+    "label": "Karar Bos",
+    "predicate": [
+      "or",
+      [
+        "IS NULL",
+        "huk_karar",
+        null,
+        false
+      ],
+      [
+        "=",
+        "huk_karar",
+        "",
+        false
+      ]
+    ]
+  },
+  "gorusme_isyurtlari_gorusuldu": {
+    "label": "İş Yurtları Kararı Olup Görüşülenler",
+    "predicate": [
+      "and",
+      [
+        "=",
+        "huk_karar",
+        "İŞYURTLARI",
+        false
+      ],
+      [
+        "=",
+        "mesem_gorusme",
+        "GÖRÜŞÜLDÜ",
+        false
+      ]
+    ]
+  },
+  "gorusme_isyurtlari_yapilmadi": {
+    "label": "İş Yurtları Kararı Olup Görüşme Yapılmayanlar",
+    "predicate": [
+      "and",
+      [
+        "=",
+        "huk_karar",
+        "İŞYURTLARI",
+        false
+      ],
+      [
+        "or",
+        [
+          "IS NULL",
+          "mesem_gorusme",
+          null,
+          false
+        ],
+        [
+          "=",
+          "mesem_gorusme",
+          "",
+          false
+        ]
+      ]
+    ]
+  },
+  "gorusme_genel_gorusuldu": {
+    "label": "Genel Bütçe Kararı Olup Görüşülenler",
+    "predicate": [
+      "and",
+      [
+        "=",
+        "huk_karar",
+        "GENEL BÜTÇE",
+        false
+      ],
+      [
+        "=",
+        "mesem_gorusme",
+        "GÖRÜŞÜLDÜ",
+        false
+      ]
+    ]
+  },
+  "gorusme_genel_yapilmadi": {
+    "label": "Genel Bütçe Kararı Olup Görüşme Yapılmayanlar",
+    "predicate": [
+      "and",
+      [
+        "=",
+        "huk_karar",
+        "GENEL BÜTÇE",
+        false
+      ],
+      [
+        "or",
+        [
+          "IS NULL",
+          "mesem_gorusme",
+          null,
+          false
+        ],
+        [
+          "=",
+          "mesem_gorusme",
+          "",
+          false
+        ]
+      ]
+    ]
+  },
+  "toplam_gorusuldu": {
+    "label": "Toplam Görüşülen",
+    "predicate": [
+      "=",
+      "mesem_gorusme",
+      "GÖRÜŞÜLDÜ",
+      false
+    ]
+  },
+  "toplam_yapilmadi": {
+    "label": "Toplam Görüşme Yapılmayan",
+    "predicate": [
+      "or",
+      [
+        "IS NULL",
+        "mesem_gorusme",
+        null,
+        false
+      ],
+      [
+        "=",
+        "mesem_gorusme",
+        "",
+        false
+      ]
+    ]
+  },
+  "basvuru_toplam": {
+    "label": "Başvuru Sürecinde Olan",
+    "predicate": [
+      "=",
+      "mesem_durumu",
+      "BAŞVURU SÜRECİNDE",
+      false
+    ]
+  },
+  "basvuru_isyurtlari": {
+    "label": "Basvuru Isyurtlari",
+    "predicate": [
+      "and",
+      [
+        "=",
+        "huk_karar",
+        "İŞYURTLARI",
+        false
+      ],
+      [
+        "=",
+        "mesem_durumu",
+        "BAŞVURU SÜRECİNDE",
+        false
+      ]
+    ]
+  },
+  "basvuru_genel_butce": {
+    "label": "Basvuru Genel Butce",
+    "predicate": [
+      "and",
+      [
+        "=",
+        "huk_karar",
+        "GENEL BÜTÇE",
+        false
+      ],
+      [
+        "=",
+        "mesem_durumu",
+        "BAŞVURU SÜRECİNDE",
+        false
+      ]
+    ]
+  },
+  "istemiyor": {
+    "label": "Katılmak İstemeyen",
+    "predicate": [
+      "=",
+      "mesem_durumu",
+      "İSTEMİYOR",
+      false
+    ]
+  },
+  "dilekce_toplam": {
+    "label": "Dilekçe Alınanlar",
+    "predicate": [
+      "=",
+      "mesem_dilekce",
+      "DİLEKÇE ALINDI",
+      false
+    ]
+  },
+  "dilekce_beklenen": {
+    "label": "Dilekçe Bekleniyor",
+    "predicate": [
+      "or",
+      [
+        "=",
+        "mesem_dilekce",
+        "BEKLENİYOR",
+        false
+      ],
+      [
+        "=",
+        "mesem_dilekce",
+        "DİLEKÇE ALINMADI",
+        false
+      ]
+    ]
+  },
+  "dilekce_basvuru": {
+    "label": "Dilekce Basvuru",
+    "predicate": [
+      "and",
+      [
+        "=",
+        "mesem_dilekce",
+        "DİLEKÇE ALINDI",
+        false
+      ],
+      [
+        "=",
+        "mesem_durumu",
+        "BAŞVURU SÜRECİNDE",
+        false
+      ]
+    ]
+  },
+  "isg_aldi": {
+    "label": "İSG Aldı",
+    "predicate": [
+      "=",
+      "hijyen_is",
+      "ALDI",
+      true
+    ]
+  },
+  "isg_almadi": {
+    "label": "İSG Almadı",
+    "predicate": [
+      "or",
+      [
+        "!=",
+        "hijyen_is",
+        "ALDI",
+        true
+      ],
+      [
+        "IS NULL",
+        "hijyen_is",
+        null,
+        false
+      ],
+      [
+        "=",
+        "hijyen_is",
+        "",
+        false
+      ]
+    ]
+  },
+  "ogrenim_alindi": {
+    "label": "Öğrenim Belgesi Alındı",
+    "predicate": [
+      "or",
+      [
+        "=",
+        "mesem_ogrenim_belgesi",
+        "ALINDI",
+        false
+      ],
+      [
+        "=",
+        "mesem_ogrenim_belgesi",
+        "MEVCUT",
+        false
+      ]
+    ]
+  },
+  "ogrenim_beklenen": {
+    "label": "Öğrenim Belgesi Bekleniyor",
+    "predicate": [
+      "=",
+      "mesem_ogrenim_belgesi",
+      "BEKLENİYOR",
+      false
+    ]
+  },
+  "sinav_surecinde": {
+    "label": "Sınav Sürecinde",
+    "predicate": [
+      "and",
+      [
+        "IS NOT NULL",
+        "mesem_sinif",
+        null,
+        false
+      ],
+      [
+        "!=",
+        "mesem_sinif",
+        "",
+        false
+      ]
+    ]
+  },
+  "calis_bos_toplam": {
+    "label": "Calis Bos Toplam",
+    "predicate": [
+      "or",
+      [
+        "IS NULL",
+        "huk_calis",
+        null,
+        false
+      ],
+      [
+        "=",
+        "huk_calis",
+        "",
+        false
+      ]
+    ]
+  },
+  "calis_bos_isyurdu": {
+    "label": "Calis Bos Isyurdu",
+    "predicate": [
+      "and",
+      [
+        "or",
+        [
+          "IS NULL",
+          "huk_calis",
+          null,
+          false
+        ],
+        [
+          "=",
+          "huk_calis",
+          "",
+          false
+        ]
+      ],
+      [
+        "=",
+        "huk_karar",
+        "İŞYURTLARI",
+        false
+      ]
+    ]
+  },
+  "calis_bos_genel": {
+    "label": "Calis Bos Genel",
+    "predicate": [
+      "and",
+      [
+        "or",
+        [
+          "IS NULL",
+          "huk_calis",
+          null,
+          false
+        ],
+        [
+          "=",
+          "huk_calis",
+          "",
+          false
+        ]
+      ],
+      [
+        "=",
+        "huk_karar",
+        "GENEL BÜTÇE",
+        false
+      ]
+    ]
+  },
+  "calis_bos_muhtelif": {
+    "label": "Calis Bos Muhtelif",
+    "predicate": [
+      "and",
+      [
+        "or",
+        [
+          "IS NULL",
+          "huk_calis",
+          null,
+          false
+        ],
+        [
+          "=",
+          "huk_calis",
+          "",
+          false
+        ]
+      ],
+      [
+        "=",
+        "huk_karar",
+        "MUHTELİF",
+        false
+      ]
+    ]
+  },
+  "calis_bos_kararsiz": {
+    "label": "Calis Bos Kararsiz",
+    "predicate": [
+      "and",
+      [
+        "or",
+        [
+          "IS NULL",
+          "huk_calis",
+          null,
+          false
+        ],
+        [
+          "=",
+          "huk_calis",
+          "",
+          false
+        ]
+      ],
+      [
+        "or",
+        [
+          "=",
+          "huk_karar",
+          "KARARSIZ",
+          false
+        ],
+        [
+          "IS NULL",
+          "huk_karar",
+          null,
+          false
+        ],
+        [
+          "=",
+          "huk_karar",
+          "",
+          false
+        ]
+      ]
+    ]
+  },
+  "calis_bos_gorusulen": {
+    "label": "Calis Bos Gorusulen",
+    "predicate": [
+      "and",
+      [
+        "or",
+        [
+          "IS NULL",
+          "huk_calis",
+          null,
+          false
+        ],
+        [
+          "=",
+          "huk_calis",
+          "",
+          false
+        ]
+      ],
+      [
+        "=",
+        "mesem_gorusme",
+        "GÖRÜŞÜLDÜ",
+        false
+      ]
+    ]
+  },
+  "calis_bos_basvuru": {
+    "label": "Calis Bos Basvuru",
+    "predicate": [
+      "and",
+      [
+        "or",
+        [
+          "IS NULL",
+          "huk_calis",
+          null,
+          false
+        ],
+        [
+          "=",
+          "huk_calis",
+          "",
+          false
+        ]
+      ],
+      [
+        "=",
+        "mesem_durumu",
+        "BAŞVURU SÜRECİNDE",
+        false
+      ]
+    ]
+  },
+  "calis_bos_dilekce": {
+    "label": "Calis Bos Dilekce",
+    "predicate": [
+      "and",
+      [
+        "or",
+        [
+          "IS NULL",
+          "huk_calis",
+          null,
+          false
+        ],
+        [
+          "=",
+          "huk_calis",
+          "",
+          false
+        ]
+      ],
+      [
+        "=",
+        "mesem_dilekce",
+        "DİLEKÇE ALINDI",
+        false
+      ]
+    ]
+  }
+}

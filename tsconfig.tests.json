@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "types": ["node", "vite/client"],
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
+    },
+    "include": [
+        "tests/frontend/**/*.tsx",
+        "tests/frontend/**/*.ts",
+        "resources/js/**/*.ts",
+        "resources/js/**/*.tsx"
+    ]
+}

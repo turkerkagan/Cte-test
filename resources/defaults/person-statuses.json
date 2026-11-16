@@ -1,0 +1,65 @@
+[
+  {
+    "code": "new_record",
+    "label": "YENİ KAYIT",
+    "included_in_active_list": true,
+    "counts_room": true,
+    "reserves_bed": true,
+    "is_active": true,
+    "position": 1
+  },
+  {
+    "code": "present",
+    "label": "MEVCUT",
+    "included_in_active_list": true,
+    "counts_room": true,
+    "reserves_bed": true,
+    "is_active": true,
+    "position": 2
+  },
+  {
+    "code": "guest",
+    "label": "MİSAFİR",
+    "included_in_active_list": true,
+    "counts_room": true,
+    "reserves_bed": true,
+    "is_active": true,
+    "position": 3
+  },
+  {
+    "code": "hospital",
+    "label": "HASTANE",
+    "included_in_active_list": true,
+    "counts_room": true,
+    "reserves_bed": true,
+    "is_active": true,
+    "position": 4
+  },
+  {
+    "code": "student",
+    "label": "ÖĞRENCİ",
+    "included_in_active_list": true,
+    "counts_room": true,
+    "reserves_bed": true,
+    "is_active": true,
+    "position": 5
+  },
+  {
+    "code": "special_leave",
+    "label": "ÖZEL İZİN",
+    "included_in_active_list": true,
+    "counts_room": true,
+    "reserves_bed": true,
+    "is_active": true,
+    "position": 6
+  },
+  {
+    "code": "data_change",
+    "label": "VERİ DEĞİŞİKLİĞİ",
+    "included_in_active_list": true,
+    "counts_room": true,
+    "reserves_bed": true,
+    "is_active": true,
+    "position": 7
+  }
+]

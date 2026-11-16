@@ -1,0 +1,169 @@
+name: Portal acceptance and Windows package
+on:
+  push:
+    branches: ['codex/**', 'main', 'master']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: .
+        shell: pwsh
+    env:
+      APP_ENV: testing
+      APP_DEBUG: 'false'
+      APP_KEY: base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ':memory:'
+      DB_URL: ''
+      CTE_PYTHON_BINARY: python
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_mysql, pdo_sqlite, mbstring, dom, fileinfo, zip, curl, gd
+          tools: composer:v2
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Locked dependencies and local assets
+        run: |
+          composer install --no-interaction --prefer-dist --no-scripts
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m pip install openpyxl==3.1.5 xlrd==2.0.2 et-xmlfile==2.0.0
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm ci
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run typecheck
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run lint
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run format:check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run test:frontend
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run build
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run check:bundle
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npx playwright install chromium
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run test:browser
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: PHP tests and PowerShell parser
+        run: |
+          New-Item -ItemType Directory -Force storage/framework/cache/data,storage/framework/sessions,storage/framework/views,storage/logs,bootstrap/cache | Out-Null
+          php vendor/bin/phpstan analyse --memory-limit=1G --no-progress
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          php vendor/bin/pint --test
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          php vendor/bin/phpunit
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Get-ChildItem deploy/windows/*.ps1 | ForEach-Object {
+            $Tokens = $null; $Errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName,[ref]$Tokens,[ref]$Errors) | Out-Null
+            if ($Errors.Count -gt 0) { throw "PowerShell syntax errors in $($_.Name): $Errors" }
+          }
+      - name: Build and verify offline Windows runtime
+        run: |
+          $Runtime = Join-Path $env:RUNNER_TEMP 'python-windows.zip'
+          Invoke-WebRequest https://www.python.org/ftp/python/3.13.16/python-3.13.16-embed-amd64.zip -OutFile $Runtime
+          $Php = (Get-Command php.exe -CommandType Application).Source
+          # setup-php stores the PHAR as 'composer' beside php.exe and exposes a function.
+          $Composer = Join-Path (Split-Path $Php) 'composer'
+          if (-not (Test-Path $Composer)) { throw 'setup-php Composer PHAR not found' }
+          $Output = Join-Path $env:RUNNER_TEMP 'cte-release'
+          python tools/release/build.py --output $Output --python-archive $Runtime --php $Php --composer $Composer
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $Zip = Get-ChildItem $Output -Filter '*.zip' | Select-Object -First 1
+          $Extract = Join-Path $env:RUNNER_TEMP 'cte-release-extracted'
+          Expand-Archive $Zip.FullName $Extract
+          $Root = Join-Path $Extract 'portal-next'
+          php (Join-Path $Root 'tools/release/verify.php')
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & (Join-Path $Root 'runtime/python/python.exe') -I -c 'import openpyxl,xlrd,et_xmlfile; print("OFFLINE_DOCUMENT_IMPORTS_OK")'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Empty installation and backup restore on Windows MariaDB
+        run: |
+          $DatabaseArchive = Join-Path $env:RUNNER_TEMP 'mariadb-windows.zip'
+          Invoke-WebRequest https://archive.mariadb.org/mariadb-10.11.18/winx64-packages/mariadb-10.11.18-winx64.zip -OutFile $DatabaseArchive
+          if ((Get-FileHash $DatabaseArchive -Algorithm SHA256).Hash.ToLowerInvariant() -ne '1e36bb0834718e56fd53e150978b55429e5da921a97c07c16b41086c0c61099c') { throw 'MariaDB official SHA256 mismatch' }
+          $DatabaseRoot = Join-Path $env:RUNNER_TEMP 'mariadb-binary'
+          Expand-Archive $DatabaseArchive $DatabaseRoot
+          $ServerBinary = Get-ChildItem $DatabaseRoot -Recurse -Filter mysqld.exe | Select-Object -First 1
+          $Installer = Get-ChildItem $DatabaseRoot -Recurse | Where-Object {$_.Name -in @('mysql_install_db.exe','mariadb-install-db.exe')} | Select-Object -First 1
+          if (-not $ServerBinary -or -not $Installer) { throw 'MariaDB portable tools missing' }
+          $BinaryDirectory = Split-Path $ServerBinary.FullName
+          $Private = (python tests/system/create_runtime.py).Trim()
+          if ($LASTEXITCODE -ne 0) { throw 'Private runtime preparation failed' }
+          $Settings = Get-Content (Join-Path $Private 'runtime.json') -Raw | ConvertFrom-Json
+          $Data = Join-Path $Private 'data'
+          & $Installer.FullName "--datadir=$Data" "--port=$($Settings.port)"
+          if ($LASTEXITCODE -ne 0) { throw 'Private MariaDB initialization failed' }
+          $Server = $null
+          try {
+            $Arguments = @('--no-defaults',"--basedir=$(Split-Path $BinaryDirectory)","--datadir=$Data",'--bind-address=127.0.0.1',"--port=$($Settings.port)","--log-error=$Private/server.log",'--console')
+            $Server = Start-Process $ServerBinary.FullName -ArgumentList $Arguments -PassThru -RedirectStandardOutput "$Private/server-out.log" -RedirectStandardError "$Private/server-error.log"
+            $Ready = $false
+            for ($Attempt=0; $Attempt -lt 60; $Attempt++) {
+              $Client = New-Object System.Net.Sockets.TcpClient
+              try { $Client.Connect('127.0.0.1',$Settings.port); $Ready=$true } catch { Start-Sleep -Milliseconds 500 } finally { $Client.Dispose() }
+              if ($Ready) { break }
+            }
+            if (-not $Ready) { throw 'Private MariaDB did not start' }
+            $PackageRoot = Join-Path (Join-Path $env:RUNNER_TEMP 'cte-release-extracted') 'portal-next'
+            $TestRoot = Join-Path $Private 'portal-next'
+            Copy-Item $PackageRoot $TestRoot -Recurse
+            New-Item -ItemType Directory -Path (Join-Path $TestRoot 'tests') -Force | Out-Null
+            Copy-Item tests/system (Join-Path $TestRoot 'tests/system') -Recurse
+            $Configuration = @(
+              'APP_NAME="SENTETİK KURULUM"','APP_ENV=production','APP_DEBUG=false',"APP_KEY=$($Settings.key)",
+              'DB_CONNECTION=mysql',"DB_DATABASE=$($Settings.database)",'DB_TABLE_PREFIX=',
+              'DB_HOST=127.0.0.1',"DB_PORT=$($Settings.port)",'DB_SOCKET=','DB_USERNAME=root','DB_PASSWORD='
+            )
+            $Configuration | Set-Content (Join-Path $TestRoot '.env') -Encoding utf8NoBOM
+            $env:CTE_SYSTEM_DIRECTORY=$Private
+            $env:CTE_PYTHON_BINARY=Join-Path $TestRoot 'runtime/python/python.exe'
+            $env:CTE_TEST_MYSQLDUMP=Join-Path $BinaryDirectory 'mysqldump.exe'
+            $env:CTE_TEST_MYSQL=Join-Path $BinaryDirectory 'mysql.exe'
+            php (Join-Path $TestRoot 'tests/system/installation.php') --rehearse-empty-install
+            if ($LASTEXITCODE -ne 0) { throw 'Windows installation/restore rehearsal failed' }
+            & tests/system/tasks.ps1 -Php (Get-Command php.exe -CommandType Application).Source -Root $TestRoot -Output (Join-Path (Join-Path $env:RUNNER_TEMP 'cte-release') 'windows-tasks-report.json')
+            # Reuse only this disposable server for service/concurrency regressions.
+            $env:CTE_TEST_DB_HOST='127.0.0.1'
+            $env:CTE_TEST_DB_PORT=[string]$Settings.port
+            $env:CTE_TEST_DB_SOCKET=''
+            $env:CTE_TEST_DB_USER='root'
+            $env:CTE_TEST_DB_PASSWORD=''
+            $env:LARAVEL_STORAGE_PATH=Join-Path $Private 'smoke-storage'
+            New-Item -ItemType Directory -Force (Join-Path $env:LARAVEL_STORAGE_PATH 'framework/views'),(Join-Path $env:LARAVEL_STORAGE_PATH 'framework/cache/data'),(Join-Path $env:LARAVEL_STORAGE_PATH 'logs') | Out-Null
+            foreach ($TablePrefix in @('')) {
+              $env:CTE_TEST_TABLE_PREFIX=$TablePrefix
+              php tests/mariadb_import_smoke.php
+              if ($LASTEXITCODE -ne 0) { throw 'MariaDB service regression checks failed' }
+            }
+            Remove-Item Env:LARAVEL_STORAGE_PATH
+            Copy-Item (Join-Path $Private 'installation-report.json') (Join-Path (Join-Path $env:RUNNER_TEMP 'cte-release') 'windows-installation-report.json')
+          } finally {
+            if ($Server -and -not $Server.HasExited) { Stop-Process -Id $Server.Id -Force }
+            Remove-Item $Private -Recurse -Force -ErrorAction SilentlyContinue
+          }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-offline-release
+          path: '${{ runner.temp }}/cte-release/*'
+          retention-days: 14

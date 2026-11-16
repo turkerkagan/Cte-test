@@ -1,5 +1,0 @@
-@extends('errors.base')
-@section('title', 'Sistem Hatası — CTE Portal')
-@section('code', '500')
-@section('heading', 'Beklenmeyen bir hata oluştu')
-@section('message', 'İşlem tamamlanamadı. Lütfen daha sonra tekrar deneyin veya sistem yöneticinize başvurun.')

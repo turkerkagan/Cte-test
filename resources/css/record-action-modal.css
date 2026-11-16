@@ -1,0 +1,1196 @@
+:is(#popupForm, #cteRecordPopup).cte-record-modal {
+  width: min(1200px, calc(100vw - 24px));
+  max-width: 1200px;
+  max-height: min(92vh, 880px);
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #cbdada;
+  border-radius: 18px;
+  background: #fbfdfd;
+  box-shadow: 0 30px 84px rgba(14, 36, 48, 0.34);
+}
+
+/* Tüm servis ve kurum düzenleme pencerelerinde işlem satırı görünür kalır ve minimal içerik yüksekliği kullanılır. */
+.popup.cte-record-modal.active,
+.popup.cte-record-modal.is-visible,
+:is(#popupForm,#cteRecordPopup).cte-record-modal.active,
+:is(#popupForm,#cteRecordPopup).cte-record-modal.is-visible {
+  height: auto !important;
+  max-height: min(90vh, 820px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.popup.cte-record-modal .cte-record-modal-actions,
+:is(#popupForm,#cteRecordPopup).cte-record-modal .cte-record-modal-actions {
+  position:sticky!important;
+  bottom:0!important;
+  z-index:20!important;
+  flex:0 0 auto!important;
+  min-height:58px!important;
+  margin-top:auto!important;
+  padding:.65rem 1rem!important;
+  border-top:1px solid #d5e1e0!important;
+  background:var(--cte-surface,#fff)!important;
+  box-shadow:0 -8px 22px rgba(20,47,67,.12)!important;
+}
+.popup.cte-record-modal .cte-record-save-button,
+:is(#popupForm,#cteRecordPopup).cte-record-modal .cte-record-save-button {
+  display:inline-flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+
+.cte-record-modal .popup-close {
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.cte-record-modal .popup-close:hover {
+  background: rgba(255, 255, 255, 0.26);
+  transform: none;
+}
+
+.cte-record-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 60px;
+  padding: 0.8rem 3.6rem 0.8rem 1.1rem;
+  border-bottom: 1px solid rgba(212, 170, 94, 0.42);
+  background: linear-gradient(115deg, #142f43 0%, #1c4d58 64%, #286861 100%);
+  color: #fff;
+}
+
+.cte-record-modal-header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(234, 207, 153, 0.35);
+  background: rgba(255, 255, 255, 0.11);
+}
+
+:is(#popupForm, #cteRecordPopup) .cte-record-modal-header h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.02rem;
+}
+
+.cte-record-modal-header p {
+  margin: 0.12rem 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.72rem;
+}
+
+.cte-record-modal-scroll {
+  max-height: calc(96vh - 60px);
+  overflow-y: auto;
+}
+
+.cte-record-modal-layout {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  min-height: 561px;
+}
+
+.cte-record-summary {
+  padding: 1rem;
+  border-right: 1px solid #d8e4e3;
+  background: linear-gradient(180deg, #eaf3f2, #f5f9f8);
+}
+
+.cte-record-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 132px;
+  height: 166px;
+  margin: 0 0 0.7rem;
+  overflow: hidden;
+  border: 2px solid #c9d9d7;
+  border-radius: 13px;
+  background: #dfeae9;
+  color: #60777c;
+  text-align: center;
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.cte-record-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cte-record-person-name {
+  margin: 0 0 0.8rem;
+  color: #193d4c;
+  font-size: 0.98rem;
+  line-height: 1.35;
+}
+
+.cte-record-date-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.48rem;
+}
+
+.cte-record-info-card {
+  padding: 0.62rem 0.68rem;
+  border: 1px solid #d5e1e0;
+  border-left: 3px solid #c39447;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.cte-record-info-card.is-release {
+  border-left-color: #3f7b72;
+}
+
+.cte-record-info-card span {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: #6b7b7e;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+}
+
+.cte-record-info-card strong {
+  color: #203e49;
+  font-size: 0.82rem;
+}
+
+.cte-record-leave-section {
+  margin-top: 0.8rem;
+}
+
+.cte-record-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+  color: #28505a;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.cte-record-leave-list {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.cte-record-leave-item {
+  padding: 0.55rem 0.6rem;
+  border: 1px solid #d8e3e2;
+  border-radius: 9px;
+  background: #fff;
+  color: #4e6268;
+  font-size: 0.69rem;
+  line-height: 1.5;
+}
+
+.cte-record-leave-item strong {
+  color: #23434e;
+}
+
+.cte-record-loading,
+.cte-record-empty,
+.cte-record-error {
+  padding: 0.65rem;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.7);
+  color: #786e80;
+  font-size: 0.71rem;
+  line-height: 1.4;
+}
+
+.cte-record-error {
+  background: #f8edef;
+  color: #915c66;
+}
+
+.cte-record-edit-pane {
+  min-width: 0;
+  padding: 1rem 1.05rem 0.85rem;
+  background: linear-gradient(180deg, #fbfdfd, #f7faf9);
+}
+
+.cte-record-edit-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.75rem;
+  color: #234c58;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.cte-record-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.68rem;
+}
+
+.cte-record-form-grid .form-group {
+  min-width: 0;
+}
+
+.cte-record-form-grid .form-group label {
+  margin-bottom: 0.3rem;
+  color: #506970;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.cte-record-form-grid .form-group input,
+.cte-record-form-grid .form-group select,
+.cte-record-form-grid .form-group textarea {
+  width: 100%;
+  min-height: 38px;
+  padding: 0.5rem 0.58rem;
+  border: 1px solid #cfdddd;
+  border-radius: 9px;
+  background: #fff;
+  color: #263c45;
+  font-size: 0.76rem;
+}
+
+.cte-record-form-grid .form-group input:focus,
+.cte-record-form-grid .form-group select:focus,
+.cte-record-form-grid .form-group textarea:focus {
+  border-color: #4f8781;
+  box-shadow: 0 0 0 3px rgba(54, 117, 110, 0.12);
+}
+
+.cte-record-form-grid .is-full-width {
+  grid-column: 1 / -1;
+}
+
+.cte-record-form-grid textarea {
+  min-height: 76px !important;
+}
+
+.cte-record-modal-actions {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: auto;
+  gap: 0.65rem;
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #dce6e5;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+  font-family: inherit;
+  text-align: left;
+}
+
+.cte-record-modal-actions-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.cte-record-modal-actions button,
+.cte-record-modal-actions input[type="submit"] {
+  min-height: 40px;
+  padding: 0.56rem 0.9rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.cte-record-save-button {
+  min-width: 105px;
+  background: linear-gradient(135deg, #17394b, #27625f);
+  color: #fff;
+}
+
+.cte-record-delete-button {
+  background: #f8e8eb;
+  color: #a24756;
+  border-color: #eccfd5 !important;
+}
+
+.cte-record-room-button {
+  background: #e5f1ef;
+  color: #356b65;
+  border-color: #cfe1de !important;
+}
+
+.cte-record-modal.is-new-record .cte-record-summary {
+  display: none;
+}
+
+.cte-record-modal.is-new-record .cte-record-modal-layout {
+  grid-template-columns: 1fr;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-record-modal.is-new-record.is-visible {
+  display: flex !important;
+  flex-direction: column !important;
+  width: min(1100px, calc(100vw - 20px)) !important;
+  height: min(990px, calc(100vh - 20px));
+  max-height: 990px;
+  position: fixed !important;
+  contain: layout paint;
+}
+
+#cteRecordPopup.is-new-record .cte-record-mode-tabs { flex: 0 0 50px; }
+#cteRecordPopup.is-new-record > .cte-record-modal-scroll,
+#cteRecordPopup.is-new-record > .cte-record-bulk-panel { flex: 1 1 auto; min-height: 0; }
+
+.cte-record-modal.is-new-record .cte-record-panel,
+.cte-record-modal.is-new-record .cte-record-modal-scroll,
+.cte-record-modal.is-new-record .cte-record-bulk-panel {
+  min-height: 0;
+  height: 100%;
+  max-height: none;
+}
+
+.cte-record-modal.is-new-record .cte-record-modal-scroll {
+  overflow-y: auto;
+}
+
+.cte-record-modal.is-new-record .cte-record-bulk-frame {
+  width: 100%;
+  height: 100%;
+}
+
+/* Yeni kayıt yöntem seçicisi */
+#cteRecordPopup .cte-record-mode-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.65rem 1rem;
+  border: 0;
+  border-bottom: 1px solid #d8e4e3;
+  border-radius: 0;
+  background: #f2f7f7;
+}
+
+#cteRecordPopup .cte-record-mode-tabs[hidden],
+#cteRecordPopup .cte-record-panel[hidden] {
+  display: none !important;
+}
+
+#cteRecordPopup .cte-record-mode-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 42px;
+  border: 1px solid #cbdada;
+  border-radius: 11px;
+  background: #fff;
+  color: #526a72;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color .16s ease, background .16s ease, color .16s ease, box-shadow .16s ease;
+}
+
+#cteRecordPopup .cte-record-mode-tab:hover {
+  border-color: #7ba4a2;
+  color: #205663;
+}
+
+#cteRecordPopup .cte-record-mode-tab.is-active {
+  border-color: #2c6863;
+  background: linear-gradient(135deg, #17394b, #27625f);
+  color: #fff;
+  box-shadow: 0 7px 18px rgba(27, 69, 78, .18);
+}
+
+#cteRecordPopup .cte-record-bulk-content,
+#cteRecordPopup .cte-record-bulk-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 0;
+  background: #eef2f7;
+}
+
+html[data-theme="dark"] :is(#popupForm, #cteRecordPopup).cte-record-modal,
+html[data-theme="dark"] .cte-record-edit-pane {
+  border-color: var(--cte-border, #3a3647);
+  background: var(--cte-surface, #24222e);
+  color: var(--cte-text, #e7e3ee);
+}
+
+html[data-theme="dark"] .cte-record-summary {
+  border-color: var(--cte-border, #3a3647);
+  background: var(--cte-surface-soft, #2b2836);
+}
+
+html[data-theme="dark"] .cte-record-person-name,
+html[data-theme="dark"] .cte-record-edit-heading,
+html[data-theme="dark"] .cte-record-section-title,
+html[data-theme="dark"] .cte-record-info-card strong,
+html[data-theme="dark"] .cte-record-leave-item strong {
+  color: var(--cte-text, #e7e3ee);
+}
+
+html[data-theme="dark"] .cte-record-info-card,
+html[data-theme="dark"] .cte-record-leave-item,
+html[data-theme="dark"] .cte-record-loading,
+html[data-theme="dark"] .cte-record-empty {
+  border-color: var(--cte-border, #3a3647);
+  background: #211f2b;
+  color: var(--cte-muted, #a59fb3);
+}
+
+@media (max-width: 900px) {
+  :is(#popupForm, #cteRecordPopup).cte-record-modal {
+    width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+  }
+
+  :is(#popupForm, #cteRecordPopup).cte-record-modal.is-new-record.is-visible {
+    height: calc(100vh - 16px);
+  }
+
+  .cte-record-modal-scroll {
+    max-height: calc(100vh - 76px);
+  }
+
+  .cte-record-modal-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cte-record-summary {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    gap: 0 0.8rem;
+    border-right: 0;
+    border-bottom: 1px solid #e5dee9;
+  }
+
+  .cte-record-photo {
+    grid-row: 1 / span 3;
+  }
+
+  .cte-record-person-name,
+  .cte-record-date-grid,
+  .cte-record-permission-note {
+    grid-column: 2;
+  }
+
+  .cte-record-leave-section {
+    grid-column: 1 / -1;
+  }
+
+  .cte-record-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .cte-record-modal-header {
+    min-height: 56px;
+    padding-left: 0.8rem;
+  }
+
+  .cte-record-summary {
+    grid-template-columns: 104px minmax(0, 1fr);
+    padding: 0.75rem;
+  }
+
+  .cte-record-photo {
+    width: 104px;
+    height: 132px;
+  }
+
+  .cte-record-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cte-record-form-grid .is-full-width {
+    grid-column: auto;
+  }
+
+  .cte-record-modal-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cte-record-modal-actions-right {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .cte-record-modal-actions button,
+  .cte-record-modal-actions input[type="submit"] {
+    flex: 1 1 auto;
+  }
+}
+
+/* ==========================================================================
+   Birimler Sayfaları için Evrensel Standart Modal ve Form Stilleri
+   (index.php tasarım dili ile birebir uyumlu)
+   ========================================================================== */
+.popup.cte-record-modal,
+:is(#popupForm, #cteRecordPopup).cte-record-modal {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(1000px, calc(100vw - 32px)) !important;
+  max-width: 1000px !important;
+  max-height: min(92vh, 880px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #cbdada !important;
+  border-radius: 18px !important;
+  background: #fbfdfd !important;
+  box-shadow: 0 30px 84px rgba(14, 36, 48, 0.34) !important;
+  overflow: hidden !important;
+  z-index: 99999 !important;
+  box-sizing: border-box !important;
+}
+
+.popup.cte-record-modal.active,
+.popup.cte-record-modal.is-visible,
+.popup.cte-record-modal.is-open,
+:is(#popupForm, #cteRecordPopup).cte-record-modal.active,
+:is(#popupForm, #cteRecordPopup).cte-record-modal.is-visible,
+:is(#popupForm, #cteRecordPopup).cte-record-modal.is-open {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Bazı servisler başlık/form/footer üçlüsünü bir iç sarmalayıcıda tutuyor.
+   Sarmalayıcı flex değilse footer pencerenin görünür alanının dışına taşar. */
+.popup.cte-record-modal > :is(
+  .cte-ilkgorus-modal-inner,
+  .cte-revir-modal-inner,
+  .cte-ziyaret-modal-inner,
+  .cte-manevi-modal-inner,
+  .cte-egitim-modal-inner,
+  .cte-kurslar-modal-inner,
+  .cte-mesem-modal-inner,
+  .cte-record-modal-inner
+){
+  display:flex!important;
+  flex-direction:column!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  max-height:min(92vh,880px)!important;
+  overflow:hidden!important;
+}
+
+.popup.cte-record-modal .cte-record-modal-header,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-modal-header {
+  flex-shrink: 0 !important;
+  border-radius: 17px 17px 0 0 !important;
+}
+
+.popup.cte-record-modal .cte-record-modal-scroll,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-modal-scroll {
+  flex: 1 1 auto !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  min-height: 0 !important;
+}
+
+.popup.cte-record-modal > form.cte-record-modal-scroll,
+.popup.cte-record-modal > :is(
+  .cte-ilkgorus-modal-inner,
+  .cte-revir-modal-inner,
+  .cte-ziyaret-modal-inner,
+  .cte-manevi-modal-inner,
+  .cte-egitim-modal-inner,
+  .cte-kurslar-modal-inner,
+  .cte-mesem-modal-inner,
+  .cte-record-modal-inner
+) > form.cte-record-modal-scroll{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+}
+
+.popup.cte-record-modal form.cte-record-modal-scroll > .cte-record-modal-layout{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+}
+
+.popup.cte-record-modal > .cte-record-modal-scroll,
+.popup.cte-record-modal > :is(
+  .cte-ilkgorus-modal-inner,
+  .cte-record-modal-inner
+) > .cte-record-modal-scroll{
+  display:flex!important;
+  flex-direction:column!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+
+.popup.cte-record-modal .cte-record-modal-scroll > form:not(.cte-infaz-modal-layout){
+  display:flex!important;
+  flex-direction:column!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+
+.popup.cte-record-modal .cte-record-modal-scroll > form:not(.cte-infaz-modal-layout) > .cte-record-edit-pane{
+  display:flex!important;
+  flex-direction:column!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  padding-bottom:0!important;
+  overflow:hidden!important;
+}
+
+.popup.cte-record-modal .cte-record-modal-scroll > form:not(.cte-infaz-modal-layout) > .cte-record-edit-pane > .cte-record-form-grid{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  align-content:start!important;
+  padding-bottom:.75rem!important;
+}
+
+.popup.cte-record-modal form.cte-record-modal-scroll > .cte-record-modal-actions{
+  flex:0 0 auto!important;
+}
+
+.popup.cte-record-modal .cte-record-modal-actions{
+  position:relative!important;
+  z-index:3!important;
+  flex:0 0 auto!important;
+  min-height:58px!important;
+  margin:0!important;
+  padding:.65rem 1rem!important;
+  border-top:1px solid #d5e1e0!important;
+  background:var(--cte-surface,#fff)!important;
+  box-shadow:0 -8px 22px rgba(20,47,67,.08)!important;
+}
+
+.popup.cte-record-modal .cte-record-edit-pane,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-edit-pane {
+  padding: 1.15rem 1.25rem 1rem !important;
+  min-height: auto !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.popup.cte-record-modal .cte-record-form-grid,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-form-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0.75rem !important;
+  flex: 1 1 auto !important;
+}
+
+.popup.cte-record-modal .form-group,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .form-group {
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 0 !important;
+}
+
+.popup.cte-record-modal .form-group label,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .form-group label {
+  margin-bottom: 0.32rem !important;
+  color: #435b62 !important;
+  font-size: 0.73rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+}
+
+.popup.cte-record-modal .form-group input,
+.popup.cte-record-modal .form-group select,
+.popup.cte-record-modal .form-group textarea,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .form-group input,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .form-group select,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .form-group textarea {
+  width: 100% !important;
+  min-height: 38px !important;
+  padding: 0.48rem 0.62rem !important;
+  border: 1px solid #cfdddd !important;
+  border-radius: 9px !important;
+  background: #ffffff !important;
+  color: #243b44 !important;
+  font-size: 0.78rem !important;
+  box-sizing: border-box !important;
+  outline: none !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.popup.cte-record-modal .form-group input:focus,
+.popup.cte-record-modal .form-group select:focus,
+.popup.cte-record-modal .form-group textarea:focus,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .form-group input:focus,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .form-group select:focus,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .form-group textarea:focus {
+  border-color: #2c6863 !important;
+  box-shadow: 0 0 0 3px rgba(44, 104, 99, 0.14) !important;
+}
+
+.popup.cte-record-modal .form-group input[readonly],
+:is(#popupForm, #cteRecordPopup).cte-record-modal .form-group input[readonly] {
+  background: #f1f6f6 !important;
+  color: #556c73 !important;
+  cursor: not-allowed !important;
+  border-color: #d6e2e2 !important;
+}
+
+.popup.cte-record-modal .cte-record-modal-actions,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-modal-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0.75rem !important;
+  margin-top: 1rem !important;
+  padding-top: 0.85rem !important;
+  border-top: 1px solid #dce6e5 !important;
+  background: transparent !important;
+}
+
+.popup.cte-record-modal .cte-record-cancel-button,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-cancel-button {
+  display: none !important;
+}
+
+.popup.cte-record-modal .cte-record-save-button,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-save-button {
+  min-height: 40px !important;
+  min-width: 110px !important;
+  padding: 0.55rem 1.25rem !important;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, #17394b, #27625f) !important;
+  color: #ffffff !important;
+  font-size: 0.78rem !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(23, 57, 75, 0.2) !important;
+  transition: opacity 0.15s ease, transform 0.15s ease !important;
+}
+
+.popup.cte-record-modal .cte-record-save-button:hover,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-save-button:hover {
+  opacity: 0.94 !important;
+  transform: translateY(-1px) !important;
+}
+
+@media (max-width: 860px) {
+  .popup.cte-record-modal .cte-record-form-grid,
+  :is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 580px) {
+  .popup.cte-record-modal .cte-record-form-grid,
+  :is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* İlk Görüşme Modalı: Index Gibi Çift Kolonlu (Fotoğraf/DS Paneli + Düzenleme Gridi) */
+:is(#popupForm, #cteRecordPopup).cte-record-modal.cte-ilkgorus-record-modal {
+  width: min(1300px, calc(100vw - 32px)) !important;
+  max-width: 1300px !important;
+  height: min(92vh, 900px) !important;
+  max-height: min(92vh, 900px) !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-record-modal.cte-ilkgorus-record-modal .cte-ilkgorus-modal-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  background: transparent !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-modal-scroll {
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow:auto !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-modal-layout {
+  display:grid !important;
+  grid-template-columns:minmax(220px,260px) minmax(0,1fr) !important;
+  min-height:100% !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-photo {
+  width: 170px !important;
+  height: 215px !important;
+  margin: 0 auto 0.75rem !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-photo-actions {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.4rem !important;
+  width: 170px !important;
+  margin: 0 auto 0.8rem !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-photo-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.4rem !important;
+  padding: 0.45rem 0.6rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  border: 1px solid #cfdcdd !important;
+  background: #fff !important;
+  color: #1e3a8a !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-photo-button:hover {
+  background: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-photo-button.is-danger {
+  color: #dc2626 !important;
+  border-color: #fecaca !important;
+  background: #fff5f5 !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-photo-button.is-danger:hover {
+  background: #fee2e2 !important;
+  border-color: #ef4444 !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-edit-pane {
+  min-width:0 !important;
+  padding:1rem 1.15rem 1.25rem !important;
+  overflow:visible !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-ilkgorus-form-grid {
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:.8rem !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .form-top-row {
+  grid-column:1 / -1 !important;
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:.7rem !important;
+  padding:.75rem !important;
+  border:1px solid var(--cte-border,#d8e2e2) !important;
+  border-radius:12px !important;
+  background:var(--cte-surface-soft,#f5f8f8) !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-work-notes-row {
+  grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal :is(.form-top-row>div,.form-column) {
+  display:flex !important;
+  flex-direction:column !important;
+  gap:.35rem !important;
+  min-width:0 !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .form-column {
+  padding:.75rem !important;
+  border:1px solid var(--cte-border,#d8e2e2) !important;
+  border-radius:12px !important;
+  background:var(--cte-surface,#fff) !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal label {
+  color:var(--cte-muted,#687983) !important;
+  font-size:.68rem !important;
+  font-weight:800 !important;
+  line-height:1.3 !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal :is(input:not([type="hidden"]),select,textarea) {
+  display:block !important;
+  width:100% !important;
+  min-width:0 !important;
+  min-height:36px !important;
+  padding:.48rem .62rem !important;
+  border:1px solid var(--cte-border,#cfdcdd) !important;
+  border-radius:9px !important;
+  background:var(--cte-surface,#fff) !important;
+  color:var(--cte-text,#24333f) !important;
+  font:inherit !important;
+  font-size:.76rem !important;
+  box-sizing:border-box !important;
+}
+
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal textarea {
+  min-height:64px !important;
+  resize:vertical !important;
+}
+
+/* Şarta Bağlı Detay Alanları Animasyonu */
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-conditional-detail {
+  margin-top:.45rem !important;
+  padding:.55rem .65rem !important;
+  border-radius:8px !important;
+  background:var(--cte-surface-soft,#f8fafc) !important;
+  border:1px solid var(--cte-border,#e2e8f0) !important;
+  animation:cteFadeIn .2s ease forwards !important;
+}
+
+@keyframes cteFadeIn {
+  from { opacity:0; transform:translateY(-4px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* Blok, Koğuş, Ranza ve Boş Koğuş Butonu Satırı */
+:is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-location-row {
+  grid-column:1 / -1 !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,1fr) auto !important;
+  gap:.75rem !important;
+  align-items:flex-end !important;
+  padding:.85rem !important;
+  border:1px solid var(--cte-border,#d8e2e2) !important;
+  border-radius:12px !important;
+  background:var(--cte-surface-soft,#f5f8f8) !important;
+}
+
+.cte-btn-empty-rooms {
+  height:36px !important;
+  padding:0 .9rem !important;
+  background:#10b981 !important;
+  color:#fff !important;
+  border:none !important;
+  border-radius:9px !important;
+  font-size:.74rem !important;
+  font-weight:750 !important;
+  cursor:pointer !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:.45rem !important;
+  white-space:nowrap !important;
+  box-shadow:0 2px 6px rgba(16,185,129,0.25) !important;
+  transition:all .2s ease !important;
+}
+
+.cte-btn-empty-rooms:hover {
+  background:#059669 !important;
+  transform:translateY(-1px) !important;
+  box-shadow:0 4px 10px rgba(16,185,129,0.35) !important;
+}
+
+/* Boş Koğuşlar Pop-up'ı */
+#emptyRoomsPopup.popup,
+[data-cte-portal-overlay="1"]#emptyRoomsPopup {
+  position:fixed !important;
+  inset:50% auto auto 50% !important;
+  transform:translate(-50%,-50%) !important;
+  width:min(980px, calc(100vw - 32px)) !important;
+  max-width:980px !important;
+  height:min(85vh, 760px) !important;
+  max-height:min(85vh, 760px) !important;
+  background:var(--cte-surface,#fff) !important;
+  border:1px solid var(--cte-border,#d8e2e2) !important;
+  border-radius:18px !important;
+  box-shadow:0 24px 60px rgba(0,0,0,0.22) !important;
+  display:none;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  z-index:100020 !important;
+  padding:0 !important;
+}
+
+#emptyRoomsPopup.is-open,
+#emptyRoomsPopup.active,
+#emptyRoomsPopup.is-visible {
+  display:flex !important;
+}
+
+.cte-empty-rooms-header {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  padding:1rem 1.4rem !important;
+  border-bottom:1px solid var(--cte-border,#e5e7eb) !important;
+  background:var(--cte-surface-soft,#f9fafb) !important;
+}
+
+.cte-empty-rooms-header h2 {
+  margin:0 !important;
+  font-size:1.15rem !important;
+  font-weight:800 !important;
+  color:#10b981 !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:.6rem !important;
+}
+
+.empty-room-card {
+  background:var(--cte-surface,#fff) !important;
+  border:1px solid var(--cte-border,#e5e7eb) !important;
+  border-radius:10px !important;
+  padding:.85rem .95rem !important;
+  cursor:pointer !important;
+  transition:all .2s ease !important;
+  position:relative !important;
+}
+
+.empty-room-card:hover {
+  transform:translateY(-2px) !important;
+  border-color:#10b981 !important;
+  box-shadow:0 6px 16px rgba(16,185,129,0.18) !important;
+}
+
+.empty-room-card:active {
+  transform:scale(0.98) !important;
+}
+
+@media (max-width:850px) {
+  :is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-modal-layout {
+    grid-template-columns:1fr !important;
+  }
+  :is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-record-summary {
+    display:none !important;
+  }
+  :is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-ilkgorus-form-grid {
+    grid-template-columns:1fr !important;
+  }
+  :is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .form-top-row,
+  :is(#popupForm, #cteRecordPopup).cte-ilkgorus-record-modal .cte-location-row {
+    grid-template-columns:1fr 1fr !important;
+  }
+}
+
+.popup.cte-record-modal.active,
+.popup.cte-record-modal.is-visible,
+:is(#popupForm,#cteRecordPopup).cte-record-modal.active,
+:is(#popupForm,#cteRecordPopup).cte-record-modal.is-visible { height:min(88vh,820px)!important; }
+#cteRecordPopup.cte-record-modal.is-new-record:is(.active,.is-visible){
+  width:min(80vw,calc(100vw - 20px))!important;
+  max-width:none!important;
+  height:min(88vh,820px)!important;
+  max-height:min(88vh,820px)!important;
+}
+.popup.cte-record-modal .cte-record-modal-actions,
+:is(#popupForm,#cteRecordPopup).cte-record-modal .cte-record-modal-actions {
+  position:sticky!important;bottom:0!important;z-index:20!important;flex:0 0 62px!important;
+  min-height:62px!important;margin-top:auto!important;padding:.65rem 1rem!important;
+  background:var(--cte-surface,#fff)!important;box-shadow:0 -8px 22px rgba(20,47,67,.12)!important;
+}
+.popup.cte-record-modal .cte-record-save-button,
+:is(#popupForm,#cteRecordPopup).cte-record-modal .cte-record-save-button {
+  display:inline-flex!important;visibility:visible!important;opacity:1!important;align-items:center!important;justify-content:center!important;
+}
+
+/* Birim formlarında form ızgarası işlem çubuğunu aşağı itmesin. Kaydet satırı
+   modal içinde sabit kalır, uzun alan listesi kendi bölümünde kayar. */
+#popupForm.cte-record-modal .cte-record-modal-scroll {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+#popupForm.cte-record-modal .cte-record-modal-scroll > form:not(.cte-infaz-modal-layout) {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+#popupForm.cte-record-modal .cte-record-modal-scroll > form:not(.cte-infaz-modal-layout) > .cte-record-edit-pane {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  padding: 1.15rem 1.25rem 0 !important;
+  box-sizing: border-box !important;
+}
+
+#popupForm.cte-record-modal .cte-record-modal-scroll > form:not(.cte-infaz-modal-layout) > .cte-record-edit-pane > .cte-record-form-grid {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  padding-bottom: 0.85rem !important;
+}
+
+#popupForm.cte-record-modal .cte-record-modal-actions,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-modal-actions {
+  flex: 0 0 auto !important;
+  min-height: 60px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  margin-top: auto !important;
+  padding: 0.75rem 1.25rem !important;
+  border-top: 1px solid #d5e1e0 !important;
+  background: var(--cte-surface, #fff) !important;
+  box-shadow: 0 -8px 22px rgba(20, 47, 67, 0.12) !important;
+  z-index: 20 !important;
+}
+
+#popupForm.cte-record-modal .cte-record-save-button,
+:is(#popupForm, #cteRecordPopup).cte-record-modal .cte-record-save-button {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 40px !important;
+  padding: 0.5rem 1.5rem !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}

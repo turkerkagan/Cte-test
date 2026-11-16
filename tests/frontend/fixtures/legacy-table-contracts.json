@@ -1,0 +1,252 @@
+{
+    "description": "Immutable header contracts extracted from the retired legacy source. No runtime or personal data is included.",
+    "workflows": {
+        "hijyen_isg": {
+            "source": "birimler/servisler/hijyen_isg.php",
+            "sha256": "fe284b0f303552d2fc32256228529903c21ffacbba9c6539ce8758b6bed36a3c",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "Çalışma Yeri",
+                "Çalışma Kararı",
+                "İş Sağlığı ve Güvenliği",
+                "Hijyen"
+            ]
+        },
+        "ziyaret": {
+            "source": "birimler/servisler/ziyaret.php",
+            "sha256": "772b4921e62b6d63918d7ed232861bbc1952adbdd72348091093b5616bdd8e84",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "Ziyaretçi 1",
+                "Tarih 1",
+                "Not 1",
+                "Ziyaretçi 2",
+                "Tarih 2",
+                "Not 2",
+                "Ziyaretçi 3",
+                "Tarih 3",
+                "Not 3"
+            ]
+        },
+        "revir": {
+            "source": "birimler/servisler/revir.php",
+            "sha256": "94502ad695efeda31cff9cec3aada466c40bdda33d1ddca8b860049d41102f16",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "Çalışma Yeri",
+                "Genel Sağlık Durumu",
+                "Kronik Hastalık",
+                "Bulaşıcı Hastalık",
+                "Portör Durumu",
+                "Portör Tarihi 1",
+                "Portör Tarihi 2",
+                "Çalışma Durumu",
+                "Ceza Tehiri +R",
+                "Uyap"
+            ]
+        },
+        "psikososyal": {
+            "source": "birimler/servisler/psikososyal.php",
+            "sha256": "fc501f046f86d4713856ceb800b687fb6842d30adaf03867170079d9e44925db",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "Çalışma Yeri",
+                "Sağlık Durumu",
+                "SAMBA",
+                "Öfke Kontrolü",
+                "SÖMGP"
+            ]
+        },
+        "egitim": {
+            "source": "birimler/servisler/egitim.php",
+            "sha256": "ea32c6708e98d965db391069073ea97faa88b0c57997a6f7ceceb5674037e618",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "Mezuniyet",
+                "Öğrenim Durumu",
+                "Okuduğu Okul",
+                "Fakülte",
+                "Bölüm",
+                "Öğretim Şekli",
+                "Sınıf",
+                "Öğrenci No",
+                "Okul Şifresi",
+                "Domain Şifresi",
+                "İletişim"
+            ]
+        },
+        "mesem": {
+            "source": "birimler/servisler/mesem.php",
+            "sha256": "3c9390a8eabae87ad6b873a6da2c480b4eb7ee79ac728dc7903ff5eb568a3391",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "Çalışma Yeri",
+                "Çalışma Kararı",
+                "Görüşme",
+                "Alacağı Belge",
+                "Mevcut Belge",
+                "Sınıf",
+                "Dalı"
+            ]
+        },
+        "ilkgorus": {
+            "source": "birimler/servisler/ilkgorus.php",
+            "sha256": "19a51f51651a2cc055e7479d803534644d3ebbcb12661ecb98d4cbc071be59e5",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "Yaşı",
+                "Mesleği",
+                "Genel Sağlık Durumu",
+                "Engellilik Durumu",
+                "Daha Önce İnfaz Kurumuna Girmiş mi",
+                "Ailede Suç Öyküsü",
+                "Ailesi veya Çevresi Ceza İnfaz Kurumunda Olduğunu Biliyor mu",
+                "Ceza İnfaz Kurumunda Yakını veya Tanıdığı",
+                "Kendine Zarar Verdi Mi",
+                "Kayıt Tarihi"
+            ]
+        },
+        "manevi": {
+            "source": "birimler/servisler/manevi.php",
+            "sha256": "297cd984f87dcc582d6723b57a616eb21368a94499289deddab6fa6913425757",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "Çalışma Yeri",
+                "Cte Giriş Tarihi",
+                "Görüşme Tarihi",
+                "Dini",
+                "Dini Eğitim Durumu",
+                "Hafızlık Durumu",
+                "Hükümlü Talebi",
+                "Katıldığı Faaliyet 1",
+                "Katıldığı Faaliyet 2",
+                "Katıldığı Faaliyet 3",
+                "Devam Eden Kurs",
+                "Belge",
+                "Ödül Teklifi",
+                "Açıklamalar"
+            ]
+        },
+        "kurslar": {
+            "source": "birimler/servisler/kurslar.php",
+            "sha256": "a9ef5b3c205f52e4d2f8a1ce8ade3af2b36b352e6071aedcd0eb3fe5de41ccba",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "Kursun Adı",
+                "Kurs Öğretmeni",
+                "Kurs Süresi",
+                "Kurs Başlangıç Tarihi",
+                "Kurs Bitiş Tarihi"
+            ]
+        },
+        "calisma": {
+            "source": "birimler/hukumlu/calisma.php",
+            "sha256": "3830df0ab8103249f467e18fd93a2b6823938c9435042fd8d9fda2a0406c188b",
+            "headers": ["TC Kimlik", "Adı Soyadı", "Çalışma Yeri", "Çalışma Kararı", "Durum"]
+        },
+        "infaz_sevk_raporu": {
+            "source": "birimler/infaz/infaz.sevk.rapor.php",
+            "sha256": "fd36dd7325a68bb06fd3d53da6926209e950144dc20b85a39aeaae5a6dbcd170",
+            "headers": [
+                "TC Kimlik",
+                "Hükümlü Adı Soyadı",
+                "UYAP No",
+                "Tahliye Tarihi",
+                "Kalan Gün",
+                "D.S. Tarihi",
+                "DS Kalan Gün"
+            ]
+        },
+        "izin_rapor": {
+            "source": "birimler/infaz/izin_rapor.php",
+            "sha256": "f24557eafa02856d64eb93923f401ec6e9fb3418cc01a106d10ebb6b7eaf6fdc",
+            "headers": [
+                "TC Kimlik",
+                "Hükümlü Adı Soyadı",
+                "UYAP No",
+                "İş Kolu",
+                "Koğuş",
+                "Ranza",
+                "Çıkış Tarih",
+                "Saat",
+                "Dönüş Tarih",
+                "Saat"
+            ]
+        },
+        "izin": {
+            "source": "birimler/infaz/izin.php",
+            "sha256": "a21716dbea4f2b91b4a70e6d7da4c4dcb5252dbbbda08b97904f846d600d1a29",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "İzin Türü",
+                "İzin Gün Sayısı",
+                "İzne Çıkış Tarihi",
+                "İzne Çıkış Saati",
+                "İzinden Dönüş Tarihi",
+                "İzinden Dönüş Saati"
+            ]
+        },
+        "infaz": {
+            "source": "birimler/infaz/infaz.php",
+            "sha256": "68a856722d5e95f4a6b1c198808e07e3fe5e1c63c7000b7cdb9a786266e5d892",
+            "headers": [
+                "TC Kimlik",
+                "Adı Soyadı",
+                "UYAP No",
+                "DS Tarihi",
+                "Tahliye Tarihi",
+                "Durumu",
+                "Özel Kurul Durumu",
+                "Özel Kurul Tarihi",
+                "Geliş Nedeni",
+                "Not",
+                "Yaşı",
+                "Ceza Süresi",
+                "Ortalama Ceza Süresi"
+            ]
+        }
+    },
+    "board": {
+        "source": "birimler/kurum/kurulkomisyon.php",
+        "sha256": "ae34108b210de7e52d0446e682365e961e181d6e779dd8e332b916c4f342cc06",
+        "headers": [
+            "DİSİPLİN KURULU",
+            "İDARE VE GÖZLEM KURULU",
+            "EĞİTİM KURULU",
+            "İŞYURDU YÖNETİM KURULU",
+            "ARŞİV AYIKLAMA VE İMHA KOMİSYONU",
+            "MEKTUP OKUMA KOMİSYONU",
+            "KOLİ AÇMA KOMİSYONU",
+            "KİTAP SAYIM KOMİSYONU",
+            "MUAYENE KABUL KOMİSYONU (GENEL BÜTÇE)",
+            "MUAYENE KABUL KOMİSYONU (İŞYURDU MÜDÜRLÜĞÜ)"
+        ]
+    },
+    "mesemstat": {
+        "source": "birimler/servisler/mesemstat.php",
+        "sha256": "f21f69341678a9bf200a3f8dec6ae2a883695beb0fce42878e95d08ca6d4e8af",
+        "headers": [
+            "#",
+            "Çalışma Yeri",
+            "Toplam",
+            "İş Yurtları",
+            "Genel Bütçe",
+            "Muhtelif",
+            "Kararsız",
+            "Görüşülen",
+            "Görüşme %",
+            "Başvuru",
+            "Dilekçe"
+        ]
+    }
+}

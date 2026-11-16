@@ -1,0 +1,15 @@
+name: PHP syntax
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check PHP syntax
+        run: |
+          set -e
+          git ls-files -z '*.php' | xargs -0 -r -n 1 php -l

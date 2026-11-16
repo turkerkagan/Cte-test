@@ -1,56 +1,67 @@
-# CTE Portal
+# Portal Next
 
-CTE Portal, kurum içi ceza infaz yönetim işlemleri için Laravel 13 tabanlı, yerel ağda ve internetsiz çalışmaya uygun tasarlanan web uygulamasıdır.
+Laravel, Inertia ve React ile geliştirilen kurum portalı.
 
-## Mevcut durum
+İnternet kopyası: [glossidigital.com/cte](https://glossidigital.com/cte/).
+Hosting kurulumu ve bağımsız veritabanı kopyası için
+[yayın notlarına](docs/glossidigital-hosting.md) bakın.
 
-Güncel iş planı `plan.md` dosyasında tutulur. Tamamlanan her görev ilgili kod değişikliği ve doğrulama sonucu ile birlikte kaydedilir.
+## Veritabanı
 
-## Temel kurulum
+Ana yerel veritabanı **`cte`**’dir. Portal Next tabloları öneksiz kullanır.
+Örnekler: `cte.users`, `cte.people`, `cte.institution_records`.
 
-```bash
-composer install
-npm install
-npm run build
-cp .env.example .env
-php artisan key:generate
+Eski uygulamanın öneksiz tabloları korunur. Yeni şema kurulumu eski kullanıcı ve kayıtları otomatik aktarmaz. Ayrıntılı tablo grupları ve kurallar için [veritabanı düzeni](docs/veritabani-duzeni.md) belgesine bakın.
+
+```dotenv
+DB_CONNECTION=mysql
+DB_DATABASE=cte
+DB_TABLE_PREFIX=
+```
+
+Bağlantı sunucusu, kullanıcı ve parola `.env` dosyasında tutulur. Hostingde
+veritabanı adı farklıysa `CTE_HOSTED_DATABASE` ile aynı ad açıkça tanımlanır.
+Mevcut `.env` dosyasının üzerine yazmayın. Web kökü `public` dizini olmalıdır.
+
+### XAMPP htdocs kökünde çalışma
+
+Uygulama doğrudan `htdocs` içindedir. `http://localhost/` giriş adresidir; ana liste `/portal`, yönetim `/yonetim`, erişim politikaları `/yonetim/erisim-politikalari` adresindedir. Kök `.htaccess`, istekleri `public` dizinine aktarır ve kaynak, yapılandırma, yedek ve eski uygulama dizinlerini HTTP erişimine kapatır. Önceki `/portal-next/public/...` adresleri yeni kök adrese yönlenir.
+
+Klasör taşırken gizli dosyaları da taşıyın. Özellikle `.env` içindeki mevcut `APP_KEY` korunmalı, `APP_URL=http://localhost` olmalıdır. Anahtar üretmek mevcut şifreli veriler ve oturumlar için taşıma yöntemi değildir. Taşıma sonrası `php artisan config:clear`, `php artisan route:clear` ve `php artisan view:clear` çalıştırılabilir.
+
+## Kurulum ve güncelleme
+
+PHP 8.2 veya üzeri ve MySQL/MariaDB gerekir. Geliştirme derlemesi Node.js 22 kullanır. Yeni çevrimdışı kurulum yapılandırıcısı `cte` veritabanını ve `cte_next_` tablo grubunu seçer.
+
+Yedek alındıktan sonra şema güncellemeleri:
+
+```sh
 php artisan migrate --force
-php artisan db:seed --force
 ```
 
-## Windows / XAMPP kurulumu
+İlk yönetici, yalnız hazırlanmış boş yeni kullanıcı tablosunda oluşturulur. Parola terminalde gizli olarak sorulur:
 
-Windows üzerinde XAMPP/Apache ile kurulum için ayrıntılı belge:
-
-```text
-docs/windows-xampp.md
+```sh
+php artisan portal:install-admin türker
 ```
 
-Bu belgede VirtualHost, `public/` document root, `mod_rewrite`, PHP eklentileri, storage izinleri, `.env`, veritabanı, güncelleme ve test adımları yer alır.
+Mevcut kullanıcılar aktarılacaksa önce aktarım yöntemi belirlenmelidir; rastgele ilk yönetici veya örnek kayıt oluşturmayın. Paylaşılan `cte` üzerinde `migrate:fresh` ve `db:wipe` engellenmiştir.
 
-İnternetsiz sunucuya taşınacak, bağımlılıkları içinde hazır ZIP paketini üretmek için:
+19 Ekim 2026 yerel kurulumu: [doğrulama kaydı](docs/cte-veritabani-kurulum-20261019.json). Ön yedek, web erişimine kapalı `storage/app/private/administration/setup-backups` altında saklanır.
 
-```bash
-composer install --no-dev --optimize-autoloader
+## Geliştirme kontrolleri
+
+```sh
+php vendor/bin/phpunit --do-not-cache-result
+composer analyse
+composer format:check
+npm run typecheck
+npm run lint
+npm run format:check
+npm run test:frontend
 npm run build
-php artisan cte:package
+npm run check:bundle
+npm run test:browser
 ```
 
-Ayrıntılı kurulum: `docs/offline-xampp-package.md`.
-
-## Güvenlik notu
-
-`.env`, SQL dump, gerçek kişi verisi, hükümlü fotoğrafları, yedek zip dosyaları, loglar ve private storage içeriği kaynak kod paketine eklenmemelidir.
-
-## Testler
-
-```bash
-php artisan test
-```
-
-## İnternetten deneme
-
-Aynı kaynak kodunun özel test reposu: https://github.com/turkerkagan/Cte-test
-
-Kurulum ve veritabanı işlemleri: [docs/internet-test.md](docs/internet-test.md).
-Kaynak eşitliği `python3 scripts/sync-test-repo.py --check /yerel/Cte-test` ile kontrol edilir.
+Tarayıcı testleri için önce `npx playwright install chromium` çalıştırılır. Otomatik testler yalıtılmış test veritabanlarını kullanır.

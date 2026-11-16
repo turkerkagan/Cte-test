@@ -1,0 +1,150 @@
+{
+  "birimler/servisler/hijyen_isg.php": {
+    "page": "hijyen_isg",
+    "route": "services.hijyen_isg.index"
+  },
+  "birimler/servisler/ziyaret.php": {
+    "page": "ziyaret",
+    "route": "services.ziyaret.index"
+  },
+  "birimler/servisler/revir.php": {
+    "page": "revir",
+    "route": "services.revir.index"
+  },
+  "birimler/servisler/psikososyal.php": {
+    "page": "psikososyal",
+    "route": "services.psikososyal.index"
+  },
+  "birimler/servisler/mesemstat.php": {
+    "page": "mesemstat",
+    "route": "mesem-statistics.index"
+  },
+  "birimler/servisler/egitim.php": {
+    "page": "egitim",
+    "route": "services.egitim.index"
+  },
+  "birimler/servisler/mesem.php": {
+    "page": "mesem",
+    "route": "services.mesem.index"
+  },
+  "birimler/servisler/ilkgorus.php": {
+    "page": "ilkgorus",
+    "route": "interviews.index"
+  },
+  "birimler/servisler/manevi.php": {
+    "page": "manevi",
+    "route": "services.manevi.index"
+  },
+  "birimler/servisler/kurslar.php": {
+    "page": "kurslar",
+    "route": "services.kurslar.index"
+  },
+  "birimler/raporlar/istatistik.php": {
+    "page": "istatistik",
+    "route": "statistics.index"
+  },
+  "birimler/hukumlu/sayim.php": {
+    "page": "sayim",
+    "route": "count-report.index"
+  },
+  "birimler/hukumlu/fotograf.php": {
+    "page": "fotograf",
+    "route": "documents.fotograf.index"
+  },
+  "birimler/hukumlu/calisma.php": {
+    "page": "calisma",
+    "route": "services.calisma.index"
+  },
+  "birimler/hukumlu/custom_rapor.php": {
+    "page": "custom_rapor",
+    "route": "custom-report.index"
+  },
+  "birimler/hukumlu/kimlik.php": {
+    "page": "kimlik",
+    "route": "documents.kimlik.index"
+  },
+  "birimler/kurum/infaznobet.php": {
+    "page": "infaznobet",
+    "route": "institution.infaznobet.index"
+  },
+  "birimler/kurum/vardiyanobet.php": {
+    "page": "vardiyanobet",
+    "route": "institution.vardiyanobet.index"
+  },
+  "birimler/kurum/duyurular.php": {
+    "page": "duyurular",
+    "route": "institution.duyurular.index"
+  },
+  "birimler/kurum/yemek.php": {
+    "page": "yemek",
+    "route": "meals.index"
+  },
+  "birimler/kurum/personel_kadrosu.php": {
+    "page": "personel_kadrosu",
+    "route": "staff-tree.index"
+  },
+  "birimler/kurum/sohbet.php": {
+    "page": "sohbet",
+    "route": "chat.index"
+  },
+  "birimler/kurum/kurulkomisyon.php": {
+    "page": "kurul",
+    "route": "institution.kurul.index"
+  },
+  "birimler/kurum/mudurnobet.php": {
+    "page": "mudurnobet",
+    "route": "institution.mudurnobet.index"
+  },
+  "birimler/kurum/telefon.php": {
+    "page": "telefon",
+    "route": "institution.telefon.index"
+  },
+  "birimler/infaz/infaz.sevk.rapor.php": {
+    "page": "infaz_sevk_raporu",
+    "route": "transfer-report.index"
+  },
+  "birimler/infaz/izin_rapor.php": {
+    "page": "izin_rapor",
+    "route": "leave-report.index"
+  },
+  "birimler/infaz/izin.php": {
+    "page": "izin",
+    "route": "leaves.index"
+  },
+  "birimler/infaz/teblig.php": {
+    "page": "teblig",
+    "route": "documents.teblig.index"
+  },
+  "birimler/infaz/bakanlik_sevk.php": {
+    "page": "bakanlik_sevk",
+    "route": "documents.bakanlik_sevk.index"
+  },
+  "birimler/infaz/infaz.php": {
+    "page": "infaz",
+    "route": "sentences.index"
+  },
+  "mesajlar.php": {
+    "page": "mesajlar",
+    "route": "personal-messages.index"
+  },
+  "birimler/hukumlu/toplu_modal.php": {
+    "page": "uyap_karsilastirma",
+    "route": "uyap-comparison.index"
+  },
+  "birimler/hukumlu/koguslar.php": {
+    "page": "koguslar",
+    "route": "rooms.index"
+  },
+  "birimler/hukumlu/kisayol.php": {
+    "page": "kisayol",
+    "route": "bulk-status.index"
+  },
+  "birimler/hukumlu/kismiarama.php": {
+    "page": "kismiarama",
+    "route": "institution.kismiarama.index"
+  },
+  "birimler/raporlar/excel_merge.php": {
+    "page": "excel_merge",
+    "route": "excel-merge.index"
+  }
+}

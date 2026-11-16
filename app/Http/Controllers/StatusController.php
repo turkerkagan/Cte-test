@@ -2,34 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Support\ProductionSecurity;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use Throwable;
+use App\Services\Statuses\StatusConflict;
+use App\Services\Statuses\StatusDefinitions;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Response;
 
-class StatusController extends Controller
+final class StatusController extends Controller
 {
-    public function __invoke(): JsonResponse
+    public function index(Request $request, StatusDefinitions $service): Response
     {
-        $database = true;
-        try {
-            DB::select('select 1');
-        } catch (Throwable) {
-            $database = false;
+        if ($request->expectsJson()) {
+            return response()->json(['rows' => $service->rows($request->user())])->header('Cache-Control', 'private, no-store');
         }
-        $storage = is_dir(storage_path('app/private')) && is_writable(storage_path('app/private'));
-        $security = ProductionSecurity::passes();
-        $healthy = $database && $storage && (! app()->environment('production') || $security);
+        $response = Inertia::render('Statuses', ['applicationName' => config('app.name'), 'rows' => $service->rows($request->user()), 'baseUrl' => route('statuses.index'), 'logoutUrl' => route('logout')])->toResponse($request);
+        $response->headers->set('Cache-Control', 'private, no-store');
 
-        return response()->json([
-            'application' => config('app.name'),
-            'status' => $healthy ? 'ok' : 'degraded',
-            'checks' => [
-                'database' => $database,
-                'private_storage' => $storage,
-                'production_security' => $security,
-            ],
-            'time' => now()->toIso8601String(),
-        ], $healthy ? 200 : 503);
+        return $response;
+    }
+
+    public function store(Request $request, StatusDefinitions $service): Response
+    {
+        return $this->save($request, $service);
+    }
+
+    public function update(Request $request, int $id, StatusDefinitions $service): Response
+    {
+        return $this->save($request, $service, $id);
+    }
+
+    private function save(Request $request, StatusDefinitions $service, ?int $id = null): Response
+    {
+        try {
+            $saved = $service->save($request->user(), $request->all(), $id);
+        } catch (StatusConflict $e) {
+            return response()->json(['message' => $e->getMessage()], 409)->header('Cache-Control', 'private, no-store');
+        } catch (QueryException) {
+            throw ValidationException::withMessages(['operation' => 'Durum kaydedilemedi. Güncel durumu kontrol edip yeniden deneyin.']);
+        }
+
+        return response()->json(['id' => $saved], $id === null ? 201 : 200)->header('Cache-Control', 'private, no-store');
     }
 }

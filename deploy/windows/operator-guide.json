@@ -1,0 +1,36 @@
+{
+  "scope": "Operator-run Windows deployment; scripts never silently sign institution acceptance or switch Apache.",
+  "firstInstall": [
+    "Extract release outside old htdocs runtime. Check ZIP SHA256 against companion JSON.",
+    "Use PowerShell Install.ps1 -Php C:/xampp/php/php.exe -Root <release>/portal-next -Administrator <operator username>. DB/schema is created and credentials granted by DBA beforehand. Shared cte supports only cte_next_ namespace.",
+    "Interactive hidden DB password, fresh APP_KEY and admin password; no default password, URL password or sample people. Keep backups/private files outside all HTTP roots and restrict NTFS ACL to operator/service account.",
+    "Load PHP opcache and required extensions, configure Apache vhost public root, apache.exe -t, restart, verify public URLs cannot fetch .env/storage/vendor.",
+    "Offline browser acceptance and checklist; do not expose to institution until operator signoff."
+  ],
+  "update": [
+    "Stop other writing jobs. Update.ps1 verifies next package first, maintains current, verifies backup, copies current .env and storage/app, updates only Python path, migrates next release and checks acceptance.",
+    "Backup failure returns error and leaves maintenance enabled. Never bypass this with migrate:fresh.",
+    "Restore-Rehearsal.ps1 uses NEW cte_next_restore_* and NEW empty private directory. SQL and file content hashes plus configuration are compared. Use only trusted backups made by this application; archive hashes detect corruption, not hostile dump authors.",
+    "After browser/admin/personnel proof, point Apache and scheduled tasks to next public root; artisan up. Do not change APP_KEY."
+  ],
+  "rollback": [
+    "Use Rollback.ps1 -Previous <known release> -Current <current release> -Target <NEW directory> -SchemaCompatibilityConfirmed only after current-schema compatibility is reviewed.",
+    "Rollback prepares previous code with CURRENT .env and private/public files; leaves database and original releases intact; never calls migrate:rollback or imports an older dump.",
+    "If schema compatibility is absent, stop in maintenance and use reviewed data reconciliation; no blind SQL downgrade."
+  ],
+  "tasks": [
+    "Tasks.ps1 without -Register runs cleanup manually. -Register explicitly creates the daily CTE-PrivateDocuments task and the minutely CTE-Scheduler task (artisan schedule:run). Check the scheduler heartbeat in /yonetim/saglik.",
+    "Backup.ps1 performs maintenance/verified backup/up; failure leaves maintenance. Stop other writing tasks during backups.",
+    "Restrict NTFS ACL for .env, storage/app and backup/restore folders. Apache serves only public; do not publish backups."
+  ],
+  "acceptance": [
+    "portal:acceptance --output=<NEW private report> runs read-only technical checks, labels institution acceptance pending.",
+    "Admin-only /yonetim/saglik shows version, DB, latest backup/job and privacy-safe route/error/query maxima.",
+    "Complete deploy/acceptance/checklist.json on the target machine and preserve evidence with exact release hash. Windows execution and institution approval are distinct from local macOS tests."
+  ],
+  "environment": [
+    "PHP >=8.2 with Composer platform check enabled; supported MariaDB/InnoDB; Windows x64 PowerShell >=5.1; bundled Python 3.13.16 x64.",
+    "No Composer/npm/pip/internet at institution; vendor, built assets, Windows Python and pure Python spreadsheet dependencies are in ZIP.",
+    "Runtime Python/license provenance is in runtime/manifest.json and third-party notices. Mac native dependencies are rejected; Symfony Windows hiddeninput.exe is retained for secure interactive password input."
+  ]
+}

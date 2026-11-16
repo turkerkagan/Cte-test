@@ -1,0 +1,187 @@
+/**
+ * CTE Portalı - Body'ye Taşınan Katman (Overlay) Stilleri
+ *
+ * Portal, modül içindeki #popupForm / #emptyRoomsPopup gibi pencereleri
+ * <body> altına taşır ve `data-cte-portal-overlay="1"` ile işaretler. Modülün
+ * kendi stil bloğu ise `@scope (#portalContentStage, )`
+ * içine sarıldığı için bu pencerelere ulaşamaz. Bu dosya, pencerelerin
+ * temel ölçülerini içeriğinde barındırdığı
+ * önekiyle tanımlar.
+ */
+
+/* ---- İnfaz Birimi düzenleme penceresi ---- */
+
+/*
+ * Genişlik: kullanıcı isteğiyle en az %30 artırıldı (1300px → 1690px).
+ * Ekran dar olduğunda taşmayı önlemek için yine de 100vw'den biraz küçük
+ * kalınır.
+ */
+#popupForm.cte-infaz-modal {
+    width: min(1690px, calc(100vw - 24px)) !important;
+    max-width: 1690px !important;
+    max-height: min(92vh, 940px) !important;
+}
+
+/* Solda özet, sağda alanlar. */
+#popupForm.cte-infaz-modal .cte-infaz-modal-layout {
+    display: grid !important;
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+    align-items: start !important;
+    min-height: 0 !important;
+    height: 100% !important;
+}
+
+/* ---- Sol üstteki kişi özeti ---- */
+#popupForm.cte-infaz-modal .cte-infaz-summary {
+    padding: 1rem !important;
+    border-right: 1px solid var(--cte-border, #d8e4e3) !important;
+    background: linear-gradient(180deg, #eaf3f2, #f5f9f8) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: .35rem !important;
+    text-align: center !important;
+    overflow: auto !important;
+}
+
+#popupForm.cte-infaz-modal .cte-infaz-photo {
+    width: 150px !important;
+    height: 190px !important;
+    margin: 0 auto .6rem !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    background: #dce9e7 !important;
+    border: 1px solid rgba(255, 255, 255, .6) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #7d9b98 !important;
+    font-size: 3rem !important;
+}
+
+/* Fotoğraf yüklendiğinde ikon rengi ve boyutu fotoğrafa devredilir. */
+#popupForm.cte-infaz-modal .cte-infaz-photo img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+    border-radius: 10px !important;
+}
+
+#popupForm.cte-infaz-modal .cte-record-person-name {
+    font-size: .92rem !important;
+    font-weight: 750 !important;
+    margin: 0 0 .35rem !important;
+    color: var(--cte-text, #24333f) !important;
+    overflow-wrap: anywhere !important;
+}
+
+#popupForm.cte-infaz-modal .cte-infaz-summary .cte-record-info-card {
+    width: 100% !important;
+    text-align: left !important;
+}
+
+/* ---- Altı satırlık alan ızgarası ---- */
+#popupForm.cte-infaz-modal .cte-infaz-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0 !important;
+}
+
+#popupForm.cte-infaz-modal .cte-infaz-row {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: .7rem !important;
+    align-items: end !important;
+    padding-bottom: .55rem !important;
+    margin-bottom: .55rem !important;
+    border-bottom: 1px dashed rgba(216, 226, 226, .9) !important;
+}
+
+#popupForm.cte-infaz-modal .cte-infaz-row:last-child {
+    border-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+#popupForm.cte-infaz-modal .cte-infaz-row .form-group {
+    min-width: 0 !important;
+    margin: 0 !important;
+}
+
+#popupForm.cte-infaz-modal .cte-infaz-row-full {
+    grid-template-columns: minmax(0, 1fr) !important;
+}
+
+#popupForm.cte-infaz-modal .cte-infaz-note-group {
+    grid-column: 1 / -1 !important;
+}
+
+/*
+ * Kaydet düğmesi yalnız metin gösterir; düğme içine simge enjekte eden
+ * betikler varsa gizlenir.
+ */
+#popupForm.cte-infaz-modal .cte-record-save-button i,
+#popupForm.cte-infaz-modal .cte-record-save-button svg,
+#popupForm.cte-infaz-modal .cte-record-save-button::before,
+#popupForm.cte-infaz-modal .cte-record-save-button::after {
+    display: none !important;
+    content: none !important;
+}
+
+@media (max-width: 880px) {
+    #popupForm.cte-infaz-modal .cte-infaz-modal-layout {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    /*
+     * Dar ekranda özet yatay şeride döner. grid-template-areas yerine flex
+     * kullanılır: iki bilgi kartı aynı alana düşüp üst üste biniyordu.
+     */
+    #popupForm.cte-infaz-modal .cte-infaz-summary {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        gap: .5rem .9rem !important;
+        text-align: left !important;
+        overflow: visible !important;
+        border-right: 0 !important;
+        border-bottom: 1px solid var(--cte-border, #d8e4e3) !important;
+    }
+
+    #popupForm.cte-infaz-modal .cte-infaz-photo {
+        width: 84px !important;
+        height: 106px !important;
+        margin: 0 !important;
+    }
+
+    #popupForm.cte-infaz-modal .cte-infaz-summary .cte-record-person-name {
+        flex: 1 1 auto !important;
+        margin: 0 !important;
+        font-size: .95rem !important;
+    }
+
+    #popupForm.cte-infaz-modal .cte-infaz-summary .cte-record-info-card {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: baseline !important;
+        gap: .35rem !important;
+        padding: .25rem .5rem !important;
+        width: auto !important;
+        min-width: 0 !important;
+        flex: 0 1 auto !important;
+    }
+
+    #popupForm.cte-infaz-modal .cte-infaz-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 560px) {
+    #popupForm.cte-infaz-modal .cte-infaz-row {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+}

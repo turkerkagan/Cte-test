@@ -1,0 +1,79 @@
+{
+  "format": 1,
+  "status": "institution_acceptance_pending",
+  "requiredEnvironment": "Windows x64/XAMPP, PHP >=8.2, supported MariaDB, PowerShell 5.1+, isolated test database and private backup directory",
+  "evidenceMustMatch": [
+    "release sourceCommit",
+    "release.json checksums",
+    "technical report",
+    "restore rehearsal report",
+    "browser timings"
+  ],
+  "steps": [
+    {
+      "id": "offline",
+      "action": "Disconnect external network; run package verification, Python imports and technical acceptance; open all page families and document tools.",
+      "result": "pending"
+    },
+    {
+      "id": "fresh-install",
+      "action": "Use an empty portal namespace, install once, sign in, verify zero people/users except administrator; repeat installation must refuse; original legacy tables remain unchanged.",
+      "result": "pending"
+    },
+    {
+      "id": "access",
+      "action": "Administrator/personnel/direct URL/export, personal and inherited policy, permission removal during an existing session, last administrator protection.",
+      "result": "pending"
+    },
+    {
+      "id": "workflows",
+      "action": "Index, infaz natural ordering, first interview save/filter/reopen, DS0/1/2/3 and 14:00 transfer boundary, one/multiple page print.",
+      "result": "pending"
+    },
+    {
+      "id": "module",
+      "action": "Create draft, preview/publish, grant intended personnel only, create/edit/export a record, stale revision rejection and hidden fields.",
+      "result": "pending"
+    },
+    {
+      "id": "staff",
+      "action": "100-node hierarchy, pan/zoom, narrow viewport, sibling order, cycle/stale update rejection.",
+      "result": "pending"
+    },
+    {
+      "id": "performance",
+      "action": "10,000 synthetic people/100,000 module records/10 clients; 20 warm and 10 cold samples including sign-in; data p95 <=500 ms, usable p95 <=1s, initial shell <=300ms target; record server hardware and LAN.",
+      "result": "pending"
+    },
+    {
+      "id": "backup-restore",
+      "action": "Stop writing tasks, enter maintenance, create verified backup, restore ONLY into a new cte_next_restore_* schema and empty private directory; verify row content hashes, files and APP_KEY; source unchanged.",
+      "result": "pending"
+    },
+    {
+      "id": "update-rollback",
+      "action": "Prepare separate release; backup failure must block migration; keep APP_KEY and all data; prove code rollback compatibility without schema downgrade or data overwrite.",
+      "result": "pending"
+    },
+    {
+      "id": "health-jobs",
+      "action": "Admin-only health, safe route metrics/error count, failed backup status, successful/failed cleanup task reporting and scheduled task manual trigger.",
+      "result": "pending"
+    },
+    {
+      "id": "operator-signoff",
+      "action": "Institution operator records date/environment/evidence and actual approval. Passing technical commands alone never signs off institutional acceptance.",
+      "result": "pending"
+    }
+  ],
+  "cutover": "Only after all evidence and operator signoff: change Apache DocumentRoot to chosen public directory, restart Apache, smoke-test, artisan up.",
+  "localEvidence": {
+    "emptyInstallChecks": 26,
+    "phpTests": 292,
+    "phpAssertions": 3229,
+    "frontendTests": 7,
+    "localPlatform": "macOS / PHP8.2.4 / MariaDB10.4.28 / socket-only disposable database",
+    "windowsExecution": "pending",
+    "institutionApproval": "pending"
+  }
+}

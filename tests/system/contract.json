@@ -1,0 +1,35 @@
+{
+  "scope": "Disposable local acceptance only. Never point at institution database or web root.",
+  "requirements": [
+    "PHP 8.2+ and installed Composer dependencies",
+    "built local Vite assets",
+    "Python 3 stdlib",
+    "MariaDB binaries supporting socket-only private datadir",
+    "OPcache enabled for performance run"
+  ],
+  "steps": [
+    "Run python3 tests/system/create_runtime.py; set CTE_SYSTEM_DIRECTORY to printed directory.",
+    "Initialize MariaDB with --no-defaults, --datadir=$CTE_SYSTEM_DIRECTORY/data and --auth-root-authentication-method=normal.",
+    "Start mysqld with --no-defaults --skip-networking --datadir=$CTE_SYSTEM_DIRECTORY/data --socket=$CTE_SYSTEM_DIRECTORY/mysql.sock; do not reuse an existing server socket.",
+    "Run php tests/system/prepare.php --create-disposable-fixture. Existing schema is never replaced.",
+    "Start PHP_CLI_SERVER_WORKERS=10 php with OPcache enabled: -S 127.0.0.1:8794 -t public tests/system/router.php. Match the initialized port.",
+    "Run python3 tests/system/verify.py. HTTP errors, functional assertions and p95 greater than 500 ms fail the run.",
+    "Use generated synthetic1 credentials from private runtime.json for browser acceptance; do not publish that file. HTML contains data-system-timing after the rendered table/chart becomes usable.",
+    "Stop only the private PHP workers and MariaDB server; remove the private directory."
+  ],
+  "measurement": {
+    "people": 10000,
+    "module_records": 100000,
+    "concurrent_clients": 10,
+    "samples_per_route": 20,
+    "first_request": "already started runtime; not cold DB/cache",
+    "privacy": "reports contain synthetic fixture counts, routes and durations; no SQL bindings, credentials or real records"
+  },
+  "production": "tests/system/router.php must never be used as production entrypoint; deploy/source-layout.json specifies public/index.php",
+  "emptyInstallationRehearsal": [
+    "Use a separate source copy INSIDE the cte-system-* directory with only a generated synthetic .env containing SENTETİK KURULUM. Never run installation.php from the real application root.",
+    "Start the private socket-only server; configure CTE_TEST_MYSQLDUMP and CTE_TEST_MYSQL to appropriate client binaries.",
+    "CTE_SYSTEM_DIRECTORY=<private runtime> php tests/system/installation.php --rehearse-empty-install",
+    "26 checks: empty namespace, fresh migration, interactive admin-once, no sample business data, doctor/technical acceptance, failed backup gate, maintenance, restored table content hashes/files/configuration, source unchanged, existing restore target rejection and cleanup job."
+  ]
+}

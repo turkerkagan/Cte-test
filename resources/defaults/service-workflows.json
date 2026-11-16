@@ -1,0 +1,791 @@
+{
+  "fields": {
+    "egt_mezuniyet": {
+      "label": "MEZUNİYET",
+      "type": "option",
+      "group": "egitim",
+      "uppercase": false
+    },
+    "egt_ogrenim": {
+      "label": "ÖĞRENİM DURUMU",
+      "type": "option",
+      "group": "egitim",
+      "uppercase": false
+    },
+    "egt_okul": {
+      "label": "OKUDUĞU OKUL",
+      "type": "text",
+      "group": "egitim",
+      "uppercase": true
+    },
+    "egt_fakulte": {
+      "label": "FAKÜLTE",
+      "type": "text",
+      "group": "egitim",
+      "uppercase": true
+    },
+    "egt_bolum": {
+      "label": "BÖLÜM",
+      "type": "text",
+      "group": "egitim",
+      "uppercase": true
+    },
+    "egt_ogretim": {
+      "label": "ÖĞRETİM ŞEKLİ",
+      "type": "option",
+      "group": "egitim",
+      "uppercase": false
+    },
+    "egt_sinif": {
+      "label": "SINIF",
+      "type": "text",
+      "group": "egitim",
+      "uppercase": true
+    },
+    "egt_ogrencino": {
+      "label": "ÖĞRENCİ NO",
+      "type": "text",
+      "group": "egitim",
+      "uppercase": false
+    },
+    "egt_okulsifre": {
+      "label": "OKUL ŞİFRESİ",
+      "type": "secret",
+      "group": "egitim",
+      "uppercase": false,
+      "secret": true
+    },
+    "egt_domainsifre": {
+      "label": "DOMAIN ŞİFRESİ",
+      "type": "secret",
+      "group": "egitim",
+      "uppercase": false,
+      "secret": true
+    },
+    "egt_iletisim": {
+      "label": "İLETİŞİM",
+      "type": "text",
+      "group": "egitim",
+      "uppercase": false
+    },
+    "kurs_adi": {
+      "label": "KURSUN ADI",
+      "type": "text",
+      "group": "kurslar",
+      "uppercase": true
+    },
+    "kurs_ogretmen": {
+      "label": "KURS ÖĞRETMENİ",
+      "type": "text",
+      "group": "kurslar",
+      "uppercase": true
+    },
+    "kurs_suresi": {
+      "label": "KURS SÜRESİ",
+      "type": "text",
+      "group": "kurslar",
+      "uppercase": true
+    },
+    "kurs_baslangic": {
+      "label": "KURS BAŞLANGIÇ TARİHİ",
+      "type": "date",
+      "group": "kurslar",
+      "uppercase": false
+    },
+    "kurs_bitis": {
+      "label": "KURS BİTİŞ TARİHİ",
+      "type": "date",
+      "group": "kurslar",
+      "uppercase": false
+    },
+    "huk_kronik": {
+      "label": "KRONİK HASTALIK",
+      "type": "longtext",
+      "group": "revir",
+      "uppercase": true
+    },
+    "revir_bulasici": {
+      "label": "BULAŞICI HASTALIK",
+      "type": "longtext",
+      "group": "revir",
+      "uppercase": true
+    },
+    "huk_portor": {
+      "label": "PORTÖR DURUMU",
+      "type": "option",
+      "group": "revir",
+      "uppercase": false
+    },
+    "revir_portor_tarihi_1": {
+      "label": "PORTÖR TARİHİ 1",
+      "type": "date",
+      "group": "revir",
+      "uppercase": false
+    },
+    "revir_portor_tarihi_2": {
+      "label": "PORTÖR TARİHİ 2",
+      "type": "date",
+      "group": "revir",
+      "uppercase": false
+    },
+    "calisma_durum": {
+      "label": "ÇALIŞMA DURUMU",
+      "type": "option",
+      "group": "revir",
+      "uppercase": false
+    },
+    "ceza_tehir": {
+      "label": "CEZA TEHİRİ +R",
+      "type": "option",
+      "group": "revir",
+      "uppercase": false
+    },
+    "revir_uyap": {
+      "label": "UYAP",
+      "type": "option",
+      "group": "revir",
+      "uppercase": false
+    },
+    "ziyaret_ziyaretci1": {
+      "label": "ZİYARETÇİ 1",
+      "type": "text",
+      "group": "ziyaret",
+      "uppercase": true
+    },
+    "ziyaret_tarih1": {
+      "label": "TARİH 1",
+      "type": "date",
+      "group": "ziyaret",
+      "uppercase": false
+    },
+    "ziyaret_not1": {
+      "label": "NOT 1",
+      "type": "longtext",
+      "group": "ziyaret",
+      "uppercase": false
+    },
+    "ziyaret_ziyaretci2": {
+      "label": "ZİYARETÇİ 2",
+      "type": "text",
+      "group": "ziyaret",
+      "uppercase": true
+    },
+    "ziyaret_tarih2": {
+      "label": "TARİH 2",
+      "type": "date",
+      "group": "ziyaret",
+      "uppercase": false
+    },
+    "ziyaret_not2": {
+      "label": "NOT 2",
+      "type": "longtext",
+      "group": "ziyaret",
+      "uppercase": false
+    },
+    "ziyaret_ziyaretci3": {
+      "label": "ZİYARETÇİ 3",
+      "type": "text",
+      "group": "ziyaret",
+      "uppercase": true
+    },
+    "ziyaret_tarih3": {
+      "label": "TARİH 3",
+      "type": "date",
+      "group": "ziyaret",
+      "uppercase": false
+    },
+    "ziyaret_not3": {
+      "label": "NOT 3",
+      "type": "longtext",
+      "group": "ziyaret",
+      "uppercase": false
+    },
+    "manevi_gorusme": {
+      "label": "GÖRÜŞME TARİHİ",
+      "type": "date",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_dini": {
+      "label": "DİNİ",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_egitim": {
+      "label": "DİNİ EĞİTİM DURUMU",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_kuran_bilgi": {
+      "label": "KURAN BİLGİSİ",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_hafiz": {
+      "label": "HAFIZLIK DURUMU",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_talebi": {
+      "label": "HÜKÜMLÜ TALEBİ",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_faaliyet1": {
+      "label": "KATILDIĞI FAALİYET 1",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_faaliyet2": {
+      "label": "KATILDIĞI FAALİYET 2",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_faaliyet3": {
+      "label": "KATILDIĞI FAALİYET 3",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_kurs": {
+      "label": "DEVAM EDEN KURS",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_belge": {
+      "label": "BELGE",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_odul": {
+      "label": "ÖDÜL TEKLİFİ",
+      "type": "option",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "manevi_aciklama": {
+      "label": "AÇIKLAMALAR",
+      "type": "longtext",
+      "group": "manevi",
+      "uppercase": false
+    },
+    "huk_karar": {
+      "label": "Çalışma Kararı",
+      "type": "option",
+      "group": "calisma"
+    },
+    "mesem_gorusme": {
+      "label": "Görüşme",
+      "type": "option",
+      "group": "mesem",
+      "uppercase": false
+    },
+    "mesem_belge_turu": {
+      "label": "Alacağı Belge",
+      "type": "option",
+      "group": "mesem",
+      "uppercase": false
+    },
+    "mesem_mevcut_belge": {
+      "label": "Mevcut Belge",
+      "type": "option",
+      "group": "mesem",
+      "uppercase": false
+    },
+    "mesem_sinif": {
+      "label": "Sınıf",
+      "type": "option",
+      "group": "mesem",
+      "uppercase": false
+    },
+    "mesem_dali": {
+      "label": "Dalı",
+      "type": "text",
+      "group": "mesem",
+      "uppercase": true
+    },
+    "mesem_dilekce": {
+      "label": "Dilekçe Durumu",
+      "type": "option",
+      "group": "mesem",
+      "uppercase": false
+    },
+    "mesem_ogrenim_belgesi": {
+      "label": "Öğrenim Belgesi",
+      "type": "option",
+      "group": "mesem",
+      "uppercase": false
+    },
+    "hijyen_is": {
+      "label": "İş Sağlığı ve Güvenliği",
+      "type": "option",
+      "group": "hijyen_isg"
+    },
+    "mesem_durumu": {
+      "label": "Durum",
+      "type": "option",
+      "group": "mesem",
+      "uppercase": false
+    },
+    "huk_risk": {
+      "label": "Risk",
+      "type": "option",
+      "group": "ilkgorus",
+      "permission": "hassas_risk"
+    },
+    "hijyen_hijyen": {
+      "label": "Hijyen Eğitimi",
+      "type": "option",
+      "group": "hijyen_isg"
+    },
+    "huk_zarar": {
+      "label": "Zarar Bilgisi",
+      "type": "longtext",
+      "group": "alan_inceleme"
+    },
+    "huk_personel_uyum": {
+      "label": "Personel İle Uyum",
+      "type": "longtext",
+      "group": "alan_inceleme"
+    },
+    "huk_oda_yatak_uyum": {
+      "label": "Oda ve Yatak Uyumu",
+      "type": "longtext",
+      "group": "alan_inceleme"
+    },
+    "huk_temizlik_duzen": {
+      "label": "Temizlik ve Düzen",
+      "type": "longtext",
+      "group": "alan_inceleme"
+    },
+    "huk_tasarruf": {
+      "label": "Tasarruf Kurallarına Uyum",
+      "type": "longtext",
+      "group": "alan_inceleme"
+    },
+    "huk_kisisel_bakim": {
+      "label": "Kişisel Bakım",
+      "type": "longtext",
+      "group": "alan_inceleme"
+    },
+    "huk_saglik_kural": {
+      "label": "Sağlık Kurallarına Uyum",
+      "type": "longtext",
+      "group": "alan_inceleme"
+    },
+    "huk_gorevli_tutum": {
+      "label": "Görevlilere Karşı Tutum",
+      "type": "longtext",
+      "group": "alan_inceleme"
+    },
+    "huk_tutum_davranis": {
+      "label": "Tutum ve Davranış Değişimi",
+      "type": "longtext",
+      "group": "alan_inceleme"
+    },
+    "infaz_cinsel_yazi_tarihi": {
+      "label": "İnfaz Yazışma Tarihi (Tanımı Doğrulanmalı)",
+      "type": "date",
+      "group": "alan_inceleme"
+    },
+    "mesem_nezuniyet": {
+      "label": "MESEM Mezuniyet Bilgisi (Tanımı Doğrulanmalı)",
+      "type": "longtext",
+      "group": "alan_inceleme"
+    },
+    "egt_statu": {
+      "label": "Eski eğitim statüsü",
+      "type": "text",
+      "group": "alan_inceleme",
+      "uppercase": false
+    },
+    "revir_statu": {
+      "label": "Eski revir statüsü",
+      "type": "text",
+      "group": "alan_inceleme",
+      "uppercase": false
+    },
+    "manevi_statu": {
+      "label": "Eski manevi statüsü",
+      "type": "text",
+      "group": "alan_inceleme",
+      "uppercase": false
+    },
+    "hijyen_statu": {
+      "label": "Eski hijyen statüsü",
+      "type": "text",
+      "group": "alan_inceleme",
+      "uppercase": false
+    },
+    "mesem_statu": {
+      "label": "Eski MESEM statüsü",
+      "type": "text",
+      "group": "alan_inceleme",
+      "uppercase": false
+    },
+    "infaz_kamu_mahkeme": {
+      "label": "Eski kamu mahkeme alanı",
+      "type": "text",
+      "group": "alan_inceleme",
+      "uppercase": false
+    },
+    "infaz_cinsel_suc": {
+      "label": "Eski cinsel suç tarih alanı",
+      "type": "date",
+      "group": "alan_inceleme",
+      "uppercase": false
+    }
+  },
+  "options": {
+    "egt_mezuniyet": [
+      "OKUMADI",
+      "OKUR-YAZAR",
+      "İLKOKUL",
+      "ORTAOKUL",
+      "LİSE",
+      "ÖNLİSANS",
+      "LİSANS",
+      "YÜKSEK LİSANS",
+      "DOKTORA"
+    ],
+    "egt_ogrenim": [
+      "İLKÖĞRETİM",
+      "LİSE",
+      "ÖNLİSANS",
+      "LİSANS",
+      "YÜKSEK LİSANS",
+      "DOKTORA"
+    ],
+    "egt_ogretim": [
+      "ÖRGÜN",
+      "UZAKTAN EĞİTİM",
+      "AÇIK ÖĞRETİM"
+    ],
+    "huk_portor": [
+      "YAPILDI",
+      "YAPILMADI"
+    ],
+    "calisma_durum": [
+      "ÇALIŞABİLİR",
+      "ÇALIŞAMAZ"
+    ],
+    "ceza_tehir": [
+      "VAR",
+      "YOK"
+    ],
+    "revir_uyap": [
+      "İŞLENDİ",
+      "İŞLENMEDİ"
+    ],
+    "manevi_dini": [
+      "İSLAM",
+      "HRISTIYANLIK",
+      "MUSEVILIK",
+      "BUDIZM",
+      "ZERDÜŞTLÜK",
+      "DİĞER",
+      "BİLGİ VERMEK İSTEMİYOR"
+    ],
+    "manevi_egitim": [
+      "Kur'an-ı Kerim Kursu",
+      "Sohbet",
+      "İ.H.L Mezunu",
+      "İlahiyat Mezunu",
+      "Diğer"
+    ],
+    "manevi_kuran_bilgi": [
+      "Bilmiyor",
+      "Az Biliyor",
+      "Biliyor"
+    ],
+    "manevi_hafiz": [
+      "Hafız",
+      "Hafız Değil"
+    ],
+    "manevi_talebi": [
+      "Faaliyet",
+      "Kur'an-ı Kerim",
+      "Tecvid",
+      "Cüz Okuma",
+      "Dini Bilgiler",
+      "Seminer & Konferans",
+      "Sohbet",
+      "Etkinlik",
+      "Görüşme",
+      "Diğer"
+    ],
+    "manevi_faaliyet1": [
+      "Kur'an-ı Kerim",
+      "Tecvid",
+      "Cüz Okuma",
+      "Dini Bilgiler",
+      "Seminer & Konferans",
+      "Sohbet",
+      "Etkinlik",
+      "Görüşme",
+      "Diğer"
+    ],
+    "manevi_faaliyet2": [
+      "Kur'an-ı Kerim",
+      "Tecvid",
+      "Cüz Okuma",
+      "Dini Bilgiler",
+      "Seminer & Konferans",
+      "Sohbet",
+      "Etkinlik",
+      "Görüşme",
+      "Diğer"
+    ],
+    "manevi_faaliyet3": [
+      "Kur'an-ı Kerim",
+      "Tecvid",
+      "Cüz Okuma",
+      "Dini Bilgiler",
+      "Seminer & Konferans",
+      "Sohbet",
+      "Etkinlik",
+      "Görüşme",
+      "Diğer"
+    ],
+    "manevi_kurs": [
+      "Kur'an-ı Kerim",
+      "Tecvid",
+      "Dini Bilgiler",
+      "Diğer"
+    ],
+    "manevi_belge": [
+      "Kurs Katılım Belgesi",
+      "Kurs Başarı Belgesi",
+      "Yarışma",
+      "Diğer"
+    ],
+    "manevi_odul": [
+      "Verildi",
+      "Verilmedi"
+    ],
+    "huk_karar": [
+      "KARARSIZ",
+      "MUHTELİF",
+      "İŞYURTLARI",
+      "GENEL BÜTÇE"
+    ],
+    "mesem_gorusme": [
+      "GÖRÜŞÜLDÜ",
+      "GÖRÜŞÜLMEDİ"
+    ],
+    "mesem_belge_turu": [
+      "KALFALIK",
+      "USTALIK",
+      "USTA ÖĞRETİCİ"
+    ],
+    "mesem_mevcut_belge": [
+      "M.Y.K.",
+      "SERTİFİKA",
+      "KALFALIK",
+      "USTALIK"
+    ],
+    "mesem_sinif": [
+      "9",
+      "10",
+      "11",
+      "12",
+      "UTP",
+      "SINAV ADAYI"
+    ],
+    "mesem_dilekce": [
+      "DİLEKÇE ALINDI",
+      "DİLEKÇE ALINMADI"
+    ],
+    "mesem_ogrenim_belgesi": [
+      "MEVCUT",
+      "MEVCUT DEĞİL",
+      "BEKLENİYOR"
+    ],
+    "hijyen_is": [
+      "ALDI",
+      "ALMADI"
+    ],
+    "mesem_durumu": [
+      "AKTİF",
+      "PASİF",
+      "UYGUN",
+      "UYGUN DEĞİL",
+      "İSTEMİYOR",
+      "MEZUN",
+      "BAŞVURU SÜRECİNDE"
+    ],
+    "huk_risk": [
+      "1",
+      "2",
+      "3"
+    ],
+    "hijyen_hijyen": [
+      "ALDI",
+      "ALMADI"
+    ]
+  },
+  "groups": {
+    "egitim": [
+      "egt_mezuniyet",
+      "egt_ogrenim",
+      "egt_okul",
+      "egt_fakulte",
+      "egt_bolum",
+      "egt_ogretim",
+      "egt_sinif",
+      "egt_ogrencino",
+      "egt_okulsifre",
+      "egt_domainsifre",
+      "egt_iletisim"
+    ],
+    "kurslar": [
+      "kurs_adi",
+      "kurs_ogretmen",
+      "kurs_suresi",
+      "kurs_baslangic",
+      "kurs_bitis"
+    ],
+    "revir": [
+      "huk_calis",
+      "huk_saglik",
+      "huk_kronik",
+      "revir_bulasici",
+      "huk_portor",
+      "revir_portor_tarihi_1",
+      "revir_portor_tarihi_2",
+      "calisma_durum",
+      "ceza_tehir",
+      "revir_uyap"
+    ],
+    "ziyaret": [
+      "ziyaret_ziyaretci1",
+      "ziyaret_tarih1",
+      "ziyaret_not1",
+      "ziyaret_ziyaretci2",
+      "ziyaret_tarih2",
+      "ziyaret_not2",
+      "ziyaret_ziyaretci3",
+      "ziyaret_tarih3",
+      "ziyaret_not3"
+    ],
+    "manevi": [
+      "huk_calis",
+      "manevi_gorusme",
+      "manevi_dini",
+      "manevi_egitim",
+      "manevi_kuran_bilgi",
+      "manevi_hafiz",
+      "manevi_talebi",
+      "manevi_faaliyet1",
+      "manevi_faaliyet2",
+      "manevi_faaliyet3",
+      "manevi_kurs",
+      "manevi_belge",
+      "manevi_odul",
+      "manevi_aciklama"
+    ],
+    "mesem": [
+      "huk_calis",
+      "huk_karar",
+      "mesem_gorusme",
+      "mesem_belge_turu",
+      "mesem_mevcut_belge",
+      "mesem_sinif",
+      "mesem_dali",
+      "mesem_dilekce",
+      "mesem_ogrenim_belgesi",
+      "hijyen_is",
+      "mesem_durumu"
+    ],
+    "hijyen_isg": [
+      "huk_calis",
+      "huk_karar",
+      "hijyen_is",
+      "hijyen_hijyen"
+    ],
+    "psikososyal": [
+      "huk_calis",
+      "huk_saglik"
+    ],
+    "calisma": [
+      "huk_calis",
+      "huk_karar",
+      "calisma_durum",
+      "ceza_tehir"
+    ],
+    "alan_inceleme": [
+      "huk_zarar",
+      "huk_personel_uyum",
+      "huk_oda_yatak_uyum",
+      "huk_temizlik_duzen",
+      "huk_tasarruf",
+      "huk_kisisel_bakim",
+      "huk_saglik_kural",
+      "huk_gorevli_tutum",
+      "huk_tutum_davranis",
+      "infaz_cinsel_yazi_tarihi",
+      "mesem_nezuniyet",
+      "egt_statu",
+      "revir_statu",
+      "manevi_statu",
+      "hijyen_statu",
+      "mesem_statu",
+      "infaz_kamu_mahkeme",
+      "infaz_cinsel_suc"
+    ]
+  },
+  "readonly": {
+    "revir": [
+      "huk_calis"
+    ],
+    "manevi": [
+      "huk_calis"
+    ],
+    "mesem": [
+      "hijyen_is"
+    ],
+    "hijyen_isg": [
+      "huk_calis",
+      "huk_karar"
+    ],
+    "psikososyal": [
+      "huk_calis",
+      "huk_saglik"
+    ],
+    "calisma": [
+      "huk_calis",
+      "huk_karar",
+      "calisma_durum",
+      "ceza_tehir"
+    ],
+    "alan_inceleme": [
+      "huk_zarar",
+      "huk_personel_uyum",
+      "huk_oda_yatak_uyum",
+      "huk_temizlik_duzen",
+      "huk_tasarruf",
+      "huk_kisisel_bakim",
+      "huk_saglik_kural",
+      "huk_gorevli_tutum",
+      "huk_tutum_davranis",
+      "infaz_cinsel_yazi_tarihi",
+      "mesem_nezuniyet",
+      "egt_statu",
+      "revir_statu",
+      "manevi_statu",
+      "hijyen_statu",
+      "mesem_statu",
+      "infaz_kamu_mahkeme",
+      "infaz_cinsel_suc"
+    ]
+  }
+}

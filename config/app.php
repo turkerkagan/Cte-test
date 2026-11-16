@@ -2,8 +2,6 @@
 
 return [
 
-    'trust_proxy' => (bool) env('CTE_TRUST_PROXY', false),
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -15,7 +13,8 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'CTE Portal'),
+    'name' => env('APP_NAME', 'Laravel'),
+    'institution_name' => env('INSTITUTION_NAME', 'Buca Açık Ceza İnfaz Kurumu'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,11 +79,11 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'tr'),
+    'locale' => env('APP_LOCALE', 'en'),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'tr'),
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
-    'faker_locale' => env('APP_FAKER_LOCALE', 'tr_TR'),
+    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
     /*
     |--------------------------------------------------------------------------

@@ -1,0 +1,9 @@
+# Set the actual installation path and internal hostname on the target server.
+<VirtualHost *:80>
+    ServerName portal-next.local
+    DocumentRoot "C:/xampp/htdocs/public"
+    <Directory "C:/xampp/htdocs/public">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>

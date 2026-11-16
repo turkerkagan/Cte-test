@@ -1,0 +1,291 @@
+{
+  "fields": {
+    "huk_yas": {
+      "group": "ilkgorus",
+      "label": "Yaşı",
+      "type": "integer",
+      "uppercase": false
+    },
+    "huk_meslek": {
+      "group": "ilkgorus",
+      "label": "Mesleği",
+      "type": "text",
+      "uppercase": true
+    },
+    "huk_saglik": {
+      "group": "ilkgorus",
+      "label": "Genel Sağlık Durumu",
+      "type": "text",
+      "uppercase": true
+    },
+    "huk_engelli": {
+      "group": "ilkgorus",
+      "label": "Engellilik Detayı",
+      "type": "text",
+      "uppercase": true
+    },
+    "huk_infaz": {
+      "group": "ilkgorus",
+      "label": "Daha Önce İnfaz Kurumuna Girmiş mi",
+      "type": "option",
+      "uppercase": false
+    },
+    "huk_aile": {
+      "group": "ilkgorus",
+      "label": "Ailede Suç Öyküsü Detayı",
+      "type": "text",
+      "uppercase": true
+    },
+    "huk_bilgi": {
+      "group": "ilkgorus",
+      "label": "Ailesi veya Çevresi Biliyor mu",
+      "type": "option",
+      "uppercase": false
+    },
+    "huk_tanidik": {
+      "group": "ilkgorus",
+      "label": "Kurumda Yakını veya Tanıdığı",
+      "type": "text",
+      "uppercase": true
+    },
+    "huk_kendine_zarar": {
+      "group": "ilkgorus",
+      "label": "Kendine Zarar Verdi mi",
+      "type": "text",
+      "uppercase": true
+    },
+    "huk_calis": {
+      "group": "ilkgorus",
+      "label": "Çalışma Yeri",
+      "type": "option",
+      "uppercase": false
+    },
+    "huk_notlar": {
+      "group": "ilkgorus",
+      "label": "Notlar",
+      "type": "longtext",
+      "uppercase": true
+    },
+    "huk_ds_durum": {
+      "group": "ilkgorus",
+      "label": "DS İşlem Durumu",
+      "type": "ds",
+      "uppercase": false
+    },
+    "infaz_uyap_no": {
+      "group": "infaz",
+      "label": "UYAP No",
+      "type": "text"
+    },
+    "infaz_dogum_tarihi": {
+      "group": "infaz",
+      "label": "Doğum Tarihi",
+      "type": "date"
+    },
+    "infaz_ds_tarihi": {
+      "group": "infaz",
+      "label": "DS Tarihi",
+      "type": "date"
+    },
+    "infaz_tahliye_tarihi": {
+      "group": "infaz",
+      "label": "Tahliye Tarihi",
+      "type": "date"
+    },
+    "infaz_durumu": {
+      "group": "infaz",
+      "label": "İnfaz Durumu",
+      "type": "option"
+    },
+    "infaz_ceza_yil": {
+      "group": "infaz",
+      "label": "Ceza Yıl",
+      "type": "integer"
+    },
+    "infaz_ceza_ay": {
+      "group": "infaz",
+      "label": "Ceza Ay",
+      "type": "integer"
+    },
+    "infaz_ceza_gun": {
+      "group": "infaz",
+      "label": "Ceza Gün",
+      "type": "integer"
+    },
+    "infaz_ozel_kurul": {
+      "group": "infaz",
+      "label": "Özel Kurul",
+      "type": "option"
+    },
+    "infaz_ozel_kurul_durumu": {
+      "group": "infaz",
+      "label": "Özel Kurul Durumu",
+      "type": "option"
+    },
+    "infaz_ozel_kurul_tarihi": {
+      "group": "infaz",
+      "label": "Özel Kurul Tarihi",
+      "type": "date"
+    },
+    "infaz_gelis_nedeni": {
+      "group": "infaz",
+      "label": "Geliş Nedeni",
+      "type": "option"
+    },
+    "infaz_not": {
+      "group": "infaz",
+      "label": "İnfaz Notu",
+      "type": "longtext"
+    },
+    "infaz_ilave": {
+      "group": "infaz",
+      "label": "İlave DS",
+      "type": "option"
+    },
+    "infaz_satir_rengi": {
+      "group": "infaz",
+      "label": "Satır Rengi",
+      "type": "option"
+    },
+    "izin_turu": {
+      "group": "izin",
+      "label": "İzin Türü",
+      "type": "option"
+    },
+    "izin_gun_sayisi": {
+      "group": "izin",
+      "label": "İzin Gün Sayısı",
+      "type": "integer"
+    },
+    "izin_cikis_tarihi": {
+      "group": "izin",
+      "label": "Çıkış Tarihi",
+      "type": "date"
+    },
+    "izin_cikis_saati": {
+      "group": "izin",
+      "label": "Çıkış Saati",
+      "type": "time"
+    },
+    "izin_donus_tarihi": {
+      "group": "izin",
+      "label": "Dönüş Tarihi",
+      "type": "date"
+    },
+    "izin_donus_saati": {
+      "group": "izin",
+      "label": "Dönüş Saati",
+      "type": "time"
+    }
+  },
+  "options": {
+    "huk_infaz": [
+      "HAYIR",
+      "EVET"
+    ],
+    "huk_bilgi": [
+      "EVET",
+      "HAYIR"
+    ],
+    "huk_calis": [
+      "SOSYAL TESİS",
+      "MUTFAK",
+      "DEMİR ATÖLYESİ",
+      "SERA",
+      "ORMAN",
+      "TERSANE",
+      "TEKSTİL ATÖLYESİ",
+      "ANONS",
+      "TERZİ ATÖLYESİ",
+      "REVİR",
+      "FIRIN",
+      "MEMUR YEMEKHANE",
+      "SOSYAL TESİS TERZİHANE",
+      "C BLOK KAT TEMİZLİK",
+      "HÜKÜMLÜ BİNA ÇAY OCAĞI",
+      "A-B BLOK KAT TEMİZLİK",
+      "EĞİTİM BİNASI ÇAY OCAĞI",
+      "KANTİN",
+      "GAZİNO ÇAY OCAĞI",
+      "PEYZAJ",
+      "GERİ HİZMET",
+      "TERSANE ALAYBEY",
+      "MEMUR POSTA",
+      "HÜKÜMLÜ BİNA BAHÇE KAPI",
+      "ÖĞRENCİ",
+      "HÜKÜMLÜ TELEFON BİNA TEMİZLİK",
+      "MAHKUM KABUL",
+      "Y.G.C. TEMİZLİK",
+      "MARANGOZ ATÖLYESİ",
+      "HÜKÜMLÜ BİNA TEMİZLİK",
+      "SAVCILIK",
+      "KADEME",
+      "HÜKÜMLÜ YEMEKHANE",
+      "SOSYAL TESİS BERBERHANE",
+      "İNŞAAT ATÖLYESİ",
+      "HASTA BAKICI",
+      "ŞOFÖR",
+      "ÇEVRE TEMİZLİK",
+      "İDARİ BİNA ÇAY OCAĞI",
+      "GERİ DÖNÜŞÜM",
+      "SIHHI TESİSAT",
+      "ÇAMAŞIRHANE",
+      "BERBERHANE",
+      "PARK BAHÇE",
+      "ELEKTRİK ATÖLYESİ",
+      "TARIM",
+      "BOYACI"
+    ],
+    "infaz_durumu": [
+      "SUÇ TARİHİ",
+      "SUÇ TÜRÜ",
+      "7550 SK",
+      "7571 SK",
+      "DS İhlal",
+      "Orman",
+      "KAMU DAVASI",
+      "APC",
+      "APC + İLAM",
+      "DİSİPLİN HAPSİ",
+      "TAZYİK HAPSİ"
+    ],
+    "infaz_ozel_kurul": [
+      "HAYIR",
+      "UYUŞTURUCU TİCARETİ",
+      "CİNSEL",
+      "KASTEN ÖLDÜRME",
+      "ÖRGÜT",
+      "TERÖR",
+      "10 YIL ÜZERİ"
+    ],
+    "infaz_ozel_kurul_durumu": [
+      "VAR",
+      "YOK"
+    ],
+    "infaz_gelis_nedeni": [
+      "İLK DEFA HÜKÜM ALARAK",
+      "EĞİTİM",
+      "HASTALIK",
+      "KENDİ İSTEĞİYLE",
+      "ASAYİŞ VE GÜVENLİK",
+      "DS İADE",
+      "KAPALIDAN NAKİL"
+    ],
+    "infaz_ilave": [
+      "VAR",
+      "YOK"
+    ],
+    "infaz_satir_rengi": [
+      "kirmizi",
+      "sari",
+      "yesil",
+      "mavi",
+      "turuncu",
+      "siyah"
+    ],
+    "izin_turu": [
+      "ÖZEL İZİN",
+      "MAZERET İZNİ"
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+param([Parameter(Mandatory=$true)][string]$Php,[Parameter(Mandatory=$true)][string]$Root,[Parameter(Mandatory=$true)][string]$Directory,[Parameter(Mandatory=$true)][string]$Mysqldump)
+. (Join-Path $PSScriptRoot 'Common.ps1')
+Invoke-Portal $Php $Root @('artisan','down','--retry=60')
+Invoke-Portal $Php $Root @('artisan','portal:backup',$Directory,"--mysqldump=$Mysqldump")
+Invoke-Portal $Php $Root @('artisan','up')

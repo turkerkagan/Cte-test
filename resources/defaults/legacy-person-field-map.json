@@ -1,0 +1,807 @@
+{
+  "version": 1,
+  "sourceFieldCount": 121,
+  "automaticImport": false,
+  "rawLegacyRepresentations": "Preserve separately; do not coerce invalid, duplicate or conflicting source values.",
+  "fields": {
+    "id": {
+      "destination": "people.id / import_mappings"
+    },
+    "huk_tc": {
+      "destination": "people.tc_identity"
+    },
+    "huk_adi": {
+      "destination": "people.full_name"
+    },
+    "huk_blok": {
+      "destination": "person_locations.block_id"
+    },
+    "huk_kogus": {
+      "destination": "person_locations.room_id"
+    },
+    "huk_ranza": {
+      "destination": "person_locations.bed_id"
+    },
+    "huk_calis": {
+      "destination": "person_case_data.huk_calis",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_karar": {
+      "destination": "person_case_data.huk_karar",
+      "group": "calisma",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_saglik": {
+      "destination": "person_case_data.huk_saglik",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_cezaevine_giris": {
+      "destination": "people.admitted_on"
+    },
+    "huk_kayit_tarih": {
+      "destination": "people.registered_on"
+    },
+    "huk_notlar": {
+      "destination": "person_case_data.huk_notlar",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_risk": {
+      "destination": "person_case_data.huk_risk",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": "hassas_risk",
+      "secret": false
+    },
+    "huk_durum": {
+      "destination": "person_status_assignments.status_id"
+    },
+    "huk_portor": {
+      "destination": "person_case_data.huk_portor",
+      "group": "revir",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "calisma_durum": {
+      "destination": "person_case_data.calisma_durum",
+      "group": "revir",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "ceza_tehir": {
+      "destination": "person_case_data.ceza_tehir",
+      "group": "revir",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_kronik": {
+      "destination": "person_case_data.huk_kronik",
+      "group": "revir",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "egt_statu": {
+      "destination": "person_case_data.egt_statu",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "egt_mezuniyet": {
+      "destination": "person_case_data.egt_mezuniyet",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "egt_ogrenim": {
+      "destination": "person_case_data.egt_ogrenim",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "egt_okul": {
+      "destination": "person_case_data.egt_okul",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "egt_ogretim": {
+      "destination": "person_case_data.egt_ogretim",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "egt_sinif": {
+      "destination": "person_case_data.egt_sinif",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "egt_okulsifre": {
+      "destination": "person_case_data.egt_okulsifre",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": true
+    },
+    "egt_domainsifre": {
+      "destination": "person_case_data.egt_domainsifre",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": true
+    },
+    "egt_fakulte": {
+      "destination": "person_case_data.egt_fakulte",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "egt_bolum": {
+      "destination": "person_case_data.egt_bolum",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "egt_ogrencino": {
+      "destination": "person_case_data.egt_ogrencino",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "egt_iletisim": {
+      "destination": "person_case_data.egt_iletisim",
+      "group": "egitim",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "kurs_baslangic": {
+      "destination": "person_case_data.kurs_baslangic",
+      "group": "kurslar",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "kurs_bitis": {
+      "destination": "person_case_data.kurs_bitis",
+      "group": "kurslar",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "kurs_adi": {
+      "destination": "person_case_data.kurs_adi",
+      "group": "kurslar",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "kurs_ogretmen": {
+      "destination": "person_case_data.kurs_ogretmen",
+      "group": "kurslar",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "kurs_suresi": {
+      "destination": "person_case_data.kurs_suresi",
+      "group": "kurslar",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_fotograf": {
+      "destination": "person_photos (stable person_id + private UUID path)"
+    },
+    "ziyaret_ziyaretci1": {
+      "destination": "person_case_data.ziyaret_ziyaretci1",
+      "group": "ziyaret",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "ziyaret_tarih1": {
+      "destination": "person_case_data.ziyaret_tarih1",
+      "group": "ziyaret",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "ziyaret_ziyaretci2": {
+      "destination": "person_case_data.ziyaret_ziyaretci2",
+      "group": "ziyaret",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "ziyaret_tarih2": {
+      "destination": "person_case_data.ziyaret_tarih2",
+      "group": "ziyaret",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "ziyaret_ziyaretci3": {
+      "destination": "person_case_data.ziyaret_ziyaretci3",
+      "group": "ziyaret",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "ziyaret_tarih3": {
+      "destination": "person_case_data.ziyaret_tarih3",
+      "group": "ziyaret",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "ziyaret_not1": {
+      "destination": "person_case_data.ziyaret_not1",
+      "group": "ziyaret",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "ziyaret_not2": {
+      "destination": "person_case_data.ziyaret_not2",
+      "group": "ziyaret",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "ziyaret_not3": {
+      "destination": "person_case_data.ziyaret_not3",
+      "group": "ziyaret",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "revir_statu": {
+      "destination": "person_case_data.revir_statu",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "revir_bulasici": {
+      "destination": "person_case_data.revir_bulasici",
+      "group": "revir",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "revir_portor_tarihi_1": {
+      "destination": "person_case_data.revir_portor_tarihi_1",
+      "group": "revir",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "revir_portor_tarihi_2": {
+      "destination": "person_case_data.revir_portor_tarihi_2",
+      "group": "revir",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "revir_uyap": {
+      "destination": "person_case_data.revir_uyap",
+      "group": "revir",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_statu": {
+      "destination": "person_case_data.manevi_statu",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_gorusme": {
+      "destination": "person_case_data.manevi_gorusme",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_dini": {
+      "destination": "person_case_data.manevi_dini",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_egitim": {
+      "destination": "person_case_data.manevi_egitim",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_kuran_bilgi": {
+      "destination": "person_case_data.manevi_kuran_bilgi",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_hafiz": {
+      "destination": "person_case_data.manevi_hafiz",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_talebi": {
+      "destination": "person_case_data.manevi_talebi",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_faaliyet1": {
+      "destination": "person_case_data.manevi_faaliyet1",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_faaliyet2": {
+      "destination": "person_case_data.manevi_faaliyet2",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_faaliyet3": {
+      "destination": "person_case_data.manevi_faaliyet3",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_kurs": {
+      "destination": "person_case_data.manevi_kurs",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_belge": {
+      "destination": "person_case_data.manevi_belge",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_odul": {
+      "destination": "person_case_data.manevi_odul",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "manevi_aciklama": {
+      "destination": "person_case_data.manevi_aciklama",
+      "group": "manevi",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "hijyen_statu": {
+      "destination": "person_case_data.hijyen_statu",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "hijyen_is": {
+      "destination": "person_case_data.hijyen_is",
+      "group": "hijyen_isg",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "hijyen_hijyen": {
+      "destination": "person_case_data.hijyen_hijyen",
+      "group": "hijyen_isg",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_yas": {
+      "destination": "person_case_data.huk_yas",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_meslek": {
+      "destination": "person_case_data.huk_meslek",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_engelli": {
+      "destination": "person_case_data.huk_engelli",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_infaz": {
+      "destination": "person_case_data.huk_infaz",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_aile": {
+      "destination": "person_case_data.huk_aile",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_bilgi": {
+      "destination": "person_case_data.huk_bilgi",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_tanidik": {
+      "destination": "person_case_data.huk_tanidik",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_zarar": {
+      "destination": "person_case_data.huk_zarar",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_kendine_zarar": {
+      "destination": "person_case_data.huk_kendine_zarar",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_ds_durum": {
+      "destination": "person_case_data.huk_ds_durum",
+      "group": "ilkgorus",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_personel_uyum": {
+      "destination": "person_case_data.huk_personel_uyum",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_oda_yatak_uyum": {
+      "destination": "person_case_data.huk_oda_yatak_uyum",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_temizlik_duzen": {
+      "destination": "person_case_data.huk_temizlik_duzen",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_tasarruf": {
+      "destination": "person_case_data.huk_tasarruf",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_kisisel_bakim": {
+      "destination": "person_case_data.huk_kisisel_bakim",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_saglik_kural": {
+      "destination": "person_case_data.huk_saglik_kural",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_gorevli_tutum": {
+      "destination": "person_case_data.huk_gorevli_tutum",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "huk_tutum_davranis": {
+      "destination": "person_case_data.huk_tutum_davranis",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_uyap_no": {
+      "destination": "person_case_data.infaz_uyap_no",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_ds_tarihi": {
+      "destination": "person_case_data.infaz_ds_tarihi",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_tahliye_tarihi": {
+      "destination": "person_case_data.infaz_tahliye_tarihi",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_durumu": {
+      "destination": "person_case_data.infaz_durumu",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_cinsel_yazi_tarihi": {
+      "destination": "person_case_data.infaz_cinsel_yazi_tarihi",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_kamu_mahkeme": {
+      "destination": "person_case_data.infaz_kamu_mahkeme",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_cinsel_suc": {
+      "destination": "person_case_data.infaz_cinsel_suc",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_ceza_yil": {
+      "destination": "person_case_data.infaz_ceza_yil",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_ceza_ay": {
+      "destination": "person_case_data.infaz_ceza_ay",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_ceza_gun": {
+      "destination": "person_case_data.infaz_ceza_gun",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_yil": {
+      "destination": "derived: CaseCalculations.mean / CaseList.mean"
+    },
+    "infaz_ozel_kurul": {
+      "destination": "person_case_data.infaz_ozel_kurul",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_ozel_kurul_durumu": {
+      "destination": "person_case_data.infaz_ozel_kurul_durumu",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_ozel_kurul_tarihi": {
+      "destination": "person_case_data.infaz_ozel_kurul_tarihi",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_not": {
+      "destination": "person_case_data.infaz_not",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_dogum_tarihi": {
+      "destination": "person_case_data.infaz_dogum_tarihi",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_yasi": {
+      "destination": "derived: CaseCalculations.age / CaseList.age"
+    },
+    "infaz_ilave": {
+      "destination": "person_case_data.infaz_ilave",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_gelis_nedeni": {
+      "destination": "person_case_data.infaz_gelis_nedeni",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "infaz_satir_rengi": {
+      "destination": "person_case_data.infaz_satir_rengi",
+      "group": "infaz",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "mesem_statu": {
+      "destination": "person_case_data.mesem_statu",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "mesem_gorusme": {
+      "destination": "person_case_data.mesem_gorusme",
+      "group": "mesem",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "mesem_belge_turu": {
+      "destination": "person_case_data.mesem_belge_turu",
+      "group": "mesem",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "mesem_mevcut_belge": {
+      "destination": "person_case_data.mesem_mevcut_belge",
+      "group": "mesem",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "mesem_sinif": {
+      "destination": "person_case_data.mesem_sinif",
+      "group": "mesem",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "mesem_dali": {
+      "destination": "person_case_data.mesem_dali",
+      "group": "mesem",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "mesem_nezuniyet": {
+      "destination": "person_case_data.mesem_nezuniyet",
+      "group": "alan_inceleme",
+      "readOnlyReview": true,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "mesem_dilekce": {
+      "destination": "person_case_data.mesem_dilekce",
+      "group": "mesem",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "mesem_ogrenim_belgesi": {
+      "destination": "person_case_data.mesem_ogrenim_belgesi",
+      "group": "mesem",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "izin_turu": {
+      "destination": "person_case_data.izin_turu",
+      "group": "izin",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "izin_gun_sayisi": {
+      "destination": "person_case_data.izin_gun_sayisi",
+      "group": "izin",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "izin_cikis_tarihi": {
+      "destination": "person_case_data.izin_cikis_tarihi",
+      "group": "izin",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "izin_cikis_saati": {
+      "destination": "person_case_data.izin_cikis_saati",
+      "group": "izin",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "izin_donus_tarihi": {
+      "destination": "person_case_data.izin_donus_tarihi",
+      "group": "izin",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "izin_donus_saati": {
+      "destination": "person_case_data.izin_donus_saati",
+      "group": "izin",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    },
+    "mesem_durumu": {
+      "destination": "person_case_data.mesem_durumu",
+      "group": "mesem",
+      "readOnlyReview": false,
+      "sensitivePolicy": null,
+      "secret": false
+    }
+  }
+}

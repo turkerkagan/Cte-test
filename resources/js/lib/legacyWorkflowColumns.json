@@ -1,0 +1,574 @@
+{
+  "ziyaret": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "ziyaret_ziyaretci1",
+      "label": "Ziyaretçi 1"
+    },
+    {
+      "key": "ziyaret_tarih1",
+      "label": "Tarih 1"
+    },
+    {
+      "key": "ziyaret_not1",
+      "label": "Not 1"
+    },
+    {
+      "key": "ziyaret_ziyaretci2",
+      "label": "Ziyaretçi 2"
+    },
+    {
+      "key": "ziyaret_tarih2",
+      "label": "Tarih 2"
+    },
+    {
+      "key": "ziyaret_not2",
+      "label": "Not 2"
+    },
+    {
+      "key": "ziyaret_ziyaretci3",
+      "label": "Ziyaretçi 3"
+    },
+    {
+      "key": "ziyaret_tarih3",
+      "label": "Tarih 3"
+    },
+    {
+      "key": "ziyaret_not3",
+      "label": "Not 3"
+    }
+  ],
+  "revir": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "huk_calis",
+      "label": "Çalışma Yeri"
+    },
+    {
+      "key": "huk_saglik",
+      "label": "Genel Sağlık Durumu"
+    },
+    {
+      "key": "huk_kronik",
+      "label": "Kronik Hastalık"
+    },
+    {
+      "key": "revir_bulasici",
+      "label": "Bulaşıcı Hastalık"
+    },
+    {
+      "key": "huk_portor",
+      "label": "Portör Durumu"
+    },
+    {
+      "key": "revir_portor_tarihi_1",
+      "label": "Portör Tarihi 1"
+    },
+    {
+      "key": "revir_portor_tarihi_2",
+      "label": "Portör Tarihi 2"
+    },
+    {
+      "key": "calisma_durum",
+      "label": "Çalışma Durumu"
+    },
+    {
+      "key": "ceza_tehir",
+      "label": "Ceza Tehiri +R"
+    },
+    {
+      "key": "revir_uyap",
+      "label": "Uyap"
+    }
+  ],
+  "psikososyal": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "huk_calis",
+      "label": "Çalışma Yeri"
+    },
+    {
+      "key": "huk_saglik",
+      "label": "Sağlık Durumu"
+    },
+    {
+      "key": "samba",
+      "label": "SAMBA"
+    },
+    {
+      "key": "ofke",
+      "label": "Öfke Kontrolü"
+    },
+    {
+      "key": "somgp",
+      "label": "SÖMGP"
+    }
+  ],
+  "egitim": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "egt_mezuniyet",
+      "label": "Mezuniyet"
+    },
+    {
+      "key": "egt_ogrenim",
+      "label": "Öğrenim Durumu"
+    },
+    {
+      "key": "egt_okul",
+      "label": "Okuduğu Okul"
+    },
+    {
+      "key": "egt_fakulte",
+      "label": "Fakülte"
+    },
+    {
+      "key": "egt_bolum",
+      "label": "Bölüm"
+    },
+    {
+      "key": "egt_ogretim",
+      "label": "Öğretim Şekli"
+    },
+    {
+      "key": "egt_sinif",
+      "label": "Sınıf"
+    },
+    {
+      "key": "egt_ogrencino",
+      "label": "Öğrenci No"
+    },
+    {
+      "key": "egt_okulsifre",
+      "label": "Okul Şifresi"
+    },
+    {
+      "key": "egt_domainsifre",
+      "label": "Domain Şifresi"
+    },
+    {
+      "key": "egt_iletisim",
+      "label": "İletişim"
+    }
+  ],
+  "mesem": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "huk_calis",
+      "label": "Çalışma Yeri"
+    },
+    {
+      "key": "huk_karar",
+      "label": "Çalışma Kararı"
+    },
+    {
+      "key": "mesem_gorusme",
+      "label": "Görüşme"
+    },
+    {
+      "key": "mesem_belge_turu",
+      "label": "Alacağı Belge"
+    },
+    {
+      "key": "mesem_mevcut_belge",
+      "label": "Mevcut Belge"
+    },
+    {
+      "key": "mesem_sinif",
+      "label": "Sınıf"
+    },
+    {
+      "key": "mesem_dali",
+      "label": "Dalı"
+    }
+  ],
+  "ilkgorus": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "huk_yas",
+      "label": "Yaşı"
+    },
+    {
+      "key": "huk_meslek",
+      "label": "Mesleği"
+    },
+    {
+      "key": "huk_saglik",
+      "label": "Genel Sağlık Durumu"
+    },
+    {
+      "key": "huk_engelli",
+      "label": "Engellilik Durumu"
+    },
+    {
+      "key": "huk_infaz",
+      "label": "Daha Önce İnfaz Kurumuna Girmiş mi"
+    },
+    {
+      "key": "huk_aile",
+      "label": "Ailede Suç Öyküsü"
+    },
+    {
+      "key": "huk_bilgi",
+      "label": "Ailesi veya Çevresi Ceza İnfaz Kurumunda Olduğunu Biliyor mu"
+    },
+    {
+      "key": "huk_tanidik",
+      "label": "Ceza İnfaz Kurumunda Yakını veya Tanıdığı"
+    },
+    {
+      "key": "huk_kendine_zarar",
+      "label": "Kendine Zarar Verdi Mi"
+    },
+    {
+      "key": "registered_on",
+      "label": "Kayıt Tarihi"
+    }
+  ],
+  "manevi": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "huk_calis",
+      "label": "Çalışma Yeri"
+    },
+    {
+      "key": "registered_on",
+      "label": "Cte Giriş Tarihi"
+    },
+    {
+      "key": "manevi_gorusme",
+      "label": "Görüşme Tarihi"
+    },
+    {
+      "key": "manevi_dini",
+      "label": "Dini"
+    },
+    {
+      "key": "manevi_egitim",
+      "label": "Dini Eğitim Durumu"
+    },
+    {
+      "key": "manevi_hafiz",
+      "label": "Hafızlık Durumu"
+    },
+    {
+      "key": "manevi_talebi",
+      "label": "Hükümlü Talebi"
+    },
+    {
+      "key": "manevi_faaliyet1",
+      "label": "Katıldığı Faaliyet 1"
+    },
+    {
+      "key": "manevi_faaliyet2",
+      "label": "Katıldığı Faaliyet 2"
+    },
+    {
+      "key": "manevi_faaliyet3",
+      "label": "Katıldığı Faaliyet 3"
+    },
+    {
+      "key": "manevi_kurs",
+      "label": "Devam Eden Kurs"
+    },
+    {
+      "key": "manevi_belge",
+      "label": "Belge"
+    },
+    {
+      "key": "manevi_odul",
+      "label": "Ödül Teklifi"
+    },
+    {
+      "key": "manevi_aciklama",
+      "label": "Açıklamalar"
+    }
+  ],
+  "kurslar": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "kurs_adi",
+      "label": "Kursun Adı"
+    },
+    {
+      "key": "kurs_ogretmen",
+      "label": "Kurs Öğretmeni"
+    },
+    {
+      "key": "kurs_suresi",
+      "label": "Kurs Süresi"
+    },
+    {
+      "key": "kurs_baslangic",
+      "label": "Kurs Başlangıç Tarihi"
+    },
+    {
+      "key": "kurs_bitis",
+      "label": "Kurs Bitiş Tarihi"
+    }
+  ],
+  "calisma": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "huk_calis",
+      "label": "Çalışma Yeri"
+    },
+    {
+      "key": "huk_karar",
+      "label": "Çalışma Kararı"
+    },
+    {
+      "key": "status",
+      "label": "Durum"
+    }
+  ],
+  "izin": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "izin_turu",
+      "label": "İzin Türü"
+    },
+    {
+      "key": "izin_gun_sayisi",
+      "label": "İzin Gün Sayısı"
+    },
+    {
+      "key": "izin_cikis_tarihi",
+      "label": "İzne Çıkış Tarihi"
+    },
+    {
+      "key": "izin_cikis_saati",
+      "label": "İzne Çıkış Saati"
+    },
+    {
+      "key": "izin_donus_tarihi",
+      "label": "İzinden Dönüş Tarihi"
+    },
+    {
+      "key": "izin_donus_saati",
+      "label": "İzinden Dönüş Saati"
+    }
+  ],
+  "infaz": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "infaz_uyap_no",
+      "label": "UYAP No"
+    },
+    {
+      "key": "infaz_ds_tarihi",
+      "label": "DS Tarihi"
+    },
+    {
+      "key": "infaz_tahliye_tarihi",
+      "label": "Tahliye Tarihi"
+    },
+    {
+      "key": "infaz_durumu",
+      "label": "Durumu"
+    },
+    {
+      "key": "infaz_ozel_kurul_durumu",
+      "label": "Özel Kurul Durumu"
+    },
+    {
+      "key": "infaz_ozel_kurul_tarihi",
+      "label": "Özel Kurul Tarihi"
+    },
+    {
+      "key": "infaz_gelis_nedeni",
+      "label": "Geliş Nedeni"
+    },
+    {
+      "key": "infaz_not",
+      "label": "Not"
+    },
+    {
+      "key": "age",
+      "label": "Yaşı"
+    },
+    {
+      "key": "sentence",
+      "label": "Ceza Süresi"
+    },
+    {
+      "key": "mean",
+      "label": "Ortalama Ceza Süresi"
+    }
+  ],
+  "hijyen_isg": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Adı Soyadı"
+    },
+    {
+      "key": "huk_calis",
+      "label": "Çalışma Yeri"
+    },
+    {
+      "key": "huk_karar",
+      "label": "Çalışma Kararı"
+    },
+    {
+      "key": "hijyen_is",
+      "label": "İş Sağlığı ve Güvenliği"
+    },
+    {
+      "key": "hijyen_hijyen",
+      "label": "Hijyen"
+    }
+  ],
+  "infaz_sevk_raporu": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Hükümlü Adı Soyadı"
+    },
+    {
+      "key": "infaz_uyap_no",
+      "label": "UYAP No"
+    },
+    {
+      "key": "infaz_tahliye_tarihi",
+      "label": "Tahliye Tarihi"
+    },
+    {
+      "key": "release_days",
+      "label": "Kalan Gün"
+    },
+    {
+      "key": "infaz_ds_tarihi",
+      "label": "D.S. Tarihi"
+    },
+    {
+      "key": "ds_days",
+      "label": "DS Kalan Gün"
+    }
+  ],
+  "izin_rapor": [
+    {
+      "key": "tc_identity",
+      "label": "TC Kimlik"
+    },
+    {
+      "key": "full_name",
+      "label": "Hükümlü Adı Soyadı"
+    },
+    {
+      "key": "infaz_uyap_no",
+      "label": "UYAP No"
+    },
+    {
+      "key": "huk_calis",
+      "label": "İş Kolu"
+    },
+    {
+      "key": "room",
+      "label": "Koğuş"
+    },
+    {
+      "key": "bed",
+      "label": "Ranza"
+    },
+    {
+      "key": "izin_cikis_tarihi",
+      "label": "Çıkış Tarih"
+    },
+    {
+      "key": "izin_cikis_saati",
+      "label": "Saat"
+    },
+    {
+      "key": "izin_donus_tarihi",
+      "label": "Dönüş Tarih"
+    },
+    {
+      "key": "izin_donus_saati",
+      "label": "Saat"
+    }
+  ]
+}

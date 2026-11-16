@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\ReauditEvidenceTest" file="/Applications/XAMPP/xamppfiles/htdocs/portal-next/docs/portal-next-yeniden-analiz-20261016/ReauditEvidenceTest.php" tests="4" assertions="19" errors="0" failures="0" skipped="0" time="2.388558">
+    <testcase name="test_failed_download_deletion_is_not_retried_by_cleanup" file="/Applications/XAMPP/xamppfiles/htdocs/portal-next/docs/portal-next-yeniden-analiz-20261016/ReauditEvidenceTest.php" line="82" class="Tests\Feature\ReauditEvidenceTest" classname="Tests.Feature.ReauditEvidenceTest" assertions="7" time="1.001434"/>
+    <testcase name="test_hidden_message_attachment_remains_accessible_to_sender" file="/Applications/XAMPP/xamppfiles/htdocs/portal-next/docs/portal-next-yeniden-analiz-20261016/ReauditEvidenceTest.php" line="101" class="Tests\Feature\ReauditEvidenceTest" classname="Tests.Feature.ReauditEvidenceTest" assertions="3" time="0.435582"/>
+    <testcase name="test_failed_scheduled_archive_retries_exceed_retention_and_leave_green_backup_health" file="/Applications/XAMPP/xamppfiles/htdocs/portal-next/docs/portal-next-yeniden-analiz-20261016/ReauditEvidenceTest.php" line="111" class="Tests\Feature\ReauditEvidenceTest" classname="Tests.Feature.ReauditEvidenceTest" assertions="7" time="0.517946"/>
+    <testcase name="test_eighty_messages_issue_eighty_attachment_count_queries" file="/Applications/XAMPP/xamppfiles/htdocs/portal-next/docs/portal-next-yeniden-analiz-20261016/ReauditEvidenceTest.php" line="137" class="Tests\Feature\ReauditEvidenceTest" classname="Tests.Feature.ReauditEvidenceTest" assertions="2" time="0.433595"/>
+  </testsuite>
+</testsuites>

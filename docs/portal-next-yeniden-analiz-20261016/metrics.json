@@ -1,0 +1,85 @@
+{
+  "source_file_count": 278,
+  "source_lines": 22499,
+  "files_over_500_lines": 5,
+  "lines_over_200_chars": 1161,
+  "largest_files": [
+    {
+      "path": "resources/css/record-action-modal.css",
+      "lines": 1269,
+      "long_lines": 0
+    },
+    {
+      "path": "app/Services/Administration/StandaloneRecovery.php",
+      "lines": 593,
+      "long_lines": 9
+    },
+    {
+      "path": "app/Services/Institution/Parsers/CountParser.php",
+      "lines": 580,
+      "long_lines": 3
+    },
+    {
+      "path": "resources/css/app.css",
+      "lines": 519,
+      "long_lines": 21
+    },
+    {
+      "path": "resources/css/institution-original.css",
+      "lines": 512,
+      "long_lines": 11
+    },
+    {
+      "path": "resources/js/pages/PersonalMessages.tsx",
+      "lines": 478,
+      "long_lines": 0
+    },
+    {
+      "path": "resources/js/pages/Comparison.tsx",
+      "lines": 440,
+      "long_lines": 5
+    },
+    {
+      "path": "resources/js/components/AppShell.tsx",
+      "lines": 426,
+      "long_lines": 4
+    },
+    {
+      "path": "app/Services/Administration/ManagedDatabase.php",
+      "lines": 381,
+      "long_lines": 6
+    },
+    {
+      "path": "app/Services/Institution/Parsers/UyapParser.php",
+      "lines": 361,
+      "long_lines": 0
+    },
+    {
+      "path": "app/Services/Workflows/CaseList.php",
+      "lines": 356,
+      "long_lines": 16
+    },
+    {
+      "path": "resources/css/cte-design-system.css",
+      "lines": 345,
+      "long_lines": 44
+    },
+    {
+      "path": "app/Services/Operations/PortalBackup.php",
+      "lines": 299,
+      "long_lines": 5
+    },
+    {
+      "path": "resources/js/pages/RoomLists.tsx",
+      "lines": 291,
+      "long_lines": 1
+    },
+    {
+      "path": "app/Services/Institution/InstitutionRecords.php",
+      "lines": 289,
+      "long_lines": 11
+    }
+  ],
+  "php_lint_files": 187,
+  "php_lint_errors": []
+}

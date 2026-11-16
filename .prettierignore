@@ -1,0 +1,5 @@
+resources/js/legacy
+resources/js/lib/legacy*.json
+node_modules
+vendor
+public

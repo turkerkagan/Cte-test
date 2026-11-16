@@ -1,0 +1,254 @@
+{
+  "telefon": {
+    "label": "Telefon Rehberi",
+    "fields": {
+      "name": {
+        "label": "İsim / Birim",
+        "type": "text",
+        "required": true
+      },
+      "phone": {
+        "label": "Telefon",
+        "type": "text",
+        "required": true
+      },
+      "position": {
+        "label": "Sıra",
+        "type": "integer"
+      }
+    }
+  },
+  "duyurular": {
+    "label": "Duyurular",
+    "adminOnly": true,
+    "fields": {
+      "title": {
+        "label": "Başlık",
+        "type": "text",
+        "required": true
+      },
+      "body": {
+        "label": "İçerik",
+        "type": "longtext",
+        "required": true
+      }
+    }
+  },
+  "kurul": {
+    "label": "Kurul ve Komisyonlar",
+    "fields": {
+      "position": {
+        "label": "Sıra",
+        "type": "integer",
+        "required": true
+      },
+      "discipline_top": {
+        "label": "Disiplin Kurulu · Üst",
+        "type": "text"
+      },
+      "discipline_bottom": {
+        "label": "Disiplin Kurulu · Alt",
+        "type": "text"
+      },
+      "administration_top": {
+        "label": "İdare ve Gözlem · Üst",
+        "type": "text"
+      },
+      "administration_bottom": {
+        "label": "İdare ve Gözlem · Alt",
+        "type": "text"
+      },
+      "education_top": {
+        "label": "Eğitim Kurulu · Üst",
+        "type": "text"
+      },
+      "education_bottom": {
+        "label": "Eğitim Kurulu · Alt",
+        "type": "text"
+      },
+      "workshop_top": {
+        "label": "İşyurdu Yönetim · Üst",
+        "type": "text"
+      },
+      "workshop_bottom": {
+        "label": "İşyurdu Yönetim · Alt",
+        "type": "text"
+      },
+      "archive_top": {
+        "label": "Arşiv Ayıklama ve İmha · Üst",
+        "type": "text"
+      },
+      "archive_bottom": {
+        "label": "Arşiv Ayıklama ve İmha · Alt",
+        "type": "text"
+      },
+      "letters_top": {
+        "label": "Mektup Okuma · Üst",
+        "type": "text"
+      },
+      "letters_bottom": {
+        "label": "Mektup Okuma · Alt",
+        "type": "text"
+      },
+      "packages_top": {
+        "label": "Koli Açma · Üst",
+        "type": "text"
+      },
+      "packages_bottom": {
+        "label": "Koli Açma · Alt",
+        "type": "text"
+      },
+      "books_top": {
+        "label": "Kitap Sayım · Üst",
+        "type": "text"
+      },
+      "books_bottom": {
+        "label": "Kitap Sayım · Alt",
+        "type": "text"
+      },
+      "general_acceptance_top": {
+        "label": "Muayene Kabul Genel Bütçe · Üst",
+        "type": "text"
+      },
+      "general_acceptance_bottom": {
+        "label": "Muayene Kabul Genel Bütçe · Alt",
+        "type": "text"
+      },
+      "workshop_acceptance_top": {
+        "label": "Muayene Kabul İşyurdu · Üst",
+        "type": "text"
+      },
+      "workshop_acceptance_bottom": {
+        "label": "Muayene Kabul İşyurdu · Alt",
+        "type": "text"
+      }
+    }
+  },
+  "mudurnobet": {
+    "label": "Müdür Nöbetleri",
+    "fields": {
+      "date": {
+        "label": "Nöbet Tarihi",
+        "type": "date",
+        "required": true
+      },
+      "user_id": {
+        "label": "Müdür",
+        "type": "user",
+        "required": true
+      },
+      "user_name": {
+        "label": "Personel",
+        "type": "text",
+        "readonly": true
+      },
+      "deputy": {
+        "label": "Vekil Nöbetçi",
+        "type": "text"
+      }
+    }
+  },
+  "vardiyanobet": {
+    "label": "Vardiya Nöbetleri",
+    "fields": {
+      "date": {
+        "label": "Gündüz",
+        "type": "date",
+        "required": true
+      },
+      "night": {
+        "label": "Gece",
+        "type": "date",
+        "readonly": true
+      },
+      "leave1": {
+        "label": "İzin 1",
+        "type": "date",
+        "readonly": true
+      },
+      "leave2": {
+        "label": "İzin 2",
+        "type": "date",
+        "readonly": true
+      },
+      "user_id": {
+        "label": "Personel",
+        "type": "user"
+      },
+      "user_name": {
+        "label": "Personel Adı",
+        "type": "text",
+        "readonly": true
+      }
+    }
+  },
+  "infaznobet": {
+    "label": "İnfaz Nöbetleri",
+    "fields": {
+      "date": {
+        "label": "Nöbet Tarihi",
+        "type": "date",
+        "required": true
+      },
+      "user_id": {
+        "label": "Personel",
+        "type": "user",
+        "required": true
+      },
+      "user_name": {
+        "label": "Personel Adı",
+        "type": "text",
+        "readonly": true
+      }
+    }
+  },
+  "kismiarama": {
+    "label": "Kısmi Arama Kayıtları",
+    "fields": {
+      "room_id": {
+        "label": "Koğuş",
+        "type": "room",
+        "required": true
+      },
+      "date": {
+        "label": "Tarih ve Saat",
+        "type": "datetime",
+        "required": true
+      },
+      "staff": {
+        "label": "Personel",
+        "type": "text",
+        "required": true
+      },
+      "result": {
+        "label": "Sonuç",
+        "type": "text",
+        "required": true
+      },
+      "note": {
+        "label": "Not",
+        "type": "longtext"
+      },
+      "cancel_reason": {
+        "label": "İptal Gerekçesi",
+        "type": "text",
+        "readonly": true
+      },
+      "cancelled_at": {
+        "label": "İptal Zamanı",
+        "type": "text",
+        "readonly": true
+      },
+      "cancelled_by": {
+        "label": "İptal Eden",
+        "type": "text",
+        "readonly": true
+      },
+      "created_by_name": {
+        "label": "Kaydı Oluşturan",
+        "type": "text",
+        "readonly": true
+      }
+    }
+  }
+}

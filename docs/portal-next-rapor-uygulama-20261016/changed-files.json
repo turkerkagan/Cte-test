@@ -1,0 +1,39 @@
+{
+  "changed": [
+    "app/Http/Middleware/PortalActivity.php",
+    "app/Http/Controllers/PersonalMessagesController.php",
+    "app/Http/Controllers/ModuleRuntimeController.php",
+    "app/Services/Operations/PrivateFileCleanup.php",
+    "app/Services/Operations/OperationalState.php",
+    "app/Services/Operations/PortalHealth.php",
+    "app/Services/Administration/BackupPlans.php",
+    "app/Console/Commands/CleanPrivateDocuments.php",
+    "resources/js/components/ModuleRecordDialog.tsx",
+    "resources/js/components/PortalDialog.tsx",
+    "resources/js/components/BackupPlanEditor.tsx",
+    "resources/js/components/HomeRecordDialog.tsx",
+    "resources/js/pages/PortalHealth.tsx",
+    "resources/js/pages/ModuleRecordEditor.tsx",
+    "routes/console.php",
+    "tests/mariadb_import_smoke.php",
+    "tests/frontend/run.mjs",
+    "tests/frontend/table.test.tsx",
+    "tests/frontend/PortalInteractionsFixture.tsx"
+  ],
+  "added": [
+    "app/Services/Workflows/PersonalMessageAccess.php",
+    "app/Services/Administration/BackupDelivery.php",
+    "resources/js/lib/recordConflict.ts",
+    "resources/js/lib/dialogDraft.ts",
+    "resources/js/lib/useUnsavedChanges.ts",
+    "resources/js/lib/backupPlan.ts",
+    "tests/frontend/dialog.test.tsx",
+    "tests/Support/ReportFixesMariaChecks.php",
+    "tests/Feature/PortalReportFixesTest.php"
+  ],
+  "package_files": [
+    "package.json",
+    "package-lock.json"
+  ],
+  "deleted": []
+}

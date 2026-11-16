@@ -1,0 +1,4 @@
+{
+    "preset": "laravel",
+    "exclude": ["resources", "public", "storage", "bootstrap/cache", "eski app"]
+}

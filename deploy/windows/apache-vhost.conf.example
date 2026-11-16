@@ -1,0 +1,10 @@
+# Replace C:/CTE/releases/RELEASE with the chosen release. Keep private backups outside web roots.
+<VirtualHost *:80>
+    ServerName kurum-portal.local
+    DocumentRoot "C:/CTE/releases/RELEASE/public"
+    <Directory "C:/CTE/releases/RELEASE/public">
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>

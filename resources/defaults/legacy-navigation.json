@@ -1,0 +1,198 @@
+[
+  {
+    "label": "Hükümlü İşlemleri",
+    "key": "legacy-30",
+    "children": [
+      {
+        "label": "Koğuşlar",
+        "page": "koguslar"
+      },
+      {
+        "label": "Çalışma Yeri",
+        "page": "calisma"
+      },
+      {
+        "label": "Sayım",
+        "page": "sayim"
+      },
+      {
+        "label": "Kısmi Arama",
+        "page": "kismiarama"
+      },
+      {
+        "label": "Kısayollar",
+        "page": "kisayol"
+      },
+      {
+        "label": "Fotoğraf",
+        "page": "fotograf"
+      },
+      {
+        "label": "Kimlik Kartı Baskısı",
+        "page": "kimlik"
+      },
+      {
+        "label": "Özel Rapor",
+        "page": "custom_rapor"
+      },
+      {
+        "label": "UYAP Karşılaştırması",
+        "page": "uyap_karsilastirma"
+      }
+    ]
+  },
+  {
+    "label": "Kurum Birimleri",
+    "key": "legacy-20",
+    "children": [
+      {
+        "label": "Sorumlu Başmemurluk",
+        "page": "ilkgorus"
+      },
+      {
+        "label": "Revir Birimi",
+        "page": "revir"
+      },
+      {
+        "label": "İnfaz Birimi",
+        "key": "legacy-23",
+        "children": [
+          {
+            "label": "İnfaz",
+            "page": "infaz"
+          },
+          {
+            "label": "İzinler",
+            "page": "izin"
+          },
+          {
+            "label": "Tebliğler",
+            "page": "teblig"
+          },
+          {
+            "label": "Bakanlık Sevk",
+            "page": "bakanlik_sevk"
+          },
+          {
+            "label": "Sevk Raporu",
+            "page": "infaz_sevk_raporu"
+          },
+          {
+            "label": "İzin Raporu",
+            "page": "izin_rapor"
+          }
+        ]
+      },
+      {
+        "label": "Ziyaret Birimi",
+        "page": "ziyaret"
+      },
+      {
+        "label": "Manevi Rehberlik",
+        "page": "manevi"
+      },
+      {
+        "label": "Eğitim Servisi",
+        "key": "legacy-26",
+        "children": [
+          {
+            "label": "Eğitim",
+            "page": "egitim"
+          },
+          {
+            "label": "Kurslar",
+            "page": "kurslar"
+          },
+          {
+            "label": "Hijyen ve İSG",
+            "page": "hijyen_isg"
+          }
+        ]
+      },
+      {
+        "label": "Psiko Sosyal Servisi",
+        "page": "psikososyal"
+      },
+      {
+        "label": "Mesleki Eğitim Merkezi",
+        "key": "legacy-28",
+        "children": [
+          {
+            "label": "Mesleki Eğitim Merkezi",
+            "page": "mesem"
+          },
+          {
+            "label": "MESEM İstatistikleri",
+            "page": "mesemstat"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Kurum Hakkında",
+    "key": "legacy-10",
+    "children": [
+      {
+        "label": "Duyurular",
+        "page": "duyurular"
+      },
+      {
+        "label": "Nöbetler",
+        "key": "legacy-12",
+        "children": [
+          {
+            "label": "Müdür Nöbetleri",
+            "page": "mudurnobet"
+          },
+          {
+            "label": "Vardiya Nöbetleri",
+            "page": "vardiyanobet"
+          },
+          {
+            "label": "İnfaz Nöbetleri",
+            "page": "infaznobet"
+          }
+        ]
+      },
+      {
+        "label": "Kurul ve Komisyonlar",
+        "page": "kurul"
+      },
+      {
+        "label": "Haftalık Yemek Listesi",
+        "page": "yemek"
+      },
+      {
+        "label": "Personel Kadrosu",
+        "page": "personel_kadrosu"
+      },
+      {
+        "label": "Mesajlar",
+        "page": "mesajlar"
+      }
+    ]
+  },
+  {
+    "label": "İstatistik & Analiz",
+    "page": "istatistik"
+  },
+  {
+    "label": "Sohbet Odası",
+    "page": "sohbet"
+  },
+  {
+    "label": "Telefon Rehberi",
+    "page": "telefon"
+  },
+  {
+    "label": "Araçlar",
+    "key": "tools",
+    "children": [
+      {
+        "label": "Excel Birleştirme",
+        "page": "excel_merge"
+      }
+    ]
+  }
+]

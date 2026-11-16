@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Middleware\EnsurePasswordChanged;
-use App\Http\Middleware\EnsurePermission;
-use App\Http\Middleware\RecordUserActivity;
+use App\Http\Middleware\EnsurePortalSession;
+use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\MeasurePortalRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,11 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(append: [RecordUserActivity::class, EnsurePasswordChanged::class]);
-        $middleware->alias(['permission' => EnsurePermission::class]);
+        $middleware->web(append: [MeasurePortalRequests::class, HandleInertiaRequests::class]);
+        $middleware->alias(['portal.session' => EnsurePortalSession::class]);
+        $middleware->redirectGuestsTo(fn () => route('login'));
+        $middleware->redirectUsersTo(fn () => route('portal'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*'),
-        );
+        // Domain exception handling is added with the corresponding module.
     })->create();

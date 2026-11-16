@@ -1,0 +1,58 @@
+/* One geometry contract for every DataTable, including reports and dialogs. */
+.data-table { width: 100%; min-width: 0; margin-top: 6px; border: 1px solid var(--cte-border); border-radius: 14px; overflow: hidden; background: var(--cte-surface); contain: layout style; }
+.data-table__scroll { width: 100%; max-width: 100%; overflow: auto; background: var(--cte-surface); }
+/* Fill available space; retain natural column sizing and horizontal scrolling for wide tables. */
+.data-table table { width: 100%; min-width: 100%; max-width: none; table-layout: auto; border-collapse: collapse; border-spacing: 0; font: inherit; font-size: var(--cte-table-font-size, 10px); }
+.data-table__cell { padding: 4px 6px; border-bottom: 1px solid var(--cte-border); border-right: 1px solid var(--cte-border); text-align: left; vertical-align: middle; font-size: var(--cte-table-font-size, 10px); line-height: 1.4; color: var(--cte-text); }
+th.data-table__cell { height: 40px; font-size: var(--cte-th-font-size, 10.5px); font-weight: 600; background: var(--cte-primary-deep, #17394b); color: #fff; }
+th.data-table__cell--sequence, th.data-table__cell--tc { font-size: var(--cte-table-font-size, 10px); }
+.portal-shell .data-table th.data-table__cell { background: var(--cte-primary); color: #fff; }
+td.data-table__cell { height: 26px; }
+.data-table tbody tr:nth-child(odd) { background: var(--cte-row-odd, #fbfdfd); }
+.data-table tbody tr:nth-child(even) { background: var(--cte-row-even, #f1f6f5); }
+.data-table tbody tr:hover { background-color: var(--cte-row-hover, #ffe27a) !important; }
+.data-table__content { display: flex; align-items: center; gap: 4px; width: max-content; min-width: 0; max-width: none; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+.data-table__sort { display: inline; padding: 0; min-width: 0; border: 0; background: transparent; color: inherit; text-align: inherit; font: inherit; }
+.data-table__label, .data-table__sort { font-weight: 600; }
+th.data-table__cell .data-table__content { white-space: pre-wrap; overflow-wrap: anywhere; }
+.data-table th .data-table__label, .data-table th .data-table__sort { white-space: pre-wrap; overflow-wrap: anywhere; }
+.data-table th .cte-column-menu-trigger { flex: 0 0 auto; }
+.data-table__cell--sequence { width: calc(4ch + 12px); max-width: calc(4ch + 12px); text-align: center; font-variant-numeric: tabular-nums; }
+.data-table__cell--sequence .data-table__content { width: 4ch; max-width: 4ch; justify-content: center; white-space: pre-wrap; }
+.data-table__cell--tc { width: calc(11ch + 40px); min-width: calc(11ch + 40px); max-width: calc(11ch + 40px); font-variant-numeric: tabular-nums; }
+.data-table__cell--tc .data-table__content { width: 11ch; max-width: 11ch; white-space: nowrap; }
+th.data-table__cell--tc .data-table__content { width: max-content; max-width: none; }
+.data-table th.data-table__cell--tc :is(.data-table__content, .data-table__label, .data-table__sort), .data-table th.data-table__cell--name :is(.data-table__content, .data-table__label, .data-table__sort) { white-space: nowrap; overflow-wrap: normal; }
+.data-table__cell--name, .data-table__cell--name .data-table__content { width: max-content; max-width: none; white-space: nowrap; }
+.data-table__cell--name .record-name { max-width: none; overflow: visible; white-space: nowrap; font: inherit; font-weight: 600; text-decoration: none; }
+.cte-record-hover-summary > div { min-width: 0; width: 100%; }
+.cte-record-hover-summary dl { margin: 8px 0 0; font-size: 12px; }
+.cte-record-hover-summary dl > div { display: grid; grid-template-columns: minmax(80px, 1fr) minmax(0, 2fr); gap: 8px; margin: 5px 0; }
+.cte-record-hover-summary dt { color: var(--cte-muted); }
+.cte-record-hover-summary dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.data-table td .button { padding: 2px 6px; min-height: 20px; font-size: inherit; }
+.data-table__empty { margin: 0; padding: 32px 16px; color: var(--cte-muted); text-align: center; }
+.data-table__footer { padding: 10px 16px; border-top: 1px solid var(--cte-border); color: var(--cte-muted); background: var(--cte-surface); }
+
+@media print {
+  .data-table table { width: 100% !important; min-width: 0 !important; table-layout: auto !important; }
+  .data-table .data-table__cell--sequence .data-table__content { width: 4ch !important; max-width: 4ch !important; }
+  .data-table .data-table__cell--tc .data-table__content { width: 11ch !important; max-width: 11ch !important; }
+  .data-table .data-table__content, .data-table .data-table__cell--name .record-name { white-space: pre-wrap !important; }
+  .data-table .data-table__cell--name .data-table__content { width: auto !important; white-space: pre-wrap !important; }
+}
+
+/* Specialized tables share the same typography, borders and header palette. */
+.portal-table { width: 100%; border-collapse: collapse; font-size: var(--cte-table-font-size, 11px); background: var(--cte-surface); color: var(--cte-text); border: 1px solid var(--cte-border); border-radius: 10px; overflow: hidden; }
+.portal-table th, .portal-table td { padding: 6px 8px; border: 1px solid var(--cte-border); text-align: left; vertical-align: middle; line-height: 1.4; }
+.portal-table thead th { background: var(--cte-primary); color: #fff; font-size: var(--cte-th-font-size, 11px); font-weight: 600; }
+.portal-table tbody tr:nth-child(odd) { background: var(--cte-row-odd, #fbfdfd); }
+.portal-table tbody tr:nth-child(even) { background: var(--cte-row-even, #f1f6f5); }
+.portal-table tbody tr:hover { background: var(--cte-row-hover, #ffe27a); }
+
+.module-filters { flex-shrink: 0; margin: 6px 0; padding: 8px 12px; border: 1px solid var(--cte-border); border-radius: 14px; background: var(--cte-surface); }
+.module-filters summary { cursor: pointer; font-size: .8rem; font-weight: 600; }
+.module-filters__fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; max-height: 40vh; overflow: auto; padding: 12px 0; }
+.module-filters__range { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.module-filters label { min-width: 0; font-size: .75rem; }
+.module-filters input:not([type=checkbox]), .module-filters select { width: 100%; min-width: 0; padding: 6px; border: 1px solid var(--cte-border); border-radius: 6px; background: var(--cte-bg); color: var(--cte-text); font: inherit; }

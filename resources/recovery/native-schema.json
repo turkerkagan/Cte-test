@@ -1,0 +1,2823 @@
+{
+    "version": 1,
+    "tables": {
+        "account_requests": "CREATE TABLE `__PREFIX__account_requests` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `kind` varchar(20) NOT NULL,\n  `status` varchar(20) NOT NULL DEFAULT 'new',\n  `username` varchar(100) NOT NULL,\n  `full_name` varchar(150) DEFAULT NULL,\n  `registry_number` varchar(50) DEFAULT NULL,\n  `email` varchar(100) DEFAULT NULL,\n  `phone` varchar(30) DEFAULT NULL,\n  `department_id` bigint(20) unsigned DEFAULT NULL,\n  `job_title_id` bigint(20) unsigned DEFAULT NULL,\n  `message` varchar(1000) DEFAULT NULL,\n  `user_id` bigint(20) unsigned DEFAULT NULL,\n  `decided_by` bigint(20) unsigned DEFAULT NULL,\n  `resolution` varchar(500) DEFAULT NULL,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `decided_at` timestamp NULL DEFAULT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  KEY `account_requests_department_id_foreign` (`department_id`),\n  KEY `account_requests_job_title_id_foreign` (`job_title_id`),\n  KEY `account_requests_user_id_foreign` (`user_id`),\n  KEY `account_requests_decided_by_foreign` (`decided_by`),\n  KEY `account_requests_kind_status_id_index` (`kind`,`status`,`id`),\n  CONSTRAINT `account_requests_decided_by_foreign` FOREIGN KEY (`decided_by`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL,\n  CONSTRAINT `account_requests_department_id_foreign` FOREIGN KEY (`department_id`) REFERENCES `__PREFIX__departments` (`id`) ON DELETE SET NULL,\n  CONSTRAINT `account_requests_job_title_id_foreign` FOREIGN KEY (`job_title_id`) REFERENCES `__PREFIX__job_titles` (`id`) ON DELETE SET NULL,\n  CONSTRAINT `account_requests_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "administration_backups": "CREATE TABLE `__PREFIX__administration_backups` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `name` varchar(150) NOT NULL,\n  `sha256` varchar(64) NOT NULL,\n  `bytes` bigint(20) unsigned NOT NULL,\n  `summary` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`summary`)),\n  `created_by` bigint(20) unsigned DEFAULT NULL,\n  `archived_at` timestamp NULL DEFAULT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `administration_backups_name_unique` (`name`),\n  KEY `administration_backups_created_by_foreign` (`created_by`),\n  CONSTRAINT `administration_backups_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "administration_settings": "CREATE TABLE `__PREFIX__administration_settings` (\n  `key` varchar(100) NOT NULL,\n  `values` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`values`)),\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `updated_by` bigint(20) unsigned DEFAULT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`key`),\n  KEY `administration_settings_updated_by_foreign` (`updated_by`),\n  CONSTRAINT `administration_settings_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "announcement_reads": "CREATE TABLE `__PREFIX__announcement_reads` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `record_id` bigint(20) unsigned NOT NULL,\n  `user_id` bigint(20) unsigned NOT NULL,\n  `record_table` varchar(100) NOT NULL DEFAULT 'institution_records',\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `announcement_read_target_unique` (`record_table`,`record_id`,`user_id`),\n  KEY `announcement_reads_user_id_foreign` (`user_id`),\n  CONSTRAINT `announcement_reads_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "audit_events": "CREATE TABLE `__PREFIX__audit_events` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `actor_id` bigint(20) unsigned DEFAULT NULL,\n  `resource_type` varchar(50) NOT NULL,\n  `resource_id` bigint(20) unsigned NOT NULL,\n  `action` varchar(30) NOT NULL,\n  `details` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`details`)),\n  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  KEY `audit_events_actor_id_foreign` (`actor_id`),\n  KEY `audit_events_resource_type_resource_id_index` (`resource_type`,`resource_id`),\n  CONSTRAINT `audit_events_actor_id_foreign` FOREIGN KEY (`actor_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "cache": "CREATE TABLE `__PREFIX__cache` (\n  `key` varchar(255) NOT NULL,\n  `value` mediumtext NOT NULL,\n  `expiration` int(11) NOT NULL,\n  PRIMARY KEY (`key`),\n  KEY `cache_expiration_index` (`expiration`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "cache_locks": "CREATE TABLE `__PREFIX__cache_locks` (\n  `key` varchar(255) NOT NULL,\n  `owner` varchar(255) NOT NULL,\n  `expiration` int(11) NOT NULL,\n  PRIMARY KEY (`key`),\n  KEY `cache_locks_expiration_index` (`expiration`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "case_option_items": "CREATE TABLE `__PREFIX__case_option_items` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `option_list_id` bigint(20) unsigned NOT NULL,\n  `label` varchar(150) NOT NULL,\n  `legacy_value` varchar(150) DEFAULT NULL,\n  `position` int(10) unsigned NOT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  KEY `case_option_items_option_list_id_foreign` (`option_list_id`),\n  CONSTRAINT `case_option_items_option_list_id_foreign` FOREIGN KEY (`option_list_id`) REFERENCES `__PREFIX__case_option_lists` (`id`)\n) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "case_option_lists": "CREATE TABLE `__PREFIX__case_option_lists` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `code` varchar(80) NOT NULL,\n  `name` varchar(150) NOT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `case_option_lists_code_unique` (`code`)\n) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "chat_members": "CREATE TABLE `__PREFIX__chat_members` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `room_id` bigint(20) unsigned NOT NULL,\n  `user_id` bigint(20) unsigned NOT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `chat_members_room_id_user_id_unique` (`room_id`,`user_id`),\n  KEY `chat_members_user_id_foreign` (`user_id`),\n  CONSTRAINT `chat_members_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `__PREFIX__chat_rooms` (`id`) ON DELETE CASCADE,\n  CONSTRAINT `chat_members_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "chat_messages": "CREATE TABLE `__PREFIX__chat_messages` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `room_id` bigint(20) unsigned DEFAULT NULL,\n  `sender_id` bigint(20) unsigned DEFAULT NULL,\n  `recipient_id` bigint(20) unsigned DEFAULT NULL,\n  `sender_name` varchar(255) NOT NULL,\n  `body` text NOT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  KEY `chat_messages_recipient_id_foreign` (`recipient_id`),\n  KEY `chat_messages_room_id_id_index` (`room_id`,`id`),\n  KEY `chat_messages_sender_id_recipient_id_id_index` (`sender_id`,`recipient_id`,`id`),\n  CONSTRAINT `chat_messages_recipient_id_foreign` FOREIGN KEY (`recipient_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL,\n  CONSTRAINT `chat_messages_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `__PREFIX__chat_rooms` (`id`),\n  CONSTRAINT `chat_messages_sender_id_foreign` FOREIGN KEY (`sender_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "chat_rooms": "CREATE TABLE `__PREFIX__chat_rooms` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `name` varchar(150) NOT NULL,\n  `owner_id` bigint(20) unsigned DEFAULT NULL,\n  `is_general` tinyint(1) NOT NULL DEFAULT 0,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  KEY `chat_rooms_owner_id_foreign` (`owner_id`),\n  CONSTRAINT `chat_rooms_owner_id_foreign` FOREIGN KEY (`owner_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "departments": "CREATE TABLE `__PREFIX__departments` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `code` varchar(50) NOT NULL,\n  `name` varchar(120) NOT NULL,\n  `description` varchar(255) DEFAULT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `departments_code_unique` (`code`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "duty_unavailable": "CREATE TABLE `__PREFIX__duty_unavailable` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `user_id` bigint(20) unsigned NOT NULL,\n  `date` date NOT NULL,\n  `reason` varchar(500) NOT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `duty_unavailable_user_id_date_unique` (`user_id`,`date`),\n  CONSTRAINT `duty_unavailable_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "failed_jobs": "CREATE TABLE `__PREFIX__failed_jobs` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `uuid` varchar(255) NOT NULL,\n  `connection` text NOT NULL,\n  `queue` text NOT NULL,\n  `payload` longtext NOT NULL,\n  `exception` longtext NOT NULL,\n  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "housing_beds": "CREATE TABLE `__PREFIX__housing_beds` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `room_id` bigint(20) unsigned NOT NULL,\n  `number` smallint(5) unsigned NOT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `housing_bed_number` (`room_id`,`number`),\n  CONSTRAINT `housing_beds_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `__PREFIX__housing_rooms` (`id`)\n) ENGINE=InnoDB AUTO_INCREMENT=825 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "housing_blocks": "CREATE TABLE `__PREFIX__housing_blocks` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `code` varchar(50) NOT NULL,\n  `name` varchar(120) NOT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `position` int(11) NOT NULL DEFAULT 0,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `housing_blocks_code_unique` (`code`)\n) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "housing_occupancies": "CREATE TABLE `__PREFIX__housing_occupancies` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `person_id` bigint(20) unsigned NOT NULL,\n  `bed_id` bigint(20) unsigned NOT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `housing_occupancies_person_id_unique` (`person_id`),\n  UNIQUE KEY `housing_occupancies_bed_id_unique` (`bed_id`),\n  CONSTRAINT `housing_occupancies_bed_id_foreign` FOREIGN KEY (`bed_id`) REFERENCES `__PREFIX__housing_beds` (`id`),\n  CONSTRAINT `housing_occupancies_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `__PREFIX__people` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "housing_rooms": "CREATE TABLE `__PREFIX__housing_rooms` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `block_id` bigint(20) unsigned NOT NULL,\n  `code` varchar(100) NOT NULL,\n  `name` varchar(120) NOT NULL,\n  `bed_count` smallint(5) unsigned NOT NULL,\n  `capacity` smallint(5) unsigned NOT NULL,\n  `kind` varchar(10) NOT NULL DEFAULT 'normal',\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `position` int(11) NOT NULL DEFAULT 0,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `housing_room_code` (`block_id`,`code`),\n  CONSTRAINT `housing_rooms_block_id_foreign` FOREIGN KEY (`block_id`) REFERENCES `__PREFIX__housing_blocks` (`id`)\n) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "import_mappings": "CREATE TABLE `__PREFIX__import_mappings` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `source_name` varchar(64) NOT NULL,\n  `source_table` varchar(32) NOT NULL,\n  `source_id` bigint(20) unsigned NOT NULL,\n  `target_table` varchar(32) NOT NULL,\n  `target_id` bigint(20) unsigned NOT NULL,\n  `checksum` char(64) NOT NULL,\n  `target_checksum` char(64) NOT NULL,\n  `import_version` int(10) unsigned NOT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `import_source_unique` (`source_name`,`source_table`,`source_id`),\n  UNIQUE KEY `import_target_unique` (`target_table`,`target_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "institution_records": "CREATE TABLE `__PREFIX__institution_records` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `kind` varchar(40) NOT NULL,\n  `values` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`values`)),\n  `natural_key` varchar(100) DEFAULT NULL,\n  `event_on` datetime DEFAULT NULL,\n  `position` int(11) NOT NULL DEFAULT 0,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_by` bigint(20) unsigned DEFAULT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `institution_records_kind_natural_key_unique` (`kind`,`natural_key`),\n  KEY `institution_records_created_by_foreign` (`created_by`),\n  KEY `institution_records_kind_is_active_event_on_id_index` (`kind`,`is_active`,`event_on`,`id`),\n  CONSTRAINT `institution_records_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "job_batches": "CREATE TABLE `__PREFIX__job_batches` (\n  `id` varchar(255) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `total_jobs` int(11) NOT NULL,\n  `pending_jobs` int(11) NOT NULL,\n  `__PREFIX__failed_jobs` int(11) NOT NULL,\n  `failed_job_ids` longtext NOT NULL,\n  `options` mediumtext DEFAULT NULL,\n  `cancelled_at` int(11) DEFAULT NULL,\n  `created_at` int(11) NOT NULL,\n  `finished_at` int(11) DEFAULT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "job_titles": "CREATE TABLE `__PREFIX__job_titles` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `code` varchar(50) NOT NULL,\n  `name` varchar(120) NOT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `job_titles_code_unique` (`code`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "jobs": "CREATE TABLE `__PREFIX__jobs` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `queue` varchar(255) NOT NULL,\n  `payload` longtext NOT NULL,\n  `attempts` tinyint(3) unsigned NOT NULL,\n  `reserved_at` int(10) unsigned DEFAULT NULL,\n  `available_at` int(10) unsigned NOT NULL,\n  `created_at` int(10) unsigned NOT NULL,\n  PRIMARY KEY (`id`),\n  KEY `jobs_queue_index` (`queue`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "meal_files": "CREATE TABLE `__PREFIX__meal_files` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `week` date NOT NULL,\n  `type` varchar(20) NOT NULL,\n  `path` varchar(200) NOT NULL,\n  `mime` varchar(50) NOT NULL,\n  `name` varchar(180) NOT NULL,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `meal_files_week_type_unique` (`week`,`type`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "menu_configuration": "CREATE TABLE `__PREFIX__menu_configuration` (\n  `id` int(10) unsigned NOT NULL,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `configured` tinyint(1) NOT NULL DEFAULT 0,\n  PRIMARY KEY (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "menu_items": "CREATE TABLE `__PREFIX__menu_items` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `parent_id` bigint(20) unsigned DEFAULT NULL,\n  `page_id` bigint(20) unsigned DEFAULT NULL,\n  `label` varchar(150) NOT NULL,\n  `position` int(10) unsigned NOT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `menu_items_page_id_unique` (`page_id`),\n  KEY `menu_items_parent_id_foreign` (`parent_id`),\n  CONSTRAINT `menu_items_page_id_foreign` FOREIGN KEY (`page_id`) REFERENCES `__PREFIX__portal_pages` (`id`),\n  CONSTRAINT `menu_items_parent_id_foreign` FOREIGN KEY (`parent_id`) REFERENCES `__PREFIX__menu_items` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "message_attachments": "CREATE TABLE `__PREFIX__message_attachments` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `message_id` bigint(20) unsigned NOT NULL,\n  `path` varchar(255) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `mime` varchar(150) NOT NULL,\n  `size` int(10) unsigned NOT NULL,\n  `expires_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  `deleted_at` timestamp NULL DEFAULT NULL,\n  `recipient_downloaded_at` timestamp NULL DEFAULT NULL,\n  `download_count` int(10) unsigned NOT NULL DEFAULT 0,\n  `last_downloaded_at` timestamp NULL DEFAULT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  KEY `message_attachments_message_id_foreign` (`message_id`),\n  KEY `message_attachments_expires_at_deleted_at_index` (`expires_at`,`deleted_at`),\n  CONSTRAINT `message_attachments_message_id_foreign` FOREIGN KEY (`message_id`) REFERENCES `__PREFIX__personal_messages` (`id`) ON DELETE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "migrations": "CREATE TABLE `__PREFIX__migrations` (\n  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n  `migration` varchar(255) NOT NULL,\n  `batch` int(11) NOT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "module_fields": "CREATE TABLE `__PREFIX__module_fields` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `module_id` bigint(20) unsigned NOT NULL,\n  `type` varchar(20) NOT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  `option_list_id` bigint(20) unsigned DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `field_module_identity` (`id`,`module_id`),\n  UNIQUE KEY `field_option_source_identity` (`id`,`module_id`,`option_list_id`),\n  KEY `module_fields_module_id_foreign` (`module_id`),\n  KEY `module_fields_option_list_id_foreign` (`option_list_id`),\n  CONSTRAINT `module_fields_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `__PREFIX__modules` (`id`),\n  CONSTRAINT `module_fields_option_list_id_foreign` FOREIGN KEY (`option_list_id`) REFERENCES `__PREFIX__option_lists` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "module_record_index": "CREATE TABLE `__PREFIX__module_record_index` (\n  `record_id` bigint(20) unsigned NOT NULL,\n  `module_id` bigint(20) unsigned NOT NULL,\n  `field_id` bigint(20) unsigned NOT NULL,\n  `text_value` varchar(255) DEFAULT NULL,\n  `longtext_value` text DEFAULT NULL,\n  `integer_value` bigint(20) DEFAULT NULL,\n  `decimal_value` decimal(18,6) DEFAULT NULL,\n  `date_value` date DEFAULT NULL,\n  `datetime_value` datetime DEFAULT NULL,\n  `boolean_value` tinyint(1) DEFAULT NULL,\n  PRIMARY KEY (`record_id`,`field_id`),\n  KEY `index_record_module_fk` (`record_id`,`module_id`),\n  KEY `index_field_module_fk` (`field_id`,`module_id`),\n  KEY `record_text_value_idx` (`module_id`,`field_id`,`text_value`),\n  KEY `record_integer_value_idx` (`module_id`,`field_id`,`integer_value`),\n  KEY `record_decimal_value_idx` (`module_id`,`field_id`,`decimal_value`),\n  KEY `record_date_value_idx` (`module_id`,`field_id`,`date_value`),\n  KEY `record_datetime_value_idx` (`module_id`,`field_id`,`datetime_value`),\n  KEY `record_boolean_value_idx` (`module_id`,`field_id`,`boolean_value`),\n  CONSTRAINT `index_field_module_fk` FOREIGN KEY (`field_id`, `module_id`) REFERENCES `__PREFIX__module_fields` (`id`, `module_id`),\n  CONSTRAINT `index_record_module_fk` FOREIGN KEY (`record_id`, `module_id`) REFERENCES `__PREFIX__module_records` (`id`, `module_id`) ON DELETE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "module_record_options": "CREATE TABLE `__PREFIX__module_record_options` (\n  `record_id` bigint(20) unsigned NOT NULL,\n  `module_id` bigint(20) unsigned NOT NULL,\n  `field_id` bigint(20) unsigned NOT NULL,\n  `option_list_id` bigint(20) unsigned NOT NULL,\n  `option_id` bigint(20) unsigned NOT NULL,\n  `label_snapshot` varchar(150) NOT NULL,\n  PRIMARY KEY (`record_id`,`field_id`,`option_id`),\n  KEY `usage_record_module_fk` (`record_id`,`module_id`),\n  KEY `usage_field_source_fk` (`field_id`,`module_id`,`option_list_id`),\n  KEY `usage_option_source_fk` (`option_id`,`option_list_id`),\n  KEY `record_option_lookup_idx` (`module_id`,`field_id`,`option_id`),\n  CONSTRAINT `usage_field_source_fk` FOREIGN KEY (`field_id`, `module_id`, `option_list_id`) REFERENCES `__PREFIX__module_fields` (`id`, `module_id`, `option_list_id`),\n  CONSTRAINT `usage_option_source_fk` FOREIGN KEY (`option_id`, `option_list_id`) REFERENCES `__PREFIX__option_items` (`id`, `option_list_id`),\n  CONSTRAINT `usage_record_module_fk` FOREIGN KEY (`record_id`, `module_id`) REFERENCES `__PREFIX__module_records` (`id`, `module_id`) ON DELETE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "module_records": "CREATE TABLE `__PREFIX__module_records` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `module_id` bigint(20) unsigned NOT NULL,\n  `version_id` bigint(20) unsigned NOT NULL,\n  `values` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`values`)),\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_by` bigint(20) unsigned DEFAULT NULL,\n  `updated_by` bigint(20) unsigned DEFAULT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  `person_id` bigint(20) unsigned DEFAULT NULL,\n  `single_person_slot` tinyint(3) unsigned DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `record_module_identity` (`id`,`module_id`),\n  UNIQUE KEY `module_person_single_identity` (`module_id`,`person_id`,`single_person_slot`),\n  KEY `module_records_created_by_foreign` (`created_by`),\n  KEY `module_records_updated_by_foreign` (`updated_by`),\n  KEY `record_version_module_fk` (`version_id`,`module_id`),\n  KEY `module_records_module_id_id_index` (`module_id`,`id`),\n  KEY `module_records_person_id_foreign` (`person_id`),\n  CONSTRAINT `module_records_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL,\n  CONSTRAINT `module_records_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `__PREFIX__modules` (`id`),\n  CONSTRAINT `module_records_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `__PREFIX__people` (`id`),\n  CONSTRAINT `module_records_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL,\n  CONSTRAINT `record_version_module_fk` FOREIGN KEY (`version_id`, `module_id`) REFERENCES `__PREFIX__module_versions` (`id`, `module_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "module_versions": "CREATE TABLE `__PREFIX__module_versions` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `module_id` bigint(20) unsigned NOT NULL,\n  `number` int(10) unsigned NOT NULL,\n  `status` varchar(20) NOT NULL DEFAULT 'draft',\n  `draft_slot` tinyint(3) unsigned DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `definition` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`definition`)),\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `module_versions_module_id_number_unique` (`module_id`,`number`),\n  UNIQUE KEY `version_module_identity` (`id`,`module_id`),\n  UNIQUE KEY `module_versions_module_id_draft_slot_unique` (`module_id`,`draft_slot`),\n  CONSTRAINT `module_versions_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `__PREFIX__modules` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "modules": "CREATE TABLE `__PREFIX__modules` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `code` varchar(80) NOT NULL,\n  `name` varchar(150) NOT NULL,\n  `record_mode` varchar(20) NOT NULL,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `modules_code_unique` (`code`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "option_items": "CREATE TABLE `__PREFIX__option_items` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `option_list_id` bigint(20) unsigned NOT NULL,\n  `label` varchar(150) NOT NULL,\n  `position` int(10) unsigned NOT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `option_source_identity` (`id`,`option_list_id`),\n  KEY `option_items_option_list_id_is_active_position_index` (`option_list_id`,`is_active`,`position`),\n  CONSTRAINT `option_items_option_list_id_foreign` FOREIGN KEY (`option_list_id`) REFERENCES `__PREFIX__option_lists` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "option_lists": "CREATE TABLE `__PREFIX__option_lists` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `code` varchar(80) NOT NULL,\n  `name` varchar(150) NOT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `option_lists_code_unique` (`code`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "page_permissions": "CREATE TABLE `__PREFIX__page_permissions` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `page_id` bigint(20) unsigned NOT NULL,\n  `target_type` varchar(10) NOT NULL,\n  `target_id` bigint(20) unsigned NOT NULL DEFAULT 0,\n  `department_id` bigint(20) unsigned DEFAULT NULL,\n  `job_title_id` bigint(20) unsigned DEFAULT NULL,\n  `user_id` bigint(20) unsigned DEFAULT NULL,\n  `permission` varchar(10) NOT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  `reason` varchar(500) DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `page_permission_target_unique` (`page_id`,`target_type`,`target_id`),\n  KEY `page_permissions_department_id_foreign` (`department_id`),\n  KEY `page_permissions_job_title_id_foreign` (`job_title_id`),\n  KEY `page_permissions_user_id_foreign` (`user_id`),\n  CONSTRAINT `page_permissions_department_id_foreign` FOREIGN KEY (`department_id`) REFERENCES `__PREFIX__departments` (`id`) ON DELETE CASCADE,\n  CONSTRAINT `page_permissions_job_title_id_foreign` FOREIGN KEY (`job_title_id`) REFERENCES `__PREFIX__job_titles` (`id`) ON DELETE CASCADE,\n  CONSTRAINT `page_permissions_page_id_foreign` FOREIGN KEY (`page_id`) REFERENCES `__PREFIX__portal_pages` (`id`) ON DELETE CASCADE,\n  CONSTRAINT `page_permissions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "people": "CREATE TABLE `__PREFIX__people` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `tc_identity` varchar(11) DEFAULT NULL,\n  `full_name` varchar(255) DEFAULT NULL,\n  `admitted_on` date DEFAULT NULL,\n  `registered_on` date DEFAULT NULL,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_by` bigint(20) unsigned DEFAULT NULL,\n  `updated_by` bigint(20) unsigned DEFAULT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  KEY `people_created_by_foreign` (`created_by`),\n  KEY `people_updated_by_foreign` (`updated_by`),\n  KEY `people_tc_identity_index` (`tc_identity`),\n  CONSTRAINT `people_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL,\n  CONSTRAINT `people_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "person_case_data": "CREATE TABLE `__PREFIX__person_case_data` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `person_id` bigint(20) unsigned NOT NULL,\n  `ilkgorus_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `infaz_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `izin_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `huk_yas` int(11) DEFAULT NULL,\n  `huk_meslek` varchar(255) DEFAULT NULL,\n  `huk_saglik` varchar(255) DEFAULT NULL,\n  `huk_engelli` varchar(255) DEFAULT NULL,\n  `huk_infaz` bigint(20) unsigned DEFAULT NULL,\n  `huk_aile` varchar(255) DEFAULT NULL,\n  `huk_bilgi` bigint(20) unsigned DEFAULT NULL,\n  `huk_tanidik` varchar(255) DEFAULT NULL,\n  `huk_kendine_zarar` varchar(255) DEFAULT NULL,\n  `huk_calis` bigint(20) unsigned DEFAULT NULL,\n  `huk_notlar` text DEFAULT NULL,\n  `huk_ds_durum` varchar(255) DEFAULT NULL,\n  `infaz_uyap_no` varchar(255) DEFAULT NULL,\n  `infaz_dogum_tarihi` date DEFAULT NULL,\n  `infaz_ds_tarihi` date DEFAULT NULL,\n  `infaz_tahliye_tarihi` date DEFAULT NULL,\n  `infaz_durumu` bigint(20) unsigned DEFAULT NULL,\n  `infaz_ceza_yil` int(11) DEFAULT NULL,\n  `infaz_ceza_ay` int(11) DEFAULT NULL,\n  `infaz_ceza_gun` int(11) DEFAULT NULL,\n  `infaz_ozel_kurul` bigint(20) unsigned DEFAULT NULL,\n  `infaz_ozel_kurul_durumu` bigint(20) unsigned DEFAULT NULL,\n  `infaz_ozel_kurul_tarihi` date DEFAULT NULL,\n  `infaz_gelis_nedeni` bigint(20) unsigned DEFAULT NULL,\n  `infaz_not` text DEFAULT NULL,\n  `infaz_ilave` bigint(20) unsigned DEFAULT NULL,\n  `infaz_satir_rengi` bigint(20) unsigned DEFAULT NULL,\n  `izin_turu` bigint(20) unsigned DEFAULT NULL,\n  `izin_gun_sayisi` int(11) DEFAULT NULL,\n  `izin_cikis_tarihi` date DEFAULT NULL,\n  `izin_cikis_saati` varchar(8) DEFAULT NULL,\n  `izin_donus_tarihi` date DEFAULT NULL,\n  `izin_donus_saati` varchar(8) DEFAULT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  `egitim_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `kurslar_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `revir_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `ziyaret_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `manevi_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `mesem_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `hijyen_isg_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `psikososyal_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `calisma_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `alan_inceleme_revision` int(10) unsigned NOT NULL DEFAULT 0,\n  `egt_mezuniyet` bigint(20) unsigned DEFAULT NULL,\n  `egt_ogrenim` bigint(20) unsigned DEFAULT NULL,\n  `egt_okul` varchar(255) DEFAULT NULL,\n  `egt_fakulte` varchar(255) DEFAULT NULL,\n  `egt_bolum` varchar(255) DEFAULT NULL,\n  `egt_ogretim` bigint(20) unsigned DEFAULT NULL,\n  `egt_sinif` varchar(255) DEFAULT NULL,\n  `egt_ogrencino` varchar(255) DEFAULT NULL,\n  `egt_okulsifre` text DEFAULT NULL,\n  `egt_domainsifre` text DEFAULT NULL,\n  `egt_iletisim` varchar(255) DEFAULT NULL,\n  `kurs_adi` varchar(255) DEFAULT NULL,\n  `kurs_ogretmen` varchar(255) DEFAULT NULL,\n  `kurs_suresi` varchar(255) DEFAULT NULL,\n  `kurs_baslangic` date DEFAULT NULL,\n  `kurs_bitis` date DEFAULT NULL,\n  `huk_kronik` text DEFAULT NULL,\n  `revir_bulasici` text DEFAULT NULL,\n  `huk_portor` bigint(20) unsigned DEFAULT NULL,\n  `revir_portor_tarihi_1` date DEFAULT NULL,\n  `revir_portor_tarihi_2` date DEFAULT NULL,\n  `calisma_durum` bigint(20) unsigned DEFAULT NULL,\n  `ceza_tehir` bigint(20) unsigned DEFAULT NULL,\n  `revir_uyap` bigint(20) unsigned DEFAULT NULL,\n  `ziyaret_ziyaretci1` varchar(255) DEFAULT NULL,\n  `ziyaret_tarih1` date DEFAULT NULL,\n  `ziyaret_not1` text DEFAULT NULL,\n  `ziyaret_ziyaretci2` varchar(255) DEFAULT NULL,\n  `ziyaret_tarih2` date DEFAULT NULL,\n  `ziyaret_not2` text DEFAULT NULL,\n  `ziyaret_ziyaretci3` varchar(255) DEFAULT NULL,\n  `ziyaret_tarih3` date DEFAULT NULL,\n  `ziyaret_not3` text DEFAULT NULL,\n  `manevi_gorusme` date DEFAULT NULL,\n  `manevi_dini` bigint(20) unsigned DEFAULT NULL,\n  `manevi_egitim` bigint(20) unsigned DEFAULT NULL,\n  `manevi_kuran_bilgi` bigint(20) unsigned DEFAULT NULL,\n  `manevi_hafiz` bigint(20) unsigned DEFAULT NULL,\n  `manevi_talebi` bigint(20) unsigned DEFAULT NULL,\n  `manevi_faaliyet1` bigint(20) unsigned DEFAULT NULL,\n  `manevi_faaliyet2` bigint(20) unsigned DEFAULT NULL,\n  `manevi_faaliyet3` bigint(20) unsigned DEFAULT NULL,\n  `manevi_kurs` bigint(20) unsigned DEFAULT NULL,\n  `manevi_belge` bigint(20) unsigned DEFAULT NULL,\n  `manevi_odul` bigint(20) unsigned DEFAULT NULL,\n  `manevi_aciklama` text DEFAULT NULL,\n  `huk_karar` bigint(20) unsigned DEFAULT NULL,\n  `mesem_gorusme` bigint(20) unsigned DEFAULT NULL,\n  `mesem_belge_turu` bigint(20) unsigned DEFAULT NULL,\n  `mesem_mevcut_belge` bigint(20) unsigned DEFAULT NULL,\n  `mesem_sinif` bigint(20) unsigned DEFAULT NULL,\n  `mesem_dali` varchar(255) DEFAULT NULL,\n  `mesem_dilekce` bigint(20) unsigned DEFAULT NULL,\n  `mesem_ogrenim_belgesi` bigint(20) unsigned DEFAULT NULL,\n  `hijyen_is` bigint(20) unsigned DEFAULT NULL,\n  `mesem_durumu` bigint(20) unsigned DEFAULT NULL,\n  `huk_risk` bigint(20) unsigned DEFAULT NULL,\n  `hijyen_hijyen` bigint(20) unsigned DEFAULT NULL,\n  `huk_zarar` text DEFAULT NULL,\n  `huk_personel_uyum` text DEFAULT NULL,\n  `huk_oda_yatak_uyum` text DEFAULT NULL,\n  `huk_temizlik_duzen` text DEFAULT NULL,\n  `huk_tasarruf` text DEFAULT NULL,\n  `huk_kisisel_bakim` text DEFAULT NULL,\n  `huk_saglik_kural` text DEFAULT NULL,\n  `huk_gorevli_tutum` text DEFAULT NULL,\n  `huk_tutum_davranis` text DEFAULT NULL,\n  `infaz_cinsel_yazi_tarihi` date DEFAULT NULL,\n  `mesem_nezuniyet` text DEFAULT NULL,\n  `egt_statu` varchar(255) DEFAULT NULL,\n  `revir_statu` varchar(255) DEFAULT NULL,\n  `manevi_statu` varchar(255) DEFAULT NULL,\n  `hijyen_statu` varchar(255) DEFAULT NULL,\n  `mesem_statu` varchar(255) DEFAULT NULL,\n  `infaz_kamu_mahkeme` varchar(255) DEFAULT NULL,\n  `infaz_cinsel_suc` date DEFAULT NULL,\n  `infaz_sort_year` bigint(20) unsigned GENERATED ALWAYS AS (cast(substring_index(`infaz_uyap_no`,'/',1) as unsigned)) STORED,\n  `infaz_sort_number` bigint(20) unsigned GENERATED ALWAYS AS (cast(substring_index(`infaz_uyap_no`,'/',-1) as unsigned)) STORED,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `person_case_data_person_id_unique` (`person_id`),\n  KEY `case_huk_infaz_fk` (`huk_infaz`),\n  KEY `case_huk_bilgi_fk` (`huk_bilgi`),\n  KEY `case_huk_calis_fk` (`huk_calis`),\n  KEY `case_infaz_durumu_fk` (`infaz_durumu`),\n  KEY `case_infaz_ozel_kurul_fk` (`infaz_ozel_kurul`),\n  KEY `case_infaz_ozel_kurul_durumu_fk` (`infaz_ozel_kurul_durumu`),\n  KEY `case_infaz_gelis_nedeni_fk` (`infaz_gelis_nedeni`),\n  KEY `case_infaz_ilave_fk` (`infaz_ilave`),\n  KEY `case_infaz_satir_rengi_fk` (`infaz_satir_rengi`),\n  KEY `case_izin_turu_fk` (`izin_turu`),\n  KEY `person_case_data_infaz_ds_tarihi_index` (`infaz_ds_tarihi`),\n  KEY `person_case_data_infaz_tahliye_tarihi_index` (`infaz_tahliye_tarihi`),\n  KEY `person_case_data_izin_cikis_tarihi_index` (`izin_cikis_tarihi`),\n  KEY `person_case_data_izin_donus_tarihi_index` (`izin_donus_tarihi`),\n  KEY `svc_egt_mezuniyet_fk` (`egt_mezuniyet`),\n  KEY `svc_egt_ogrenim_fk` (`egt_ogrenim`),\n  KEY `svc_egt_ogretim_fk` (`egt_ogretim`),\n  KEY `svc_huk_portor_fk` (`huk_portor`),\n  KEY `svc_calisma_durum_fk` (`calisma_durum`),\n  KEY `svc_ceza_tehir_fk` (`ceza_tehir`),\n  KEY `svc_revir_uyap_fk` (`revir_uyap`),\n  KEY `svc_manevi_dini_fk` (`manevi_dini`),\n  KEY `svc_manevi_egitim_fk` (`manevi_egitim`),\n  KEY `svc_manevi_kuran_bilgi_fk` (`manevi_kuran_bilgi`),\n  KEY `svc_manevi_hafiz_fk` (`manevi_hafiz`),\n  KEY `svc_manevi_talebi_fk` (`manevi_talebi`),\n  KEY `svc_manevi_faaliyet1_fk` (`manevi_faaliyet1`),\n  KEY `svc_manevi_faaliyet2_fk` (`manevi_faaliyet2`),\n  KEY `svc_manevi_faaliyet3_fk` (`manevi_faaliyet3`),\n  KEY `svc_manevi_kurs_fk` (`manevi_kurs`),\n  KEY `svc_manevi_belge_fk` (`manevi_belge`),\n  KEY `svc_manevi_odul_fk` (`manevi_odul`),\n  KEY `svc_huk_karar_fk` (`huk_karar`),\n  KEY `svc_mesem_gorusme_fk` (`mesem_gorusme`),\n  KEY `svc_mesem_belge_turu_fk` (`mesem_belge_turu`),\n  KEY `svc_mesem_mevcut_belge_fk` (`mesem_mevcut_belge`),\n  KEY `svc_mesem_sinif_fk` (`mesem_sinif`),\n  KEY `svc_mesem_dilekce_fk` (`mesem_dilekce`),\n  KEY `svc_mesem_ogrenim_belgesi_fk` (`mesem_ogrenim_belgesi`),\n  KEY `svc_hijyen_is_fk` (`hijyen_is`),\n  KEY `svc_mesem_durumu_fk` (`mesem_durumu`),\n  KEY `svc_huk_risk_fk` (`huk_risk`),\n  KEY `svc_hijyen_hijyen_fk` (`hijyen_hijyen`),\n  KEY `case_sentence_sort_idx` (`infaz_sort_year`,`infaz_sort_number`,`person_id`),\n  CONSTRAINT `case_huk_bilgi_fk` FOREIGN KEY (`huk_bilgi`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `case_huk_calis_fk` FOREIGN KEY (`huk_calis`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `case_huk_infaz_fk` FOREIGN KEY (`huk_infaz`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `case_infaz_durumu_fk` FOREIGN KEY (`infaz_durumu`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `case_infaz_gelis_nedeni_fk` FOREIGN KEY (`infaz_gelis_nedeni`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `case_infaz_ilave_fk` FOREIGN KEY (`infaz_ilave`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `case_infaz_ozel_kurul_durumu_fk` FOREIGN KEY (`infaz_ozel_kurul_durumu`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `case_infaz_ozel_kurul_fk` FOREIGN KEY (`infaz_ozel_kurul`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `case_infaz_satir_rengi_fk` FOREIGN KEY (`infaz_satir_rengi`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `case_izin_turu_fk` FOREIGN KEY (`izin_turu`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `person_case_data_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `__PREFIX__people` (`id`),\n  CONSTRAINT `svc_calisma_durum_fk` FOREIGN KEY (`calisma_durum`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_ceza_tehir_fk` FOREIGN KEY (`ceza_tehir`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_egt_mezuniyet_fk` FOREIGN KEY (`egt_mezuniyet`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_egt_ogrenim_fk` FOREIGN KEY (`egt_ogrenim`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_egt_ogretim_fk` FOREIGN KEY (`egt_ogretim`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_hijyen_hijyen_fk` FOREIGN KEY (`hijyen_hijyen`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_hijyen_is_fk` FOREIGN KEY (`hijyen_is`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_huk_karar_fk` FOREIGN KEY (`huk_karar`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_huk_portor_fk` FOREIGN KEY (`huk_portor`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_huk_risk_fk` FOREIGN KEY (`huk_risk`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_belge_fk` FOREIGN KEY (`manevi_belge`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_dini_fk` FOREIGN KEY (`manevi_dini`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_egitim_fk` FOREIGN KEY (`manevi_egitim`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_faaliyet1_fk` FOREIGN KEY (`manevi_faaliyet1`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_faaliyet2_fk` FOREIGN KEY (`manevi_faaliyet2`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_faaliyet3_fk` FOREIGN KEY (`manevi_faaliyet3`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_hafiz_fk` FOREIGN KEY (`manevi_hafiz`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_kuran_bilgi_fk` FOREIGN KEY (`manevi_kuran_bilgi`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_kurs_fk` FOREIGN KEY (`manevi_kurs`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_odul_fk` FOREIGN KEY (`manevi_odul`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_manevi_talebi_fk` FOREIGN KEY (`manevi_talebi`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_mesem_belge_turu_fk` FOREIGN KEY (`mesem_belge_turu`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_mesem_dilekce_fk` FOREIGN KEY (`mesem_dilekce`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_mesem_durumu_fk` FOREIGN KEY (`mesem_durumu`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_mesem_gorusme_fk` FOREIGN KEY (`mesem_gorusme`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_mesem_mevcut_belge_fk` FOREIGN KEY (`mesem_mevcut_belge`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_mesem_ogrenim_belgesi_fk` FOREIGN KEY (`mesem_ogrenim_belgesi`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_mesem_sinif_fk` FOREIGN KEY (`mesem_sinif`) REFERENCES `__PREFIX__case_option_items` (`id`),\n  CONSTRAINT `svc_revir_uyap_fk` FOREIGN KEY (`revir_uyap`) REFERENCES `__PREFIX__case_option_items` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "person_locations": "CREATE TABLE `__PREFIX__person_locations` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `person_id` bigint(20) unsigned NOT NULL,\n  `block_id` bigint(20) unsigned DEFAULT NULL,\n  `room_id` bigint(20) unsigned DEFAULT NULL,\n  `bed_id` bigint(20) unsigned DEFAULT NULL,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `person_locations_person_id_unique` (`person_id`),\n  KEY `person_locations_block_id_foreign` (`block_id`),\n  KEY `person_locations_room_id_foreign` (`room_id`),\n  KEY `person_locations_bed_id_foreign` (`bed_id`),\n  CONSTRAINT `person_locations_bed_id_foreign` FOREIGN KEY (`bed_id`) REFERENCES `__PREFIX__housing_beds` (`id`),\n  CONSTRAINT `person_locations_block_id_foreign` FOREIGN KEY (`block_id`) REFERENCES `__PREFIX__housing_blocks` (`id`),\n  CONSTRAINT `person_locations_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `__PREFIX__people` (`id`),\n  CONSTRAINT `person_locations_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `__PREFIX__housing_rooms` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "person_notes": "CREATE TABLE `__PREFIX__person_notes` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `person_id` bigint(20) unsigned NOT NULL,\n  `author_id` bigint(20) unsigned DEFAULT NULL,\n  `author_name` varchar(255) NOT NULL,\n  `is_private` tinyint(1) NOT NULL,\n  `body` text NOT NULL,\n  `request_id` char(36) NOT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `person_notes_request_id_unique` (`request_id`),\n  KEY `person_notes_author_id_foreign` (`author_id`),\n  KEY `person_notes_person_id_is_private_id_index` (`person_id`,`is_private`,`id`),\n  CONSTRAINT `person_notes_author_id_foreign` FOREIGN KEY (`author_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL,\n  CONSTRAINT `person_notes_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `__PREFIX__people` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "person_photos": "CREATE TABLE `__PREFIX__person_photos` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `person_id` bigint(20) unsigned NOT NULL,\n  `path` varchar(200) DEFAULT NULL,\n  `mime` varchar(30) DEFAULT NULL,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `person_photos_person_id_unique` (`person_id`),\n  CONSTRAINT `person_photos_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `__PREFIX__people` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "person_status_assignments": "CREATE TABLE `__PREFIX__person_status_assignments` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `person_id` bigint(20) unsigned NOT NULL,\n  `status_id` bigint(20) unsigned NOT NULL,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `person_status_assignments_person_id_unique` (`person_id`),\n  KEY `person_status_assignments_status_id_foreign` (`status_id`),\n  CONSTRAINT `person_status_assignments_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `__PREFIX__people` (`id`),\n  CONSTRAINT `person_status_assignments_status_id_foreign` FOREIGN KEY (`status_id`) REFERENCES `__PREFIX__person_statuses` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "person_statuses": "CREATE TABLE `__PREFIX__person_statuses` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `code` varchar(80) NOT NULL,\n  `label` varchar(120) NOT NULL,\n  `included_in_active_list` tinyint(1) NOT NULL,\n  `counts_room` tinyint(1) NOT NULL,\n  `reserves_bed` tinyint(1) NOT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `position` int(11) NOT NULL DEFAULT 0,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `person_statuses_code_unique` (`code`)\n) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "personal_messages": "CREATE TABLE `__PREFIX__personal_messages` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `sender_id` bigint(20) unsigned NOT NULL,\n  `recipient_id` bigint(20) unsigned NOT NULL,\n  `sender_name` varchar(255) NOT NULL,\n  `recipient_name` varchar(255) NOT NULL,\n  `subject` varchar(255) NOT NULL,\n  `body` longtext NOT NULL,\n  `sender_deleted` tinyint(1) NOT NULL DEFAULT 0,\n  `recipient_deleted` tinyint(1) NOT NULL DEFAULT 0,\n  `read_at` timestamp NULL DEFAULT NULL,\n  `request_id` char(36) NOT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `personal_messages_request_id_unique` (`request_id`),\n  KEY `pm_recipient_idx` (`recipient_id`,`recipient_deleted`,`id`),\n  KEY `pm_sender_idx` (`sender_id`,`sender_deleted`,`id`),\n  CONSTRAINT `personal_messages_recipient_id_foreign` FOREIGN KEY (`recipient_id`) REFERENCES `__PREFIX__users` (`id`),\n  CONSTRAINT `personal_messages_sender_id_foreign` FOREIGN KEY (`sender_id`) REFERENCES `__PREFIX__users` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "portal_installations": "CREATE TABLE `__PREFIX__portal_installations` (\n  `id` tinyint(3) unsigned NOT NULL,\n  `installed_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "portal_login_events": "CREATE TABLE `__PREFIX__portal_login_events` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `user_id` bigint(20) unsigned DEFAULT NULL,\n  `username` varchar(100) NOT NULL,\n  `full_name` varchar(150) DEFAULT NULL,\n  `outcome` varchar(20) NOT NULL,\n  `ip_address` varchar(45) DEFAULT NULL,\n  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  KEY `portal_login_events_user_id_created_at_index` (`user_id`,`created_at`),\n  KEY `portal_login_events_outcome_created_at_index` (`outcome`,`created_at`),\n  CONSTRAINT `portal_login_events_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "portal_pages": "CREATE TABLE `__PREFIX__portal_pages` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `code` varchar(80) NOT NULL,\n  `name` varchar(150) NOT NULL,\n  `legacy_file` varchar(150) DEFAULT NULL,\n  `path` varchar(200) DEFAULT NULL,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  `module_id` bigint(20) unsigned DEFAULT NULL,\n  `description` varchar(1000) DEFAULT NULL,\n  `data_table` varchar(100) DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `portal_pages_code_unique` (`code`),\n  UNIQUE KEY `portal_pages_module_id_unique` (`module_id`),\n  CONSTRAINT `portal_pages_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `__PREFIX__modules` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "sessions": "CREATE TABLE `__PREFIX__sessions` (\n  `id` varchar(255) NOT NULL,\n  `user_id` bigint(20) unsigned DEFAULT NULL,\n  `ip_address` varchar(45) DEFAULT NULL,\n  `user_agent` text DEFAULT NULL,\n  `payload` longtext NOT NULL,\n  `last_activity` int(11) NOT NULL,\n  PRIMARY KEY (`id`),\n  KEY `sessions_user_id_foreign` (`user_id`),\n  KEY `sessions_last_activity_index` (`last_activity`),\n  CONSTRAINT `sessions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "staff_nodes": "CREATE TABLE `__PREFIX__staff_nodes` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `parent_id` bigint(20) unsigned DEFAULT NULL,\n  `user_id` bigint(20) unsigned DEFAULT NULL,\n  `full_name` varchar(255) NOT NULL,\n  `title` varchar(255) NOT NULL,\n  `description` text DEFAULT NULL,\n  `position` int(10) unsigned NOT NULL DEFAULT 0,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  KEY `staff_nodes_user_id_foreign` (`user_id`),\n  KEY `staff_nodes_parent_id_position_id_index` (`parent_id`,`position`,`id`),\n  CONSTRAINT `staff_nodes_parent_id_foreign` FOREIGN KEY (`parent_id`) REFERENCES `__PREFIX__staff_nodes` (`id`),\n  CONSTRAINT `staff_nodes_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `__PREFIX__users` (`id`) ON DELETE SET NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "users": "CREATE TABLE `__PREFIX__users` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `username` varchar(100) NOT NULL,\n  `registry_number` varchar(50) DEFAULT NULL,\n  `full_name` varchar(150) DEFAULT NULL,\n  `email` varchar(100) DEFAULT NULL,\n  `phone` varchar(30) DEFAULT NULL,\n  `password` varchar(255) NOT NULL,\n  `department_id` bigint(20) unsigned DEFAULT NULL,\n  `job_title_id` bigint(20) unsigned DEFAULT NULL,\n  `is_system_admin` tinyint(1) NOT NULL DEFAULT 0,\n  `is_active` tinyint(1) NOT NULL DEFAULT 1,\n  `must_change_password` tinyint(1) NOT NULL DEFAULT 0,\n  `session_version` int(10) unsigned NOT NULL DEFAULT 0,\n  `failed_login_attempts` int(10) unsigned NOT NULL DEFAULT 0,\n  `locked_at` timestamp NULL DEFAULT NULL,\n  `last_login_at` timestamp NULL DEFAULT NULL,\n  `revision` int(10) unsigned NOT NULL DEFAULT 1,\n  `remember_token` varchar(100) DEFAULT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  `is_guest` tinyint(1) NOT NULL DEFAULT 0,\n  `last_activity_at` timestamp NULL DEFAULT NULL,\n  `is_master_admin` tinyint(1) NOT NULL DEFAULT 0,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `users_username_unique` (`username`),\n  KEY `users_department_id_foreign` (`department_id`),\n  KEY `users_job_title_id_foreign` (`job_title_id`),\n  KEY `users_last_activity_at_index` (`last_activity_at`),\n  CONSTRAINT `users_department_id_foreign` FOREIGN KEY (`department_id`) REFERENCES `__PREFIX__departments` (`id`),\n  CONSTRAINT `users_job_title_id_foreign` FOREIGN KEY (`job_title_id`) REFERENCES `__PREFIX__job_titles` (`id`)\n) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "private_file_deletions": "CREATE TABLE `__PREFIX__private_file_deletions` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `path` varchar(255) NOT NULL,\n  `created_at` timestamp NULL DEFAULT NULL,\n  `updated_at` timestamp NULL DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `private_file_deletions_path_unique` (`path`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"
+    },
+    "seed": {
+        "migrations": [
+            {
+                "id": 1,
+                "migration": "0001_01_01_000000_create_organization_tables",
+                "batch": 1
+            },
+            {
+                "id": 2,
+                "migration": "0001_01_01_000000_create_users_table",
+                "batch": 1
+            },
+            {
+                "id": 3,
+                "migration": "0001_01_01_000001_create_cache_table",
+                "batch": 1
+            },
+            {
+                "id": 4,
+                "migration": "0001_01_01_000002_create_jobs_table",
+                "batch": 1
+            },
+            {
+                "id": 5,
+                "migration": "0001_01_01_000004_create_import_mappings_table",
+                "batch": 1
+            },
+            {
+                "id": 6,
+                "migration": "2026_10_03_000001_create_portal_installations_table",
+                "batch": 1
+            },
+            {
+                "id": 7,
+                "migration": "2026_10_03_000002_create_audit_events_table",
+                "batch": 1
+            },
+            {
+                "id": 8,
+                "migration": "2026_10_04_000001_create_page_access_tables",
+                "batch": 1
+            },
+            {
+                "id": 9,
+                "migration": "2026_10_04_000002_create_module_definition_tables",
+                "batch": 1
+            },
+            {
+                "id": 10,
+                "migration": "2026_10_04_000003_create_option_catalog",
+                "batch": 1
+            },
+            {
+                "id": 11,
+                "migration": "2026_10_04_000004_create_module_records",
+                "batch": 1
+            },
+            {
+                "id": 12,
+                "migration": "2026_10_04_000005_link_module_pages",
+                "batch": 1
+            },
+            {
+                "id": 13,
+                "migration": "2026_10_04_000006_create_menu_items",
+                "batch": 1
+            },
+            {
+                "id": 14,
+                "migration": "2026_10_04_000007_create_people",
+                "batch": 1
+            },
+            {
+                "id": 15,
+                "migration": "2026_10_04_000008_link_module_people",
+                "batch": 1
+            },
+            {
+                "id": 16,
+                "migration": "2026_10_04_000009_create_housing",
+                "batch": 1
+            },
+            {
+                "id": 17,
+                "migration": "2026_10_04_000010_create_person_statuses",
+                "batch": 1
+            },
+            {
+                "id": 18,
+                "migration": "2026_10_04_000011_create_person_locations",
+                "batch": 1
+            },
+            {
+                "id": 19,
+                "migration": "2026_10_04_000012_create_person_case_workflows",
+                "batch": 1
+            },
+            {
+                "id": 20,
+                "migration": "2026_10_04_000013_create_staff_tree",
+                "batch": 1
+            },
+            {
+                "id": 21,
+                "migration": "2026_10_04_000014_extend_service_workflows",
+                "batch": 1
+            },
+            {
+                "id": 22,
+                "migration": "2026_10_04_000015_create_person_notes",
+                "batch": 1
+            },
+            {
+                "id": 23,
+                "migration": "2026_10_04_000016_create_institution_workflows",
+                "batch": 1
+            },
+            {
+                "id": 24,
+                "migration": "2026_10_04_000017_create_personal_messages",
+                "batch": 1
+            },
+            {
+                "id": 25,
+                "migration": "2026_10_05_000018_index_sentence_sort",
+                "batch": 1
+            },
+            {
+                "id": 26,
+                "migration": "2026_10_08_000019_create_administration_workspace",
+                "batch": 1
+            },
+            {
+                "id": 27,
+                "migration": "2026_10_09_000020_complete_administration_tools",
+                "batch": 1
+            },
+            {
+                "id": 28,
+                "migration": "2026_10_16_000021_create_private_file_deletions",
+                "batch": 1
+            },
+            {
+                "id": 29,
+                "migration": "2026_10_18_000023_add_master_administrator_identity",
+                "batch": 1
+            }
+        ],
+        "person_statuses": [
+            {
+                "id": 1,
+                "code": "new_record",
+                "label": "YENİ KAYIT",
+                "included_in_active_list": 1,
+                "counts_room": 1,
+                "reserves_bed": 1,
+                "is_active": 1,
+                "revision": 1,
+                "position": 1,
+                "created_at": "2026-10-09 19:10:48",
+                "updated_at": "2026-10-09 19:10:48"
+            },
+            {
+                "id": 2,
+                "code": "present",
+                "label": "MEVCUT",
+                "included_in_active_list": 1,
+                "counts_room": 1,
+                "reserves_bed": 1,
+                "is_active": 1,
+                "revision": 1,
+                "position": 2,
+                "created_at": "2026-10-09 19:10:48",
+                "updated_at": "2026-10-09 19:10:48"
+            },
+            {
+                "id": 3,
+                "code": "guest",
+                "label": "MİSAFİR",
+                "included_in_active_list": 1,
+                "counts_room": 1,
+                "reserves_bed": 1,
+                "is_active": 1,
+                "revision": 1,
+                "position": 3,
+                "created_at": "2026-10-09 19:10:48",
+                "updated_at": "2026-10-09 19:10:48"
+            },
+            {
+                "id": 4,
+                "code": "hospital",
+                "label": "HASTANE",
+                "included_in_active_list": 1,
+                "counts_room": 1,
+                "reserves_bed": 1,
+                "is_active": 1,
+                "revision": 1,
+                "position": 4,
+                "created_at": "2026-10-09 19:10:48",
+                "updated_at": "2026-10-09 19:10:48"
+            },
+            {
+                "id": 5,
+                "code": "student",
+                "label": "ÖĞRENCİ",
+                "included_in_active_list": 1,
+                "counts_room": 1,
+                "reserves_bed": 1,
+                "is_active": 1,
+                "revision": 1,
+                "position": 5,
+                "created_at": "2026-10-09 19:10:48",
+                "updated_at": "2026-10-09 19:10:48"
+            },
+            {
+                "id": 6,
+                "code": "special_leave",
+                "label": "ÖZEL İZİN",
+                "included_in_active_list": 1,
+                "counts_room": 1,
+                "reserves_bed": 1,
+                "is_active": 1,
+                "revision": 1,
+                "position": 6,
+                "created_at": "2026-10-09 19:10:48",
+                "updated_at": "2026-10-09 19:10:48"
+            },
+            {
+                "id": 7,
+                "code": "data_change",
+                "label": "VERİ DEĞİŞİKLİĞİ",
+                "included_in_active_list": 1,
+                "counts_room": 1,
+                "reserves_bed": 1,
+                "is_active": 1,
+                "revision": 1,
+                "position": 7,
+                "created_at": "2026-10-09 19:10:48",
+                "updated_at": "2026-10-09 19:10:48"
+            }
+        ],
+        "case_option_lists": [
+            {
+                "id": 1,
+                "code": "huk-infaz",
+                "name": "Daha Önce İnfaz Kurumuna Girmiş mi",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 2,
+                "code": "huk-bilgi",
+                "name": "Ailesi veya Çevresi Biliyor mu",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 3,
+                "code": "huk-calis",
+                "name": "Çalışma Yeri",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 4,
+                "code": "infaz-durumu",
+                "name": "İnfaz Durumu",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 5,
+                "code": "infaz-ozel-kurul",
+                "name": "Özel Kurul",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 6,
+                "code": "infaz-ozel-kurul-durumu",
+                "name": "Özel Kurul Durumu",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 7,
+                "code": "infaz-gelis-nedeni",
+                "name": "Geliş Nedeni",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 8,
+                "code": "infaz-ilave",
+                "name": "İlave DS",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 9,
+                "code": "infaz-satir-rengi",
+                "name": "Satır Rengi",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 10,
+                "code": "izin-turu",
+                "name": "İzin Türü",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 11,
+                "code": "egt-mezuniyet",
+                "name": "MEZUNİYET",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 12,
+                "code": "egt-ogrenim",
+                "name": "ÖĞRENİM DURUMU",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 13,
+                "code": "egt-ogretim",
+                "name": "ÖĞRETİM ŞEKLİ",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 14,
+                "code": "huk-portor",
+                "name": "PORTÖR DURUMU",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 15,
+                "code": "calisma-durum",
+                "name": "ÇALIŞMA DURUMU",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 16,
+                "code": "ceza-tehir",
+                "name": "CEZA TEHİRİ +R",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 17,
+                "code": "revir-uyap",
+                "name": "UYAP",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 18,
+                "code": "manevi-dini",
+                "name": "DİNİ",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 19,
+                "code": "manevi-egitim",
+                "name": "DİNİ EĞİTİM DURUMU",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 20,
+                "code": "manevi-kuran-bilgi",
+                "name": "KURAN BİLGİSİ",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 21,
+                "code": "manevi-hafiz",
+                "name": "HAFIZLIK DURUMU",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 22,
+                "code": "manevi-talebi",
+                "name": "HÜKÜMLÜ TALEBİ",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 23,
+                "code": "manevi-faaliyet1",
+                "name": "KATILDIĞI FAALİYET 1",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 24,
+                "code": "manevi-faaliyet2",
+                "name": "KATILDIĞI FAALİYET 2",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 25,
+                "code": "manevi-faaliyet3",
+                "name": "KATILDIĞI FAALİYET 3",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 26,
+                "code": "manevi-kurs",
+                "name": "DEVAM EDEN KURS",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 27,
+                "code": "manevi-belge",
+                "name": "BELGE",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 28,
+                "code": "manevi-odul",
+                "name": "ÖDÜL TEKLİFİ",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 29,
+                "code": "huk-karar",
+                "name": "Çalışma Kararı",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 30,
+                "code": "mesem-gorusme",
+                "name": "Görüşme",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 31,
+                "code": "mesem-belge-turu",
+                "name": "Alacağı Belge",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 32,
+                "code": "mesem-mevcut-belge",
+                "name": "Mevcut Belge",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 33,
+                "code": "mesem-sinif",
+                "name": "Sınıf",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 34,
+                "code": "mesem-dilekce",
+                "name": "Dilekçe Durumu",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 35,
+                "code": "mesem-ogrenim-belgesi",
+                "name": "Öğrenim Belgesi",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 36,
+                "code": "hijyen-is",
+                "name": "İş Sağlığı ve Güvenliği",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 37,
+                "code": "mesem-durumu",
+                "name": "Durum",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 38,
+                "code": "huk-risk",
+                "name": "Risk",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 39,
+                "code": "hijyen-hijyen",
+                "name": "Hijyen Eğitimi",
+                "is_active": 1,
+                "revision": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            }
+        ],
+        "case_option_items": [
+            {
+                "id": 1,
+                "option_list_id": 1,
+                "label": "HAYIR",
+                "legacy_value": "HAYIR",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 2,
+                "option_list_id": 1,
+                "label": "EVET",
+                "legacy_value": "EVET",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 3,
+                "option_list_id": 2,
+                "label": "EVET",
+                "legacy_value": "EVET",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 4,
+                "option_list_id": 2,
+                "label": "HAYIR",
+                "legacy_value": "HAYIR",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 5,
+                "option_list_id": 3,
+                "label": "SOSYAL TESİS",
+                "legacy_value": "SOSYAL TESİS",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 6,
+                "option_list_id": 3,
+                "label": "MUTFAK",
+                "legacy_value": "MUTFAK",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 7,
+                "option_list_id": 3,
+                "label": "DEMİR ATÖLYESİ",
+                "legacy_value": "DEMİR ATÖLYESİ",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 8,
+                "option_list_id": 3,
+                "label": "SERA",
+                "legacy_value": "SERA",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 9,
+                "option_list_id": 3,
+                "label": "ORMAN",
+                "legacy_value": "ORMAN",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 10,
+                "option_list_id": 3,
+                "label": "TERSANE",
+                "legacy_value": "TERSANE",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 11,
+                "option_list_id": 3,
+                "label": "TEKSTİL ATÖLYESİ",
+                "legacy_value": "TEKSTİL ATÖLYESİ",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 12,
+                "option_list_id": 3,
+                "label": "ANONS",
+                "legacy_value": "ANONS",
+                "position": 7,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 13,
+                "option_list_id": 3,
+                "label": "TERZİ ATÖLYESİ",
+                "legacy_value": "TERZİ ATÖLYESİ",
+                "position": 8,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 14,
+                "option_list_id": 3,
+                "label": "REVİR",
+                "legacy_value": "REVİR",
+                "position": 9,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 15,
+                "option_list_id": 3,
+                "label": "FIRIN",
+                "legacy_value": "FIRIN",
+                "position": 10,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 16,
+                "option_list_id": 3,
+                "label": "MEMUR YEMEKHANE",
+                "legacy_value": "MEMUR YEMEKHANE",
+                "position": 11,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 17,
+                "option_list_id": 3,
+                "label": "SOSYAL TESİS TERZİHANE",
+                "legacy_value": "SOSYAL TESİS TERZİHANE",
+                "position": 12,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 18,
+                "option_list_id": 3,
+                "label": "C BLOK KAT TEMİZLİK",
+                "legacy_value": "C BLOK KAT TEMİZLİK",
+                "position": 13,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 19,
+                "option_list_id": 3,
+                "label": "HÜKÜMLÜ BİNA ÇAY OCAĞI",
+                "legacy_value": "HÜKÜMLÜ BİNA ÇAY OCAĞI",
+                "position": 14,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 20,
+                "option_list_id": 3,
+                "label": "A-B BLOK KAT TEMİZLİK",
+                "legacy_value": "A-B BLOK KAT TEMİZLİK",
+                "position": 15,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 21,
+                "option_list_id": 3,
+                "label": "EĞİTİM BİNASI ÇAY OCAĞI",
+                "legacy_value": "EĞİTİM BİNASI ÇAY OCAĞI",
+                "position": 16,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 22,
+                "option_list_id": 3,
+                "label": "KANTİN",
+                "legacy_value": "KANTİN",
+                "position": 17,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 23,
+                "option_list_id": 3,
+                "label": "GAZİNO ÇAY OCAĞI",
+                "legacy_value": "GAZİNO ÇAY OCAĞI",
+                "position": 18,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 24,
+                "option_list_id": 3,
+                "label": "PEYZAJ",
+                "legacy_value": "PEYZAJ",
+                "position": 19,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 25,
+                "option_list_id": 3,
+                "label": "GERİ HİZMET",
+                "legacy_value": "GERİ HİZMET",
+                "position": 20,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 26,
+                "option_list_id": 3,
+                "label": "TERSANE ALAYBEY",
+                "legacy_value": "TERSANE ALAYBEY",
+                "position": 21,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 27,
+                "option_list_id": 3,
+                "label": "MEMUR POSTA",
+                "legacy_value": "MEMUR POSTA",
+                "position": 22,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 28,
+                "option_list_id": 3,
+                "label": "HÜKÜMLÜ BİNA BAHÇE KAPI",
+                "legacy_value": "HÜKÜMLÜ BİNA BAHÇE KAPI",
+                "position": 23,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 29,
+                "option_list_id": 3,
+                "label": "ÖĞRENCİ",
+                "legacy_value": "ÖĞRENCİ",
+                "position": 24,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 30,
+                "option_list_id": 3,
+                "label": "HÜKÜMLÜ TELEFON BİNA TEMİZLİK",
+                "legacy_value": "HÜKÜMLÜ TELEFON BİNA TEMİZLİK",
+                "position": 25,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 31,
+                "option_list_id": 3,
+                "label": "MAHKUM KABUL",
+                "legacy_value": "MAHKUM KABUL",
+                "position": 26,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 32,
+                "option_list_id": 3,
+                "label": "Y.G.C. TEMİZLİK",
+                "legacy_value": "Y.G.C. TEMİZLİK",
+                "position": 27,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 33,
+                "option_list_id": 3,
+                "label": "MARANGOZ ATÖLYESİ",
+                "legacy_value": "MARANGOZ ATÖLYESİ",
+                "position": 28,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 34,
+                "option_list_id": 3,
+                "label": "HÜKÜMLÜ BİNA TEMİZLİK",
+                "legacy_value": "HÜKÜMLÜ BİNA TEMİZLİK",
+                "position": 29,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 35,
+                "option_list_id": 3,
+                "label": "SAVCILIK",
+                "legacy_value": "SAVCILIK",
+                "position": 30,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 36,
+                "option_list_id": 3,
+                "label": "KADEME",
+                "legacy_value": "KADEME",
+                "position": 31,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 37,
+                "option_list_id": 3,
+                "label": "HÜKÜMLÜ YEMEKHANE",
+                "legacy_value": "HÜKÜMLÜ YEMEKHANE",
+                "position": 32,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 38,
+                "option_list_id": 3,
+                "label": "SOSYAL TESİS BERBERHANE",
+                "legacy_value": "SOSYAL TESİS BERBERHANE",
+                "position": 33,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 39,
+                "option_list_id": 3,
+                "label": "İNŞAAT ATÖLYESİ",
+                "legacy_value": "İNŞAAT ATÖLYESİ",
+                "position": 34,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 40,
+                "option_list_id": 3,
+                "label": "HASTA BAKICI",
+                "legacy_value": "HASTA BAKICI",
+                "position": 35,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 41,
+                "option_list_id": 3,
+                "label": "ŞOFÖR",
+                "legacy_value": "ŞOFÖR",
+                "position": 36,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 42,
+                "option_list_id": 3,
+                "label": "ÇEVRE TEMİZLİK",
+                "legacy_value": "ÇEVRE TEMİZLİK",
+                "position": 37,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 43,
+                "option_list_id": 3,
+                "label": "İDARİ BİNA ÇAY OCAĞI",
+                "legacy_value": "İDARİ BİNA ÇAY OCAĞI",
+                "position": 38,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 44,
+                "option_list_id": 3,
+                "label": "GERİ DÖNÜŞÜM",
+                "legacy_value": "GERİ DÖNÜŞÜM",
+                "position": 39,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 45,
+                "option_list_id": 3,
+                "label": "SIHHI TESİSAT",
+                "legacy_value": "SIHHI TESİSAT",
+                "position": 40,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 46,
+                "option_list_id": 3,
+                "label": "ÇAMAŞIRHANE",
+                "legacy_value": "ÇAMAŞIRHANE",
+                "position": 41,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 47,
+                "option_list_id": 3,
+                "label": "BERBERHANE",
+                "legacy_value": "BERBERHANE",
+                "position": 42,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 48,
+                "option_list_id": 3,
+                "label": "PARK BAHÇE",
+                "legacy_value": "PARK BAHÇE",
+                "position": 43,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 49,
+                "option_list_id": 3,
+                "label": "ELEKTRİK ATÖLYESİ",
+                "legacy_value": "ELEKTRİK ATÖLYESİ",
+                "position": 44,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 50,
+                "option_list_id": 3,
+                "label": "TARIM",
+                "legacy_value": "TARIM",
+                "position": 45,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 51,
+                "option_list_id": 3,
+                "label": "BOYACI",
+                "legacy_value": "BOYACI",
+                "position": 46,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 52,
+                "option_list_id": 4,
+                "label": "SUÇ TARİHİ",
+                "legacy_value": "SUÇ TARİHİ",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 53,
+                "option_list_id": 4,
+                "label": "SUÇ TÜRÜ",
+                "legacy_value": "SUÇ TÜRÜ",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 54,
+                "option_list_id": 4,
+                "label": "7550 SK",
+                "legacy_value": "7550 SK",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 55,
+                "option_list_id": 4,
+                "label": "7571 SK",
+                "legacy_value": "7571 SK",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 56,
+                "option_list_id": 4,
+                "label": "DS İhlal",
+                "legacy_value": "DS İhlal",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 57,
+                "option_list_id": 4,
+                "label": "Orman",
+                "legacy_value": "Orman",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 58,
+                "option_list_id": 4,
+                "label": "KAMU DAVASI",
+                "legacy_value": "KAMU DAVASI",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 59,
+                "option_list_id": 4,
+                "label": "APC",
+                "legacy_value": "APC",
+                "position": 7,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 60,
+                "option_list_id": 4,
+                "label": "APC + İLAM",
+                "legacy_value": "APC + İLAM",
+                "position": 8,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 61,
+                "option_list_id": 4,
+                "label": "DİSİPLİN HAPSİ",
+                "legacy_value": "DİSİPLİN HAPSİ",
+                "position": 9,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 62,
+                "option_list_id": 4,
+                "label": "TAZYİK HAPSİ",
+                "legacy_value": "TAZYİK HAPSİ",
+                "position": 10,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 63,
+                "option_list_id": 5,
+                "label": "HAYIR",
+                "legacy_value": "HAYIR",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 64,
+                "option_list_id": 5,
+                "label": "UYUŞTURUCU TİCARETİ",
+                "legacy_value": "UYUŞTURUCU TİCARETİ",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 65,
+                "option_list_id": 5,
+                "label": "CİNSEL",
+                "legacy_value": "CİNSEL",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 66,
+                "option_list_id": 5,
+                "label": "KASTEN ÖLDÜRME",
+                "legacy_value": "KASTEN ÖLDÜRME",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 67,
+                "option_list_id": 5,
+                "label": "ÖRGÜT",
+                "legacy_value": "ÖRGÜT",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 68,
+                "option_list_id": 5,
+                "label": "TERÖR",
+                "legacy_value": "TERÖR",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 69,
+                "option_list_id": 5,
+                "label": "10 YIL ÜZERİ",
+                "legacy_value": "10 YIL ÜZERİ",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 70,
+                "option_list_id": 6,
+                "label": "VAR",
+                "legacy_value": "VAR",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 71,
+                "option_list_id": 6,
+                "label": "YOK",
+                "legacy_value": "YOK",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 72,
+                "option_list_id": 7,
+                "label": "İLK DEFA HÜKÜM ALARAK",
+                "legacy_value": "İLK DEFA HÜKÜM ALARAK",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 73,
+                "option_list_id": 7,
+                "label": "EĞİTİM",
+                "legacy_value": "EĞİTİM",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 74,
+                "option_list_id": 7,
+                "label": "HASTALIK",
+                "legacy_value": "HASTALIK",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 75,
+                "option_list_id": 7,
+                "label": "KENDİ İSTEĞİYLE",
+                "legacy_value": "KENDİ İSTEĞİYLE",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 76,
+                "option_list_id": 7,
+                "label": "ASAYİŞ VE GÜVENLİK",
+                "legacy_value": "ASAYİŞ VE GÜVENLİK",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 77,
+                "option_list_id": 7,
+                "label": "DS İADE",
+                "legacy_value": "DS İADE",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 78,
+                "option_list_id": 7,
+                "label": "KAPALIDAN NAKİL",
+                "legacy_value": "KAPALIDAN NAKİL",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 79,
+                "option_list_id": 8,
+                "label": "VAR",
+                "legacy_value": "VAR",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 80,
+                "option_list_id": 8,
+                "label": "YOK",
+                "legacy_value": "YOK",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 81,
+                "option_list_id": 9,
+                "label": "kirmizi",
+                "legacy_value": "kirmizi",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 82,
+                "option_list_id": 9,
+                "label": "sari",
+                "legacy_value": "sari",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 83,
+                "option_list_id": 9,
+                "label": "yesil",
+                "legacy_value": "yesil",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 84,
+                "option_list_id": 9,
+                "label": "mavi",
+                "legacy_value": "mavi",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 85,
+                "option_list_id": 9,
+                "label": "turuncu",
+                "legacy_value": "turuncu",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 86,
+                "option_list_id": 9,
+                "label": "siyah",
+                "legacy_value": "siyah",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 87,
+                "option_list_id": 10,
+                "label": "ÖZEL İZİN",
+                "legacy_value": "ÖZEL İZİN",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 88,
+                "option_list_id": 10,
+                "label": "MAZERET İZNİ",
+                "legacy_value": "MAZERET İZNİ",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:49",
+                "updated_at": "2026-10-09 19:10:49"
+            },
+            {
+                "id": 89,
+                "option_list_id": 11,
+                "label": "OKUMADI",
+                "legacy_value": "OKUMADI",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 90,
+                "option_list_id": 11,
+                "label": "OKUR-YAZAR",
+                "legacy_value": "OKUR-YAZAR",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 91,
+                "option_list_id": 11,
+                "label": "İLKOKUL",
+                "legacy_value": "İLKOKUL",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 92,
+                "option_list_id": 11,
+                "label": "ORTAOKUL",
+                "legacy_value": "ORTAOKUL",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 93,
+                "option_list_id": 11,
+                "label": "LİSE",
+                "legacy_value": "LİSE",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 94,
+                "option_list_id": 11,
+                "label": "ÖNLİSANS",
+                "legacy_value": "ÖNLİSANS",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 95,
+                "option_list_id": 11,
+                "label": "LİSANS",
+                "legacy_value": "LİSANS",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 96,
+                "option_list_id": 11,
+                "label": "YÜKSEK LİSANS",
+                "legacy_value": "YÜKSEK LİSANS",
+                "position": 7,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 97,
+                "option_list_id": 11,
+                "label": "DOKTORA",
+                "legacy_value": "DOKTORA",
+                "position": 8,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 98,
+                "option_list_id": 12,
+                "label": "İLKÖĞRETİM",
+                "legacy_value": "İLKÖĞRETİM",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 99,
+                "option_list_id": 12,
+                "label": "LİSE",
+                "legacy_value": "LİSE",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 100,
+                "option_list_id": 12,
+                "label": "ÖNLİSANS",
+                "legacy_value": "ÖNLİSANS",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 101,
+                "option_list_id": 12,
+                "label": "LİSANS",
+                "legacy_value": "LİSANS",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 102,
+                "option_list_id": 12,
+                "label": "YÜKSEK LİSANS",
+                "legacy_value": "YÜKSEK LİSANS",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 103,
+                "option_list_id": 12,
+                "label": "DOKTORA",
+                "legacy_value": "DOKTORA",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 104,
+                "option_list_id": 13,
+                "label": "ÖRGÜN",
+                "legacy_value": "ÖRGÜN",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 105,
+                "option_list_id": 13,
+                "label": "UZAKTAN EĞİTİM",
+                "legacy_value": "UZAKTAN EĞİTİM",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 106,
+                "option_list_id": 13,
+                "label": "AÇIK ÖĞRETİM",
+                "legacy_value": "AÇIK ÖĞRETİM",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 107,
+                "option_list_id": 14,
+                "label": "YAPILDI",
+                "legacy_value": "YAPILDI",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 108,
+                "option_list_id": 14,
+                "label": "YAPILMADI",
+                "legacy_value": "YAPILMADI",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 109,
+                "option_list_id": 15,
+                "label": "ÇALIŞABİLİR",
+                "legacy_value": "ÇALIŞABİLİR",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 110,
+                "option_list_id": 15,
+                "label": "ÇALIŞAMAZ",
+                "legacy_value": "ÇALIŞAMAZ",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 111,
+                "option_list_id": 16,
+                "label": "VAR",
+                "legacy_value": "VAR",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 112,
+                "option_list_id": 16,
+                "label": "YOK",
+                "legacy_value": "YOK",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 113,
+                "option_list_id": 17,
+                "label": "İŞLENDİ",
+                "legacy_value": "İŞLENDİ",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 114,
+                "option_list_id": 17,
+                "label": "İŞLENMEDİ",
+                "legacy_value": "İŞLENMEDİ",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 115,
+                "option_list_id": 18,
+                "label": "İSLAM",
+                "legacy_value": "İSLAM",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 116,
+                "option_list_id": 18,
+                "label": "HRISTIYANLIK",
+                "legacy_value": "HRISTIYANLIK",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 117,
+                "option_list_id": 18,
+                "label": "MUSEVILIK",
+                "legacy_value": "MUSEVILIK",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 118,
+                "option_list_id": 18,
+                "label": "BUDIZM",
+                "legacy_value": "BUDIZM",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 119,
+                "option_list_id": 18,
+                "label": "ZERDÜŞTLÜK",
+                "legacy_value": "ZERDÜŞTLÜK",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 120,
+                "option_list_id": 18,
+                "label": "DİĞER",
+                "legacy_value": "DİĞER",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 121,
+                "option_list_id": 18,
+                "label": "BİLGİ VERMEK İSTEMİYOR",
+                "legacy_value": "BİLGİ VERMEK İSTEMİYOR",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 122,
+                "option_list_id": 19,
+                "label": "Kur'an-ı Kerim Kursu",
+                "legacy_value": "Kur'an-ı Kerim Kursu",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 123,
+                "option_list_id": 19,
+                "label": "Sohbet",
+                "legacy_value": "Sohbet",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 124,
+                "option_list_id": 19,
+                "label": "İ.H.L Mezunu",
+                "legacy_value": "İ.H.L Mezunu",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 125,
+                "option_list_id": 19,
+                "label": "İlahiyat Mezunu",
+                "legacy_value": "İlahiyat Mezunu",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 126,
+                "option_list_id": 19,
+                "label": "Diğer",
+                "legacy_value": "Diğer",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 127,
+                "option_list_id": 20,
+                "label": "Bilmiyor",
+                "legacy_value": "Bilmiyor",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 128,
+                "option_list_id": 20,
+                "label": "Az Biliyor",
+                "legacy_value": "Az Biliyor",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 129,
+                "option_list_id": 20,
+                "label": "Biliyor",
+                "legacy_value": "Biliyor",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 130,
+                "option_list_id": 21,
+                "label": "Hafız",
+                "legacy_value": "Hafız",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 131,
+                "option_list_id": 21,
+                "label": "Hafız Değil",
+                "legacy_value": "Hafız Değil",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 132,
+                "option_list_id": 22,
+                "label": "Faaliyet",
+                "legacy_value": "Faaliyet",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 133,
+                "option_list_id": 22,
+                "label": "Kur'an-ı Kerim",
+                "legacy_value": "Kur'an-ı Kerim",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 134,
+                "option_list_id": 22,
+                "label": "Tecvid",
+                "legacy_value": "Tecvid",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 135,
+                "option_list_id": 22,
+                "label": "Cüz Okuma",
+                "legacy_value": "Cüz Okuma",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 136,
+                "option_list_id": 22,
+                "label": "Dini Bilgiler",
+                "legacy_value": "Dini Bilgiler",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 137,
+                "option_list_id": 22,
+                "label": "Seminer & Konferans",
+                "legacy_value": "Seminer & Konferans",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 138,
+                "option_list_id": 22,
+                "label": "Sohbet",
+                "legacy_value": "Sohbet",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 139,
+                "option_list_id": 22,
+                "label": "Etkinlik",
+                "legacy_value": "Etkinlik",
+                "position": 7,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 140,
+                "option_list_id": 22,
+                "label": "Görüşme",
+                "legacy_value": "Görüşme",
+                "position": 8,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 141,
+                "option_list_id": 22,
+                "label": "Diğer",
+                "legacy_value": "Diğer",
+                "position": 9,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 142,
+                "option_list_id": 23,
+                "label": "Kur'an-ı Kerim",
+                "legacy_value": "Kur'an-ı Kerim",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 143,
+                "option_list_id": 23,
+                "label": "Tecvid",
+                "legacy_value": "Tecvid",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 144,
+                "option_list_id": 23,
+                "label": "Cüz Okuma",
+                "legacy_value": "Cüz Okuma",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 145,
+                "option_list_id": 23,
+                "label": "Dini Bilgiler",
+                "legacy_value": "Dini Bilgiler",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 146,
+                "option_list_id": 23,
+                "label": "Seminer & Konferans",
+                "legacy_value": "Seminer & Konferans",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 147,
+                "option_list_id": 23,
+                "label": "Sohbet",
+                "legacy_value": "Sohbet",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 148,
+                "option_list_id": 23,
+                "label": "Etkinlik",
+                "legacy_value": "Etkinlik",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 149,
+                "option_list_id": 23,
+                "label": "Görüşme",
+                "legacy_value": "Görüşme",
+                "position": 7,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 150,
+                "option_list_id": 23,
+                "label": "Diğer",
+                "legacy_value": "Diğer",
+                "position": 8,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 151,
+                "option_list_id": 24,
+                "label": "Kur'an-ı Kerim",
+                "legacy_value": "Kur'an-ı Kerim",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 152,
+                "option_list_id": 24,
+                "label": "Tecvid",
+                "legacy_value": "Tecvid",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 153,
+                "option_list_id": 24,
+                "label": "Cüz Okuma",
+                "legacy_value": "Cüz Okuma",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 154,
+                "option_list_id": 24,
+                "label": "Dini Bilgiler",
+                "legacy_value": "Dini Bilgiler",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 155,
+                "option_list_id": 24,
+                "label": "Seminer & Konferans",
+                "legacy_value": "Seminer & Konferans",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 156,
+                "option_list_id": 24,
+                "label": "Sohbet",
+                "legacy_value": "Sohbet",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 157,
+                "option_list_id": 24,
+                "label": "Etkinlik",
+                "legacy_value": "Etkinlik",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 158,
+                "option_list_id": 24,
+                "label": "Görüşme",
+                "legacy_value": "Görüşme",
+                "position": 7,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 159,
+                "option_list_id": 24,
+                "label": "Diğer",
+                "legacy_value": "Diğer",
+                "position": 8,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 160,
+                "option_list_id": 25,
+                "label": "Kur'an-ı Kerim",
+                "legacy_value": "Kur'an-ı Kerim",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 161,
+                "option_list_id": 25,
+                "label": "Tecvid",
+                "legacy_value": "Tecvid",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 162,
+                "option_list_id": 25,
+                "label": "Cüz Okuma",
+                "legacy_value": "Cüz Okuma",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 163,
+                "option_list_id": 25,
+                "label": "Dini Bilgiler",
+                "legacy_value": "Dini Bilgiler",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 164,
+                "option_list_id": 25,
+                "label": "Seminer & Konferans",
+                "legacy_value": "Seminer & Konferans",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 165,
+                "option_list_id": 25,
+                "label": "Sohbet",
+                "legacy_value": "Sohbet",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 166,
+                "option_list_id": 25,
+                "label": "Etkinlik",
+                "legacy_value": "Etkinlik",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 167,
+                "option_list_id": 25,
+                "label": "Görüşme",
+                "legacy_value": "Görüşme",
+                "position": 7,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 168,
+                "option_list_id": 25,
+                "label": "Diğer",
+                "legacy_value": "Diğer",
+                "position": 8,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 169,
+                "option_list_id": 26,
+                "label": "Kur'an-ı Kerim",
+                "legacy_value": "Kur'an-ı Kerim",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 170,
+                "option_list_id": 26,
+                "label": "Tecvid",
+                "legacy_value": "Tecvid",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 171,
+                "option_list_id": 26,
+                "label": "Dini Bilgiler",
+                "legacy_value": "Dini Bilgiler",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 172,
+                "option_list_id": 26,
+                "label": "Diğer",
+                "legacy_value": "Diğer",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 173,
+                "option_list_id": 27,
+                "label": "Kurs Katılım Belgesi",
+                "legacy_value": "Kurs Katılım Belgesi",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 174,
+                "option_list_id": 27,
+                "label": "Kurs Başarı Belgesi",
+                "legacy_value": "Kurs Başarı Belgesi",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 175,
+                "option_list_id": 27,
+                "label": "Yarışma",
+                "legacy_value": "Yarışma",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 176,
+                "option_list_id": 27,
+                "label": "Diğer",
+                "legacy_value": "Diğer",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 177,
+                "option_list_id": 28,
+                "label": "Verildi",
+                "legacy_value": "Verildi",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 178,
+                "option_list_id": 28,
+                "label": "Verilmedi",
+                "legacy_value": "Verilmedi",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 179,
+                "option_list_id": 29,
+                "label": "KARARSIZ",
+                "legacy_value": "KARARSIZ",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 180,
+                "option_list_id": 29,
+                "label": "MUHTELİF",
+                "legacy_value": "MUHTELİF",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 181,
+                "option_list_id": 29,
+                "label": "İŞYURTLARI",
+                "legacy_value": "İŞYURTLARI",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 182,
+                "option_list_id": 29,
+                "label": "GENEL BÜTÇE",
+                "legacy_value": "GENEL BÜTÇE",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 183,
+                "option_list_id": 30,
+                "label": "GÖRÜŞÜLDÜ",
+                "legacy_value": "GÖRÜŞÜLDÜ",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 184,
+                "option_list_id": 30,
+                "label": "GÖRÜŞÜLMEDİ",
+                "legacy_value": "GÖRÜŞÜLMEDİ",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 185,
+                "option_list_id": 31,
+                "label": "KALFALIK",
+                "legacy_value": "KALFALIK",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 186,
+                "option_list_id": 31,
+                "label": "USTALIK",
+                "legacy_value": "USTALIK",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 187,
+                "option_list_id": 31,
+                "label": "USTA ÖĞRETİCİ",
+                "legacy_value": "USTA ÖĞRETİCİ",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 188,
+                "option_list_id": 32,
+                "label": "M.Y.K.",
+                "legacy_value": "M.Y.K.",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 189,
+                "option_list_id": 32,
+                "label": "SERTİFİKA",
+                "legacy_value": "SERTİFİKA",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 190,
+                "option_list_id": 32,
+                "label": "KALFALIK",
+                "legacy_value": "KALFALIK",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 191,
+                "option_list_id": 32,
+                "label": "USTALIK",
+                "legacy_value": "USTALIK",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 192,
+                "option_list_id": 33,
+                "label": "9",
+                "legacy_value": "9",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 193,
+                "option_list_id": 33,
+                "label": "10",
+                "legacy_value": "10",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 194,
+                "option_list_id": 33,
+                "label": "11",
+                "legacy_value": "11",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 195,
+                "option_list_id": 33,
+                "label": "12",
+                "legacy_value": "12",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 196,
+                "option_list_id": 33,
+                "label": "UTP",
+                "legacy_value": "UTP",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 197,
+                "option_list_id": 33,
+                "label": "SINAV ADAYI",
+                "legacy_value": "SINAV ADAYI",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 198,
+                "option_list_id": 34,
+                "label": "DİLEKÇE ALINDI",
+                "legacy_value": "DİLEKÇE ALINDI",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 199,
+                "option_list_id": 34,
+                "label": "DİLEKÇE ALINMADI",
+                "legacy_value": "DİLEKÇE ALINMADI",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 200,
+                "option_list_id": 35,
+                "label": "MEVCUT",
+                "legacy_value": "MEVCUT",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 201,
+                "option_list_id": 35,
+                "label": "MEVCUT DEĞİL",
+                "legacy_value": "MEVCUT DEĞİL",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 202,
+                "option_list_id": 35,
+                "label": "BEKLENİYOR",
+                "legacy_value": "BEKLENİYOR",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 203,
+                "option_list_id": 36,
+                "label": "ALDI",
+                "legacy_value": "ALDI",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 204,
+                "option_list_id": 36,
+                "label": "ALMADI",
+                "legacy_value": "ALMADI",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 205,
+                "option_list_id": 37,
+                "label": "AKTİF",
+                "legacy_value": "AKTİF",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 206,
+                "option_list_id": 37,
+                "label": "PASİF",
+                "legacy_value": "PASİF",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 207,
+                "option_list_id": 37,
+                "label": "UYGUN",
+                "legacy_value": "UYGUN",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 208,
+                "option_list_id": 37,
+                "label": "UYGUN DEĞİL",
+                "legacy_value": "UYGUN DEĞİL",
+                "position": 3,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 209,
+                "option_list_id": 37,
+                "label": "İSTEMİYOR",
+                "legacy_value": "İSTEMİYOR",
+                "position": 4,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 210,
+                "option_list_id": 37,
+                "label": "MEZUN",
+                "legacy_value": "MEZUN",
+                "position": 5,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 211,
+                "option_list_id": 37,
+                "label": "BAŞVURU SÜRECİNDE",
+                "legacy_value": "BAŞVURU SÜRECİNDE",
+                "position": 6,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 212,
+                "option_list_id": 38,
+                "label": "1",
+                "legacy_value": "1",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 213,
+                "option_list_id": 38,
+                "label": "2",
+                "legacy_value": "2",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 214,
+                "option_list_id": 38,
+                "label": "3",
+                "legacy_value": "3",
+                "position": 2,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 215,
+                "option_list_id": 39,
+                "label": "ALDI",
+                "legacy_value": "ALDI",
+                "position": 0,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            },
+            {
+                "id": 216,
+                "option_list_id": 39,
+                "label": "ALMADI",
+                "legacy_value": "ALMADI",
+                "position": 1,
+                "is_active": 1,
+                "created_at": "2026-10-09 19:10:53",
+                "updated_at": "2026-10-09 19:10:53"
+            }
+        ],
+        "portal_pages": [],
+        "portal_installations": [
+            {
+                "id": 1,
+                "installed_at": "2026-10-09 19:10:56"
+            }
+        ]
+    },
+    "generated_at": "2026-10-09T19:10:56+03:00"
+}
