@@ -1,10 +1,10 @@
 # GlossiDigital yayını
 
-Uygulama adresi: https://glossidigital.com/cte/
+Uygulama adresi: https://glossidigital.com/cte-test/
 
 Kaynak uygulama `/Applications/XAMPP/xamppfiles/htdocs` klasörüdür. İnternet
 kopyasının kodları `turkerkagan/Cte-test` reposunda tutulur. GitHub kaynak
-yedeğidir; uygulamayı kullanmak ve uzaktaki kayıtları yönetmek için `/cte/`
+yedeğidir; uygulamayı kullanmak ve uzaktaki kayıtları yönetmek için `/cte-test/`
 adresine giriş yapılır. Kaynak kod güncellemelerinin görünmesi için sunucuya
 ayrıca yayın yapılmalıdır.
 
@@ -25,7 +25,7 @@ parolalar yalnız özel `.env` dosyasında bulunur:
 ```dotenv
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://glossidigital.com/cte
+APP_URL=https://glossidigital.com/cte-test
 DB_CONNECTION=mysql
 DB_HOST=localhost
 DB_DATABASE=glossidi_cte_online
@@ -33,7 +33,7 @@ CTE_HOSTED_DATABASE=glossidi_cte_online
 DB_TABLE_PREFIX=
 SESSION_DRIVER=file
 SESSION_COOKIE=cte_online_session
-SESSION_PATH=/cte
+SESSION_PATH=/cte-test
 SESSION_SECURE_COOKIE=true
 SESSION_ENCRYPT=true
 ```

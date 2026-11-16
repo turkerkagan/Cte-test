@@ -2,7 +2,7 @@
 
 Laravel, Inertia ve React ile geliştirilen kurum portalı.
 
-İnternet kopyası: [glossidigital.com/cte](https://glossidigital.com/cte/).
+İnternet kopyası: [glossidigital.com/cte-test](https://glossidigital.com/cte-test/).
 Hosting kurulumu ve bağımsız veritabanı kopyası için
 [yayın notlarına](docs/glossidigital-hosting.md) bakın.
 
