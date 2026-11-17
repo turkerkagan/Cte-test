@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        if (env('CTE_TRUST_PROXY', false)) {
+            $middleware->trustProxies(at: '*');
+        }
         $middleware->web(append: [MeasurePortalRequests::class, HandleInertiaRequests::class]);
         $middleware->alias(['portal.session' => EnsurePortalSession::class]);
         $middleware->redirectGuestsTo(fn () => route('login'));
