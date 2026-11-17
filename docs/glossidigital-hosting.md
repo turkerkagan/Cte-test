@@ -2,6 +2,11 @@
 
 Uygulama adresi: https://glossidigital.com/cte-test/
 
+17 Kasım 2026 tarihinde yayımlandı. Giriş ekranı, oturum gerektiren ana
+sayfa, yönetim, veritabanı, erişim politikaları ve çalışma merkezi Chrome
+ile doğrulandı. Derlenmiş dosyalarda HTTP hatası veya JavaScript hatası
+görülmedi. Kaynak uygulama sürümü `1f796be107df2cc5a8ac74dd8fa667793dff5780`.
+
 Kaynak uygulama `/Applications/XAMPP/xamppfiles/htdocs` klasörüdür. İnternet
 kopyasının kodları `turkerkagan/Cte-test` reposunda tutulur. GitHub kaynak
 yedeğidir; uygulamayı kullanmak ve uzaktaki kayıtları yönetmek için `/cte-test/`
@@ -15,9 +20,21 @@ altında, web kökünün dışında bulunur. Web giriş dosyası ilgili sürüm�
 dönüş için korunur.
 
 Hosting MySQL veritabanı `glossidi_cte_online` adındadır. Bu veritabanı yerel
-`cte` veritabanının 16 Kasım 2026 tarihinde alınan bağımsız kopyasıdır.
+`cte` veritabanının 17 Kasım 2026 tarihinde alınan bağımsız kopyasıdır.
+İlk aktarımda 103 tablo ve 6.674 kaydın tablo bazında satır sayıları ve
+içerik SHA-256 özetleri eşleşti. Yerel tetikleyicinin `DELIMITER` istemci
+komutları aktarım için dönüştürüldü; `root` definer kaydı hosting
+veritabanı sahibine uyarlandı. Bekleyen Laravel migration'ı yoktu.
 Sonraki yerel ve uzak kayıt değişiklikleri birbirini otomatik güncellemez.
 Yeniden kaynak kod yayını sırasında veritabanını yeniden içe aktarmayın.
+
+Hosting PHP 8.5.12 kullanıyor. `proc_open` ve `shell_exec` işlevleri
+sunucu tarafından kapatılmıştır. Python ile Excel birleştirme ve
+`mysqldump`/`mysql` dış komutlarını çağıran yedekleme/geri yükleme
+işlemleri bu ortamda çalışamaz. Hosting sağlayıcısının uygulama için
+uygun çalışma izni ve gerekli araçları sağlaması gerekir. Bu kısıt,
+normal web ekranlarının ve veritabanı bağlantısının doğrulanmasından
+ayrı değerlendirilmelidir.
 
 Hosting ortamında aşağıdaki değişkenler kullanılır; gerçek anahtar ve
 parolalar yalnız özel `.env` dosyasında bulunur:
