@@ -38,5 +38,6 @@ COPY --from=frontend /app/public/build ./public/build
 COPY deploy/railway/apache.conf /etc/apache2/sites-available/000-default.conf
 COPY deploy/railway/ports.conf /etc/apache2/ports.conf
 COPY deploy/railway/php.ini /usr/local/etc/php/conf.d/cte-production.ini
+RUN sh deploy/railway/prepare-apache.sh
 EXPOSE 8080
 CMD ["/var/www/html/deploy/railway/start.sh"]

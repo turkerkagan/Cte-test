@@ -1,0 +1,56 @@
+name: Railway image startup
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - deploy/railway/**
+      - .github/workflows/railway-image.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  startup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build production image
+        run: docker build --tag cte-railway:test .
+      - name: Start with conflicting MPMs and verify health endpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Deliberately reproduce AH00534; startup must recover before Apache runs.
+          docker run --detach --name cte-startup --publish 127.0.0.1:18080:8080 \
+            --env APP_ENV=production --env APP_DEBUG=false \
+            --env APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA= \
+            --env DB_CONNECTION=mysql --env DB_HOST=127.0.0.1 \
+            --env DB_DATABASE=cte_image_test --env CTE_HOSTED_DATABASE=cte_image_test \
+            --env SESSION_DRIVER=file --env CACHE_STORE=file --env QUEUE_CONNECTION=sync \
+            cte-railway:test sh -ec '
+              ln -sf ../mods-available/mpm_event.load /etc/apache2/mods-enabled/mpm_event.load
+              ln -sf ../mods-available/mpm_worker.load /etc/apache2/mods-enabled/mpm_worker.load
+              exec /var/www/html/deploy/railway/start.sh
+            '
+          trap 'docker logs cte-startup; docker rm --force cte-startup' EXIT
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:18080/up > /tmp/cte-health; then
+              docker exec cte-startup apache2ctl -M > /tmp/cte-modules
+              grep -q mpm_prefork_module /tmp/cte-modules
+              if grep -Eq 'mpm_(event|worker)_module' /tmp/cte-modules; then exit 1; fi
+              echo 'Health check returned HTTP 200 after conflicting MPM recovery.'
+              exit 0
+            fi
+            if [ "$(docker inspect --format '{{.State.Running}}' cte-startup)" != true ]; then
+              echo 'Application exited before health check.' >&2
+              exit 1
+            fi
+            sleep 2
+          done
+          echo 'Application did not become healthy.' >&2
+          exit 1

@@ -2,6 +2,8 @@
 set -eu
 cd /var/www/html
 
+sh deploy/railway/prepare-apache.sh
+
 : "${APP_KEY:?APP_KEY must be set and preserved across deployments}"
 : "${DB_DATABASE:?DB_DATABASE must name the separate Railway database}"
 : "${CTE_HOSTED_DATABASE:?CTE_HOSTED_DATABASE must authorize that exact database}"
