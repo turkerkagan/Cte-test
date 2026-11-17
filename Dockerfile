@@ -22,7 +22,8 @@ RUN apt-get update \
     && python3 -m venv /opt/cte-python \
     && /opt/cte-python/bin/pip install --no-cache-dir \
        openpyxl==3.1.5 xlrd==2.0.2 et-xmlfile==2.0.0 \
-    && a2enmod rewrite headers \
+    && rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf \
+    && a2enmod mpm_prefork rewrite headers \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 WORKDIR /var/www/html
